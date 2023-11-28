@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep_komputerowy_apl.ControllerAdmin">
+   <children>
+      <Text layoutX="740.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nazwa" />
+      <Button layoutX="728.0" layoutY="31.0" mnemonicParsing="false" text="Wyloguj" />
+      <StackPane layoutX="14.0" layoutY="126.0" prefHeight="460.0" prefWidth="771.0">
+         <children>
+            <AnchorPane fx:id="statystyki" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <ScrollPane hbarPolicy="NEVER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="460.0" prefWidth="200.0" vbarPolicy="ALWAYS">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="437.0" prefWidth="200.0" />
+                     </content>
+                  </ScrollPane>
+                  <ScrollPane layoutX="198.0" prefHeight="460.0" prefWidth="573.0">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="urzytkownicy" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <ScrollPane hbarPolicy="NEVER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="460.0" prefWidth="200.0" vbarPolicy="ALWAYS">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="437.0" prefWidth="200.0" />
+                    </content>
+                  </ScrollPane>
+                  <ScrollPane layoutX="198.0" prefHeight="460.0" prefWidth="573.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                    </content>
+                  </ScrollPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="zamawianie_transakcje" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <ScrollPane hbarPolicy="NEVER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="460.0" prefWidth="200.0" vbarPolicy="ALWAYS">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="437.0" prefWidth="200.0" />
+                     </content>
+                  </ScrollPane>
+                  <ScrollPane layoutX="198.0" prefHeight="460.0" prefWidth="573.0">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="magazyn" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <ScrollPane hbarPolicy="NEVER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="460.0" prefWidth="200.0" vbarPolicy="ALWAYS">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="437.0" prefWidth="200.0" />
+                     </content>
+                  </ScrollPane>
+                  <ScrollPane layoutX="198.0" prefHeight="460.0" prefWidth="573.0">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
+      <Button layoutX="88.0" layoutY="101.0" mnemonicParsing="false" text="Statystyki" />
+      <Button layoutX="155.0" layoutY="101.0" mnemonicParsing="false" text="Urzytkownicy" />
+      <Button layoutX="242.0" layoutY="101.0" mnemonicParsing="false" text="Zamówienia/Transakcje" />
+      <Button layoutX="382.0" layoutY="101.0" mnemonicParsing="false" text="Magazyn" />
+   </children>
+</AnchorPane>
