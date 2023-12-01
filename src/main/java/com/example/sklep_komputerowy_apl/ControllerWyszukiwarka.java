@@ -7,7 +7,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ControllerWyszukiwarka  implements Initializable{
@@ -436,8 +444,33 @@ public class ControllerWyszukiwarka  implements Initializable{
 
     //odsianie zestawów
     @FXML
-    void odsiej_zestawy(MouseEvent event) {
+    void odsiej_zestawy(MouseEvent event) throws IOException {
         min_cena_zestawy.getText();
         max_cena_zestawy.getText();
+
+        Socket socket=new Socket("127.0.0.1",6700);
+        //System.out.println("połączenie");
+        InputStreamReader isr=new InputStreamReader(socket.getInputStream());
+        BufferedReader br=new BufferedReader(isr);
+        PrintWriter pw=new PrintWriter(socket.getOutputStream(), true);
+        //odczytanie informacji od serwera
+        //System.out.println("odczytanie");
+        //System.out.println(br.readLine());
+        //System.out.println("wypisanie");
+        //wysłanie informacji do serwera
+        pw.println("Select * from produkt where id_produktu=7");
+        String[] wynik=br.readLine().split(";");
+
+        for(int i=0;i<wynik.length;i++){
+            System.out.println(wynik[i]);
+        }
+
+
+
+        //System.out.println(br.readLine());
+
+
+        pw.close();
+        br.close();
     }
 }
