@@ -2,6 +2,7 @@ package com.example.sklep_komputerowy_apl;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -12,7 +13,16 @@ public class ControllerUzytkownik {
     private AnchorPane background;
 
     @FXML
+    private Button button_anuluj_usuniecie;
+
+    @FXML
+    private Button button_cart;
+
+    @FXML
     private Text button_home;
+
+    @FXML
+    private Button button_opinie;
 
     @FXML
     private Button button_profil;
@@ -27,19 +37,34 @@ public class ControllerUzytkownik {
     private Button button_zamowienia;
 
     @FXML
+    private Button button_zatwierdz_usuniecie;
+
+    @FXML
     private Button button_zmienHaslo;
 
     @FXML
-    private AnchorPane transakcje;
+    private ImageView image_cart;
 
     @FXML
-    private AnchorPane zamowienia;
+    private ImageView image_user;
+
+    @FXML
+    private AnchorPane opinie;
 
     @FXML
     private AnchorPane profil;
 
     @FXML
+    private AnchorPane transakcje;
+
+    @FXML
+    private Button usun_konto;
+
+    @FXML
     private Text value_of_email;
+
+    @FXML
+    private Button button_value_of_name;
 
     @FXML
     private Text value_of_imie;
@@ -48,8 +73,35 @@ public class ControllerUzytkownik {
     private Text value_of_nazwisko;
 
     @FXML
+    private AnchorPane zamowienia;
+
+    @FXML
+    private AnchorPane zatwierdzenie_usuniecia;
+
+
+    @FXML
+    void deleteAccount(MouseEvent event) {
+
+    }
+
+    @FXML
     void goHome(MouseEvent event) {
         System.out.println("Went home!");
+    }
+
+
+    @FXML
+    void goToCart(MouseEvent event) {
+
+    }
+
+    @FXML
+    void showOpinie(MouseEvent event) {
+        profil.setVisible(false);
+        transakcje.setVisible(false);
+        zamowienia.setVisible(false);
+        zatwierdzenie_usuniecia.setVisible(false);
+        opinie.setVisible(true);
     }
 
     @FXML
@@ -57,6 +109,8 @@ public class ControllerUzytkownik {
         profil.setVisible(true);
         transakcje.setVisible(false);
         zamowienia.setVisible(false);
+        zatwierdzenie_usuniecia.setVisible(false);
+        opinie.setVisible(false);
     }
 
     @FXML
@@ -64,6 +118,8 @@ public class ControllerUzytkownik {
         profil.setVisible(false);
         transakcje.setVisible(true);
         zamowienia.setVisible(false);
+        zatwierdzenie_usuniecia.setVisible(false);
+        opinie.setVisible(false);
     }
 
     @FXML
@@ -71,6 +127,18 @@ public class ControllerUzytkownik {
         profil.setVisible(false);
         transakcje.setVisible(false);
         zamowienia.setVisible(true);
+        zatwierdzenie_usuniecia.setVisible(false);
+        opinie.setVisible(false);
+    }
+
+
+    @FXML
+    void showZatwierdzenieUsuniecia(MouseEvent event) {
+        profil.setVisible(false);
+        transakcje.setVisible(false);
+        zamowienia.setVisible(false);
+        zatwierdzenie_usuniecia.setVisible(true);
+        opinie.setVisible(false);
     }
 
     @FXML
