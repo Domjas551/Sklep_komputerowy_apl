@@ -16,13 +16,13 @@
    <children>
       <TextField layoutX="185.0" layoutY="38.0" prefHeight="26.0" prefWidth="282.0" />
       <Button layoutX="467.0" layoutY="38.0" mnemonicParsing="false" text="Wyszukaj" />
-      <StackPane layoutX="12.0" layoutY="112.0" prefHeight="460.0" prefWidth="754.0">
+      <StackPane layoutX="21.0" layoutY="91.0" prefHeight="460.0" prefWidth="754.0">
          <children>
             <AnchorPane fx:id="plytyGl" prefHeight="866.0" prefWidth="757.0">
                <children>
-                  <ScrollPane hbarPolicy="NEVER" layoutX="-2.0" layoutY="-6.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="459.0" prefWidth="227.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="531.0" AnchorPane.topAnchor="-6.0">
+                  <ScrollPane hbarPolicy="NEVER" layoutX="-2.0" layoutY="14.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="1161.0" prefWidth="227.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="-714.8000000000002" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="531.6" AnchorPane.topAnchor="14.0">
                      <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" onMouseClicked="#pisz2" prefHeight="1123.0" prefWidth="214.0" style="-fx-background-color: gray;">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1142.0" prefWidth="214.0" style="-fx-background-color: gray;">
                            <children>
                               <Text layoutX="38.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opcje wyszukiwania">
                                  <font>
@@ -79,21 +79,26 @@
                               <CheckBox fx:id="checkbox_plyty_banki_2" layoutX="159.0" layoutY="895.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="11" />
                               <CheckBox fx:id="checkbox_plyty_banki_3" layoutX="159.0" layoutY="930.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="29" />
                               <CheckBox fx:id="checkbox_plyty_banki_4" layoutX="159.0" layoutY="965.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="30" />
-                              <Button fx:id="button_szukaj_plyty" layoutX="90.0" layoutY="1070.0" mnemonicParsing="false" onMouseClicked="#odsiej_plyty" text="Szukaj" />
-                              <ChoiceBox fx:id="ttyb_plyty" layoutX="33.0" layoutY="1010.0" nodeOrientation="LEFT_TO_RIGHT" prefWidth="150.0" />
+                              <Button fx:id="button_szukaj_plyty" layoutX="90.0" layoutY="1110.0" mnemonicParsing="false" onMouseClicked="#odsiej_plyty" text="Szukaj" />
+                              <ChoiceBox fx:id="ttyb_plyty" layoutX="33.0" layoutY="1060.0" nodeOrientation="LEFT_TO_RIGHT" prefWidth="150.0" />
+                              <Text layoutX="58.0" layoutY="1030.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opcje transakcji">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
                            </children>
                         </AnchorPane>
                      </content>
                   </ScrollPane>
-                  <ScrollPane layoutX="225.0" layoutY="-6.0" prefHeight="459.0" prefWidth="531.0">
+                  <ScrollPane layoutX="225.0" layoutY="14.0" prefHeight="459.0" prefWidth="531.0">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="442.0" prefWidth="526.0">
                            <children>
-                              <TableView prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
+                              <TableView fx:id="table_plyty" onMouseClicked="#showProduktPlyty" prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
                                 <columns>
-                                  <TableColumn prefWidth="296.80003052949905" text="Nazwa" />
-                                  <TableColumn prefWidth="122.39990234375" text="Chipset" />
-                                    <TableColumn prefWidth="108.79998779296875" text="Cena" />
+                                  <TableColumn fx:id="tp_nazwa" prefWidth="296.80003052949905" text="Nazwa" />
+                                  <TableColumn fx:id="tp_chipset" prefWidth="122.39990234375" text="Chipset" />
+                                    <TableColumn fx:id="tp_cena" prefWidth="108.79998779296875" text="Cena" />
                                 </columns>
                               </TableView>
                            </children>
@@ -104,9 +109,9 @@
             </AnchorPane>
             <AnchorPane fx:id="procesory" prefHeight="816.0" prefWidth="757.0" visible="false">
                <children>
-                  <ScrollPane hbarPolicy="NEVER" layoutX="-2.0" layoutY="-6.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="459.0" prefWidth="227.0" vbarPolicy="ALWAYS">
+                  <ScrollPane hbarPolicy="NEVER" layoutX="1.0" layoutY="14.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="459.0" prefWidth="227.0" vbarPolicy="ALWAYS">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" onMouseClicked="#pisz2" prefHeight="858.0" prefWidth="212.0" style="-fx-background-color: gray;">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="930.0" prefWidth="212.0" style="-fx-background-color: gray;">
                            <children>
                               <Text layoutX="38.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opcje wyszukiwania">
                                  <font>
@@ -152,21 +157,26 @@
                               <CheckBox fx:id="checkbox_procesory_rdzenie_1" layoutX="170.0" layoutY="645.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="6" />
                               <CheckBox fx:id="checkbox_procesory_rdzenie_2" layoutX="164.0" layoutY="680.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="10" />
                               <CheckBox fx:id="checkbox_procesory_rdzenie_3" layoutX="163.0" layoutY="715.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="14" />
-                              <Button fx:id="button_szukaj_procesory" layoutX="90.0" layoutY="810.0" mnemonicParsing="false" onMouseClicked="#odsiej_procesory" text="Szukaj" />
-                              <ChoiceBox fx:id="ttyb_procesory" layoutX="37.0" layoutY="760.0" nodeOrientation="LEFT_TO_RIGHT" prefWidth="150.0" />
+                              <Button fx:id="button_szukaj_procesory" layoutX="90.0" layoutY="860.0" mnemonicParsing="false" onMouseClicked="#odsiej_procesory" text="Szukaj" />
+                              <ChoiceBox fx:id="ttyb_procesory" layoutX="37.0" layoutY="810.0" nodeOrientation="LEFT_TO_RIGHT" prefWidth="150.0" />
+                              <Text layoutX="60.0" layoutY="783.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opcje transakcji">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
                            </children>
                         </AnchorPane>
                      </content>
                   </ScrollPane>
-                  <ScrollPane layoutX="225.0" layoutY="-6.0" prefHeight="459.0" prefWidth="531.0">
+                  <ScrollPane layoutX="228.0" layoutY="14.0" prefHeight="459.0" prefWidth="531.0">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="442.0" prefWidth="526.0">
                            <children>
-                              <TableView prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
+                              <TableView fx:id="table_procesory" prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
                                  <columns>
-                                    <TableColumn prefWidth="296.80003052949905" text="Nazwa" />
-                                    <TableColumn prefWidth="122.39990234375" text="Seria" />
-                                    <TableColumn prefWidth="108.79998779296875" text="Cena" />
+                                    <TableColumn fx:id="tpr_nazwa" prefWidth="296.80003052949905" text="Nazwa" />
+                                    <TableColumn fx:id="tpr_seria" prefWidth="122.39990234375" text="Seria" />
+                                    <TableColumn fx:id="tpr_cena" prefWidth="108.79998779296875" text="Cena" />
                                  </columns>
                               </TableView>
                            </children>
@@ -177,9 +187,9 @@
             </AnchorPane>
             <AnchorPane fx:id="kartyGraficzne" prefHeight="742.0" prefWidth="757.0" visible="false">
                <children>
-                  <ScrollPane hbarPolicy="NEVER" layoutX="-2.0" layoutY="-6.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="459.0" prefWidth="227.0" vbarPolicy="ALWAYS">
+                  <ScrollPane hbarPolicy="NEVER" layoutX="1.0" layoutY="7.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="459.0" prefWidth="227.0" vbarPolicy="ALWAYS">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" onMouseClicked="#pisz2" prefHeight="983.0" prefWidth="214.0" style="-fx-background-color: gray;">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1033.0" prefWidth="214.0" style="-fx-background-color: gray;">
                            <children>
                               <Text layoutX="38.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opcje wyszukiwania">
                                  <font>
@@ -228,23 +238,28 @@
                               <CheckBox fx:id="checkbox_karty_rodzaj_2" layoutX="140.0" layoutY="790.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="GDDR4" />
                               <CheckBox fx:id="checkbox_karty_rodzaj_3" layoutX="140.0" layoutY="825.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="GDDR6" />
                               <CheckBox fx:id="checkbox_karty_rodzaj_4" layoutX="140.0" layoutY="860.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="GDDR7" />
-                              <Button fx:id="button_szukaj_karty" layoutX="90.0" layoutY="950.0" mnemonicParsing="false" onMouseClicked="#odsiej_karty" text="Szukaj" />
-                              <ChoiceBox fx:id="ttyb_karty" layoutX="33.0" layoutY="900.0" nodeOrientation="LEFT_TO_RIGHT" prefWidth="150.0" />
+                              <Button fx:id="button_szukaj_karty" layoutX="90.0" layoutY="1000.0" mnemonicParsing="false" onMouseClicked="#odsiej_karty" text="Szukaj" />
+                              <ChoiceBox fx:id="ttyb_karty" layoutX="33.0" layoutY="950.0" nodeOrientation="LEFT_TO_RIGHT" prefWidth="150.0" />
                               <CheckBox fx:id="checkbox_karty_producent_4" layoutX="153.0" layoutY="320.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="PNY" />
                               <CheckBox fx:id="checkbox_karty_uklad_4" layoutX="80.0" layoutY="510.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="GeForce RTX 3070" />
+                              <Text layoutX="62.0" layoutY="920.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opcje transakcji">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
                            </children>
                         </AnchorPane>
                      </content>
                   </ScrollPane>
-                  <ScrollPane layoutX="225.0" layoutY="-6.0" prefHeight="459.0" prefWidth="531.0">
+                  <ScrollPane layoutX="228.0" layoutY="14.0" prefHeight="459.0" prefWidth="531.0">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="442.0" prefWidth="526.0">
                            <children>
-                              <TableView prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
+                              <TableView fx:id="table_karty" prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
                                  <columns>
-                                    <TableColumn prefWidth="296.80003052949905" text="Nazwa" />
-                                    <TableColumn prefWidth="122.39990234375" text="Układ graficzny" />
-                                    <TableColumn prefWidth="108.79998779296875" text="Cena" />
+                                    <TableColumn fx:id="tk_nazwa" prefWidth="296.80003052949905" text="Nazwa" />
+                                    <TableColumn fx:id="tk_uklad" prefWidth="122.39990234375" text="Układ graficzny" />
+                                    <TableColumn fx:id="tk_cena" prefWidth="108.79998779296875" text="Cena" />
                                  </columns>
                               </TableView>
                            </children>
@@ -255,9 +270,9 @@
             </AnchorPane>
             <AnchorPane fx:id="pamiecRam" prefHeight="460.0" prefWidth="757.0" visible="false">
                <children>
-                  <ScrollPane hbarPolicy="NEVER" layoutX="-2.0" layoutY="-6.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="459.0" prefWidth="227.0" vbarPolicy="ALWAYS">
+                  <ScrollPane hbarPolicy="NEVER" layoutX="1.0" layoutY="14.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="459.0" prefWidth="227.0" vbarPolicy="ALWAYS">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" onMouseClicked="#pisz2" prefHeight="851.0" prefWidth="214.0" style="-fx-background-color: gray;">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="900.0" prefWidth="214.0" style="-fx-background-color: gray;">
                            <children>
                               <Text layoutX="38.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opcje wyszukiwania">
                                  <font>
@@ -300,21 +315,26 @@
                               <CheckBox fx:id="checkbox_pamiec_pojemnosc_3" layoutX="145.5" layoutY="645.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="16GB" />
                               <CheckBox fx:id="checkbox_pamiec_pojemnosc_4" layoutX="145.5" layoutY="680.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="32GB" />
                               <CheckBox fx:id="checkbox_pamiec_pojemnosc_5" layoutX="145.0" layoutY="715.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="64GB" />
-                              <Button fx:id="button_szukaj_pamiec" layoutX="90.0" layoutY="815.0" mnemonicParsing="false" onMouseClicked="#odsiej_pamiec" text="Szukaj" />
-                              <ChoiceBox fx:id="ttyb_pamiec" layoutX="33.0" layoutY="765.0" nodeOrientation="LEFT_TO_RIGHT" prefWidth="150.0" />
+                              <Button fx:id="button_szukaj_pamiec" layoutX="90.0" layoutY="865.0" mnemonicParsing="false" onMouseClicked="#odsiej_pamiec" text="Szukaj" />
+                              <ChoiceBox fx:id="ttyb_pamiec" layoutX="33.0" layoutY="815.0" nodeOrientation="LEFT_TO_RIGHT" prefWidth="150.0" />
+                              <Text layoutX="62.0" layoutY="785.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opcje transakcji">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
                            </children>
                         </AnchorPane>
                      </content>
                   </ScrollPane>
-                  <ScrollPane layoutX="225.0" layoutY="-6.0" prefHeight="459.0" prefWidth="531.0">
+                  <ScrollPane layoutX="228.0" layoutY="14.0" prefHeight="459.0" prefWidth="531.0">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="442.0" prefWidth="526.0">
                            <children>
-                              <TableView prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
+                              <TableView fx:id="table_ram" prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
                                  <columns>
-                                    <TableColumn prefWidth="296.80003052949905" text="Nazwa" />
-                                    <TableColumn prefWidth="122.39990234375" text="Rodzaj pamięci" />
-                                    <TableColumn prefWidth="108.79998779296875" text="Cena" />
+                                    <TableColumn fx:id="tr_nazwa" prefWidth="296.80003052949905" text="Nazwa" />
+                                    <TableColumn fx:id="tr_pamiec" prefWidth="122.39990234375" text="Rodzaj pamięci" />
+                                    <TableColumn fx:id="tr_cena" prefWidth="108.79998779296875" text="Cena" />
                                  </columns>
                               </TableView>
                            </children>
@@ -325,9 +345,9 @@
             </AnchorPane>
             <AnchorPane fx:id="dyski" prefHeight="102.0" prefWidth="240.0" visible="false">
                <children>
-                  <ScrollPane hbarPolicy="NEVER" layoutX="-2.0" layoutY="-6.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="459.0" prefWidth="227.0" vbarPolicy="ALWAYS">
+                  <ScrollPane hbarPolicy="NEVER" layoutX="1.0" layoutY="14.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="459.0" prefWidth="227.0" vbarPolicy="ALWAYS">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" onMouseClicked="#pisz2" prefHeight="789.0" prefWidth="214.0" style="-fx-background-color: gray;">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="828.0" prefWidth="214.0" style="-fx-background-color: gray;">
                            <children>
                               <Text layoutX="38.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opcje wyszukiwania">
                                  <font>
@@ -368,21 +388,26 @@
                               <CheckBox fx:id="checkbox_dyski_pojemnosc_3" layoutX="134.0" layoutY="575.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="1000GB" />
                               <CheckBox fx:id="checkbox_dyski_pojemnosc_4" layoutX="134.0" layoutY="610.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="1500GB" />
                               <CheckBox fx:id="checkbox_dyski_pojemnosc_5" layoutX="134.0" layoutY="645.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="2000GB" />
-                              <Button fx:id="button_szukaj_dyski" layoutX="90.0" layoutY="745.0" mnemonicParsing="false" onMouseClicked="#odsiej_dyski" text="Szukaj" />
-                              <ChoiceBox fx:id="ttyb_dyski" layoutX="33.0" layoutY="695.0" nodeOrientation="LEFT_TO_RIGHT" prefWidth="150.0" />
+                              <Button fx:id="button_szukaj_dyski" layoutX="90.0" layoutY="795.0" mnemonicParsing="false" onMouseClicked="#odsiej_dyski" text="Szukaj" />
+                              <ChoiceBox fx:id="ttyb_dyski" layoutX="33.0" layoutY="745.0" nodeOrientation="LEFT_TO_RIGHT" prefWidth="150.0" />
+                              <Text layoutX="62.0" layoutY="720.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opcje transakcji">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
                            </children>
                         </AnchorPane>
                      </content>
                   </ScrollPane>
-                  <ScrollPane layoutX="225.0" layoutY="-6.0" prefHeight="459.0" prefWidth="531.0">
+                  <ScrollPane layoutX="228.0" layoutY="14.0" prefHeight="459.0" prefWidth="531.0">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="442.0" prefWidth="526.0">
                            <children>
-                              <TableView prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
+                              <TableView fx:id="table_dyski" prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
                                  <columns>
-                                    <TableColumn prefWidth="296.80003052949905" text="Nazwa" />
-                                    <TableColumn prefWidth="122.39990234375" text="Pojemność" />
-                                    <TableColumn prefWidth="108.79998779296875" text="Cena" />
+                                    <TableColumn fx:id="td_nazwa" prefWidth="296.80003052949905" text="Nazwa" />
+                                    <TableColumn fx:id="td_pojemnosc" prefWidth="122.39990234375" text="Pojemność" />
+                                    <TableColumn fx:id="td_cena" prefWidth="108.79998779296875" text="Cena" />
                                  </columns>
                               </TableView>
                            </children>
@@ -393,9 +418,9 @@
             </AnchorPane>
             <AnchorPane fx:id="zestawy" prefHeight="102.0" prefWidth="240.0" visible="false">
                <children>
-                  <ScrollPane hbarPolicy="NEVER" layoutX="-2.0" layoutY="-6.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="227.0" prefWidth="227.0" vbarPolicy="NEVER">
+                  <ScrollPane hbarPolicy="NEVER" layoutX="1.0" layoutY="14.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="227.0" prefWidth="227.0" vbarPolicy="NEVER">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" onMouseClicked="#pisz2" prefHeight="226.0" prefWidth="214.0" style="-fx-background-color: gray;">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="226.0" prefWidth="214.0" style="-fx-background-color: gray;">
                            <children>
                               <Text layoutX="38.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opcje wyszukiwania">
                                  <font>
@@ -416,15 +441,14 @@
                         </AnchorPane>
                      </content>
                   </ScrollPane>
-                  <ScrollPane layoutX="225.0" layoutY="-6.0" prefHeight="459.0" prefWidth="531.0">
+                  <ScrollPane layoutX="228.0" layoutY="11.0" prefHeight="459.0" prefWidth="531.0">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="442.0" prefWidth="526.0">
                            <children>
-                              <TableView prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
+                              <TableView fx:id="table_zestawy" prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
                                  <columns>
-                                    <TableColumn prefWidth="296.80003052949905" text="Nazwa" />
-                                    <TableColumn prefWidth="122.39990234375" text="Pojemność" />
-                                    <TableColumn prefWidth="108.79998779296875" text="Cena" />
+                                    <TableColumn fx:id="tz_nazwa" prefWidth="296.80003052949905" text="Nazwa" />
+                                    <TableColumn fx:id="tz_cena" prefWidth="229.60003662109375" text="Cena" />
                                  </columns>
                               </TableView>
                            </children>
@@ -435,14 +459,14 @@
             </AnchorPane>
          </children>
       </StackPane>
-      <Button fx:id="button_plyty" layoutX="14.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showPlyty" text="Płyty główne" />
-      <Button fx:id="button_procesory" layoutX="99.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showProcesory" text="Prcocesory" />
-      <Button fx:id="button_kartyGraf" layoutX="173.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showKarty" text="Karty graficzne" />
-      <Button fx:id="button_pamRam" layoutX="268.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showPamiecRam" text="Pamięć RAM" />
-      <Button fx:id="button_dyski" layoutX="351.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showDyski" text="Dyski" />
+      <Button fx:id="button_plyty" layoutX="21.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showPlyty" text="Płyty główne" />
+      <Button fx:id="button_procesory" layoutX="106.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showProcesory" text="Prcocesory" />
+      <Button fx:id="button_kartyGraf" layoutX="180.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showKarty" text="Karty graficzne" />
+      <Button fx:id="button_pamRam" layoutX="275.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showPamiecRam" text="Pamięć RAM" />
+      <Button fx:id="button_dyski" layoutX="358.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showDyski" text="Dyski" />
       <Text layoutX="740.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nazwa" />
       <Button fx:id="button_zaloguj" layoutX="730.0" layoutY="39.0" mnemonicParsing="false" text="Zaloguj" />
       <Button layoutX="732.0" layoutY="39.0" mnemonicParsing="false" text="Wyloguj" visible="false" />
-      <Button fx:id="button_zestawy" layoutX="396.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showZestawy" text="Zestawy" />
+      <Button fx:id="button_zestawy" layoutX="403.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showZestawy" text="Zestawy" />
    </children>
 </AnchorPane>
