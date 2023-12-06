@@ -1,4 +1,4 @@
-package sk;
+package com.example.sklep_komputerowy_apl;
 
 class BadDataException extends Exception{
 
