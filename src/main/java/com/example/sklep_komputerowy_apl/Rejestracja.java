@@ -1,4 +1,4 @@
-package sk;
+package com.example.sklep_komputerowy_apl;
 
 import java.net.URL;
 import java.util.InputMismatchException;
