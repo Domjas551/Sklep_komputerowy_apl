@@ -226,6 +226,9 @@ public class ControllerProdukt {
     private Text value_of_wysokosc_kg;
 
     @FXML
+    private Text value_of_wysokosc_pg;
+
+    @FXML
     private AnchorPane wyloguj;
 
     @FXML

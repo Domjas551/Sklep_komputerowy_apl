@@ -363,7 +363,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_szerokosc_pg" layoutX="240.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_wysokosc">
+                  <Text fx:id="value_of_wysokosc_pg" layoutX="240.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_wysokosc">
                      <font>
                         <Font size="18.0" />
                      </font>
