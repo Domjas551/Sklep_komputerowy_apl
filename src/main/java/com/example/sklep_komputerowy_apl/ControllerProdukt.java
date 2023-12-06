@@ -22,6 +22,12 @@ public class ControllerProdukt {
     private Text button_home;
 
     @FXML
+    private Button button_opinie;
+
+    @FXML
+    private Button button_specyfikacja;
+
+    @FXML
     private Button button_value_of_name;
 
     @FXML
@@ -31,10 +37,190 @@ public class ControllerProdukt {
     private Button button_zaloguj;
 
     @FXML
+    private AnchorPane dysk;
+
+    @FXML
     private ImageView image_cart;
 
     @FXML
     private ImageView image_user;
+
+    @FXML
+    private AnchorPane karta_graficzna;
+
+    @FXML
+    private AnchorPane opinie;
+
+    @FXML
+    private AnchorPane pamiec_ram;
+
+    @FXML
+    private AnchorPane plyta_glowna;
+
+    @FXML
+    private AnchorPane procesor;
+
+    @FXML
+    private Text value_of_cena_pg;
+
+    @FXML
+    private Text value_of_cena_pg1;
+
+    @FXML
+    private Text value_of_cena_pg2;
+
+    @FXML
+    private Text value_of_cena_pg3;
+
+    @FXML
+    private Text value_of_cena_pr;
+
+    @FXML
+    private Text value_of_chipset_pg;
+
+    @FXML
+    private Text value_of_chipset_pg1;
+
+    @FXML
+    private Text value_of_chipset_pg2;
+
+    @FXML
+    private Text value_of_chipset_pg3;
+
+    @FXML
+    private Text value_of_gniazdo_procesora_pg;
+
+    @FXML
+    private Text value_of_gniazdo_procesora_pg1;
+
+    @FXML
+    private Text value_of_gniazdo_procesora_pg2;
+
+    @FXML
+    private Text value_of_gniazdo_procesora_pg3;
+
+    @FXML
+    private Text value_of_kategoria_pg;
+
+    @FXML
+    private Text value_of_kategoria_pg1;
+
+    @FXML
+    private Text value_of_kategoria_pg2;
+
+    @FXML
+    private Text value_of_kategoria_pg3;
+
+    @FXML
+    private Text value_of_kategoria_pr;
+
+    @FXML
+    private Text value_of_liczba_bankow_pamieci_pg;
+
+    @FXML
+    private Text value_of_liczba_bankow_pamieci_pg1;
+
+    @FXML
+    private Text value_of_liczba_bankow_pamieci_pg2;
+
+    @FXML
+    private Text value_of_liczba_bankow_pamieci_pg3;
+
+    @FXML
+    private Text value_of_max_wielkosc_pamieci_pg;
+
+    @FXML
+    private Text value_of_max_wielkosc_pamieci_pg1;
+
+    @FXML
+    private Text value_of_max_wielkosc_pamieci_pg2;
+
+    @FXML
+    private Text value_of_max_wielkosc_pamieci_pg3;
+
+    @FXML
+    private Text value_of_napiecie_pr;
+
+    @FXML
+    private Text value_of_nazwa_produktu;
+
+    @FXML
+    private Text value_of_nazwa_produktu_pg;
+
+    @FXML
+    private Text value_of_nazwa_produktu_pg1;
+
+    @FXML
+    private Text value_of_nazwa_produktu_pg2;
+
+    @FXML
+    private Text value_of_nazwa_produktu_pg3;
+
+    @FXML
+    private Text value_of_opis_pg;
+
+    @FXML
+    private Text value_of_opis_pg1;
+
+    @FXML
+    private Text value_of_opis_pg2;
+
+    @FXML
+    private Text value_of_opis_pg3;
+
+    @FXML
+    private Text value_of_opis_pr;
+
+    @FXML
+    private Text value_of_pojemnosc_pr;
+
+    @FXML
+    private Text value_of_producent_pg;
+
+    @FXML
+    private Text value_of_producent_pg1;
+
+    @FXML
+    private Text value_of_producent_pg2;
+
+    @FXML
+    private Text value_of_producent_pg3;
+
+    @FXML
+    private Text value_of_producent_pr;
+
+    @FXML
+    private Text value_of_rodzaj_pamieci_pr;
+
+    @FXML
+    private Text value_of_szerokosc_pg;
+
+    @FXML
+    private Text value_of_szerokosc_pg1;
+
+    @FXML
+    private Text value_of_szerokosc_pg11;
+
+    @FXML
+    private Text value_of_szerokosc_pg12;
+
+    @FXML
+    private Text value_of_szerokosc_pg13;
+
+    @FXML
+    private Text value_of_taktowanie_pr;
+
+    @FXML
+    private Text value_of_typ_obslugiwanej_pamieci_pg;
+
+    @FXML
+    private Text value_of_typ_obslugiwanej_pamieci_pg1;
+
+    @FXML
+    private Text value_of_typ_obslugiwanej_pamieci_pg2;
+
+    @FXML
+    private Text value_of_typ_obslugiwanej_pamieci_pg3;
 
     @FXML
     private AnchorPane wyloguj;
@@ -59,6 +245,16 @@ public class ControllerProdukt {
 
     @FXML
     void goToUzytkownik(MouseEvent event) {
+
+    }
+
+    @FXML
+    void showOpinie(MouseEvent event) {
+
+    }
+
+    @FXML
+    void showSpecyfikacja(MouseEvent event) {
 
     }
 

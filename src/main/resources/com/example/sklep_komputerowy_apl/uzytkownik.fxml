@@ -14,7 +14,7 @@
 
 <AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep_komputerowy_apl.ControllerUzytkownik">
    <children>
-      <Button fx:id="button_wyloguj" layoutX="708.0" layoutY="72.0" mnemonicParsing="false" onMouseClicked="#wyloguj" text="Wyloguj" />
+      <Button fx:id="button_wyloguj" layoutX="710.0" layoutY="72.0" mnemonicParsing="false" onMouseClicked="#wyloguj" text="Wyloguj" />
       <StackPane layoutX="14.0" layoutY="106.0" prefHeight="466.0" prefWidth="754.0" style="-fx-background-color: gainsboro;">
          <children>
             <AnchorPane fx:id="transakcje" prefHeight="200.0" prefWidth="200.0" visible="false">
@@ -41,7 +41,7 @@
                   </ScrollPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="profil" prefHeight="466.0" prefWidth="729.0" visible="false">
+            <AnchorPane fx:id="profil" prefHeight="466.0" prefWidth="729.0">
                <children>
                   <Text layoutX="93.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Imię">
                      <font>
@@ -161,7 +161,7 @@
                   </Button>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="opinie" prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane fx:id="opinie" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
                   <Text layoutX="40.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opinie użytkownika">
                      <font>
