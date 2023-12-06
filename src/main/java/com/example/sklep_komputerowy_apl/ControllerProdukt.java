@@ -61,166 +61,169 @@ public class ControllerProdukt {
     private AnchorPane procesor;
 
     @FXML
+    private Text value_of_cena_dy;
+
+    @FXML
+    private Text value_of_cena_kg;
+
+    @FXML
     private Text value_of_cena_pg;
-
-    @FXML
-    private Text value_of_cena_pg1;
-
-    @FXML
-    private Text value_of_cena_pg2;
-
-    @FXML
-    private Text value_of_cena_pg3;
 
     @FXML
     private Text value_of_cena_pr;
 
     @FXML
+    private Text value_of_cena_proc;
+
+    @FXML
     private Text value_of_chipset_pg;
 
     @FXML
-    private Text value_of_chipset_pg1;
+    private Text value_of_glebokosc_dy;
 
     @FXML
-    private Text value_of_chipset_pg2;
-
-    @FXML
-    private Text value_of_chipset_pg3;
+    private Text value_of_glebokosc_kg;
 
     @FXML
     private Text value_of_gniazdo_procesora_pg;
 
     @FXML
-    private Text value_of_gniazdo_procesora_pg1;
+    private Text value_of_gniazdo_procesora_proc;
 
     @FXML
-    private Text value_of_gniazdo_procesora_pg2;
+    private Text value_of_kategoria_dy;
 
     @FXML
-    private Text value_of_gniazdo_procesora_pg3;
+    private Text value_of_kategoria_kg;
 
     @FXML
     private Text value_of_kategoria_pg;
 
     @FXML
-    private Text value_of_kategoria_pg1;
-
-    @FXML
-    private Text value_of_kategoria_pg2;
-
-    @FXML
-    private Text value_of_kategoria_pg3;
-
-    @FXML
     private Text value_of_kategoria_pr;
+
+    @FXML
+    private Text value_of_kategoria_proc;
 
     @FXML
     private Text value_of_liczba_bankow_pamieci_pg;
 
     @FXML
-    private Text value_of_liczba_bankow_pamieci_pg1;
+    private Text value_of_liczba_rdzeni_proc;
 
     @FXML
-    private Text value_of_liczba_bankow_pamieci_pg2;
-
-    @FXML
-    private Text value_of_liczba_bankow_pamieci_pg3;
+    private Text value_of_liczba_watkow_proc;
 
     @FXML
     private Text value_of_max_wielkosc_pamieci_pg;
 
     @FXML
-    private Text value_of_max_wielkosc_pamieci_pg1;
-
-    @FXML
-    private Text value_of_max_wielkosc_pamieci_pg2;
-
-    @FXML
-    private Text value_of_max_wielkosc_pamieci_pg3;
-
-    @FXML
     private Text value_of_napiecie_pr;
 
     @FXML
-    private Text value_of_nazwa_produktu;
+    private Text value_of_nazwa_produktu_dy;
+
+    @FXML
+    private Text value_of_nazwa_produktu_kg;
 
     @FXML
     private Text value_of_nazwa_produktu_pg;
 
     @FXML
-    private Text value_of_nazwa_produktu_pg1;
+    private Text value_of_nazwa_produktu_pr;
 
     @FXML
-    private Text value_of_nazwa_produktu_pg2;
+    private Text value_of_nazwa_produktu_proc;
 
     @FXML
-    private Text value_of_nazwa_produktu_pg3;
+    private Text value_of_opis_dy;
+
+    @FXML
+    private Text value_of_opis_kg;
 
     @FXML
     private Text value_of_opis_pg;
 
     @FXML
-    private Text value_of_opis_pg1;
-
-    @FXML
-    private Text value_of_opis_pg2;
-
-    @FXML
-    private Text value_of_opis_pg3;
-
-    @FXML
     private Text value_of_opis_pr;
+
+    @FXML
+    private Text value_of_opis_proc;
+
+    @FXML
+    private Text value_of_pobor_mocy_kg;
+
+    @FXML
+    private Text value_of_pobor_mocy_proc;
+
+    @FXML
+    private Text value_of_pojemnosc_dy;
 
     @FXML
     private Text value_of_pojemnosc_pr;
 
     @FXML
+    private Text value_of_producent_dy;
+
+    @FXML
+    private Text value_of_producent_kg;
+
+    @FXML
     private Text value_of_producent_pg;
-
-    @FXML
-    private Text value_of_producent_pg1;
-
-    @FXML
-    private Text value_of_producent_pg2;
-
-    @FXML
-    private Text value_of_producent_pg3;
 
     @FXML
     private Text value_of_producent_pr;
 
     @FXML
+    private Text value_of_producent_proc;
+
+    @FXML
+    private Text value_of_rodzaj_pamieci_kg;
+
+    @FXML
     private Text value_of_rodzaj_pamieci_pr;
+
+    @FXML
+    private Text value_of_rodzaj_zlacza_kg;
+
+    @FXML
+    private Text value_of_rodzina_proc;
+
+    @FXML
+    private Text value_of_szerokosc_dy;
+
+    @FXML
+    private Text value_of_szerokosc_kg;
 
     @FXML
     private Text value_of_szerokosc_pg;
 
     @FXML
-    private Text value_of_szerokosc_pg1;
-
-    @FXML
-    private Text value_of_szerokosc_pg11;
-
-    @FXML
-    private Text value_of_szerokosc_pg12;
-
-    @FXML
-    private Text value_of_szerokosc_pg13;
+    private Text value_of_taktowanie_kg;
 
     @FXML
     private Text value_of_taktowanie_pr;
 
     @FXML
+    private Text value_of_taktowanie_proc;
+
+    @FXML
+    private Text value_of_typ_dysku_dy;
+
+    @FXML
+    private Text value_of_typ_obslugiwanej_pamiec_kg;
+
+    @FXML
     private Text value_of_typ_obslugiwanej_pamieci_pg;
 
     @FXML
-    private Text value_of_typ_obslugiwanej_pamieci_pg1;
+    private Text value_of_uklad_graficzny_kg;
 
     @FXML
-    private Text value_of_typ_obslugiwanej_pamieci_pg2;
+    private Text value_of_wysokosc_dy;
 
     @FXML
-    private Text value_of_typ_obslugiwanej_pamieci_pg3;
+    private Text value_of_wysokosc_kg;
 
     @FXML
     private AnchorPane wyloguj;

@@ -23,7 +23,7 @@
          <children>
             <AnchorPane fx:id="karta_graficzna" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
-                  <Text fx:id="value_of_nazwa_produktu_pg1" layoutX="40.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_nazwa_produktu" wrappingWidth="272.53675842285156">
+                  <Text fx:id="value_of_nazwa_produktu_kg" layoutX="40.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_nazwa_produktu" wrappingWidth="272.53675842285156">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -33,108 +33,128 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="115.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Producent">
+                  <Text layoutX="115.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Producent">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="155.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cena">
+                  <Text layoutX="155.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cena">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="45.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gniazdo procesora">
+                  <Text layoutX="75.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Układ graficzny">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="135.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chipset">
+                  <Text layoutX="90.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rodzaj złącza">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="100.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Typ pamięci">
+                  <Text layoutX="140.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pamięć">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="12.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba banków pamięci">
+                  <Text layoutX="75.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rodzaj pamięci">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Line endX="-70.0" endY="280.0" layoutX="290.0" layoutY="90.0" startX="-70.0" startY="-15.0" />
-                  <Text layoutX="40.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opis produktu:">
+                  <Line endX="-70.0" endY="230.0" layoutX="290.0" layoutY="90.0" startX="-70.0" startY="-15.0" />
+                  <Text layoutX="40.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opis produktu:">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_kategoria_pg1" layoutX="240.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_kategoria">
+                  <Text fx:id="value_of_kategoria_kg" layoutX="240.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_kategoria">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_producent_pg1" layoutX="240.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_producent">
+                  <Text fx:id="value_of_producent_kg" layoutX="240.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_producent">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_cena_pg1" layoutX="240.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_cena">
+                  <Text fx:id="value_of_cena_kg" layoutX="240.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_cena">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_gniazdo_procesora_pg1" layoutX="240.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_gniazdo_procesora">
+                  <Text fx:id="value_of_uklad_graficzny_kg" layoutX="240.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_uklad_graficzny">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_chipset_pg1" layoutX="240.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_chipset">
+                  <Text fx:id="value_of_rodzaj_zlacza_kg" layoutX="240.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_rodzaj_zlacza">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_typ_obslugiwanej_pamieci_pg1" layoutX="240.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_typ_obslugiwanej_pamieci">
+                  <Text fx:id="value_of_typ_obslugiwanej_pamiec_kg" layoutX="240.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_pamiec">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_liczba_bankow_pamieci_pg1" layoutX="240.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_liczba_bankow_pamieci">
+                  <Text fx:id="value_of_rodzaj_pamieci_kg" layoutX="240.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_rodzaj_pamieci">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_opis_pg1" layoutX="40.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_opis_produktu">
+                  <Text fx:id="value_of_opis_kg" layoutX="40.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_opis_produktu">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <Text layoutX="23.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Max wielkość pamięci">
+                  <Text layoutX="105.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Taktowanie">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_max_wielkosc_pamieci_pg1" layoutX="240.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_max_wielkość_pamięci">
+                  <Text fx:id="value_of_taktowanie_kg" layoutX="240.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_taktownie">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="115.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Szerokość">
+                  <Text layoutX="115.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Szerokość">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="115.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wysokość">
+                  <Text layoutX="115.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wysokość">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_szerokosc_pg1" layoutX="240.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_szerokosc">
+                  <Text fx:id="value_of_szerokosc_kg" layoutX="240.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_szerokosc">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_szerokosc_pg11" layoutX="240.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_wysokosc">
+                  <Text fx:id="value_of_wysokosc_kg" layoutX="240.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_wysokosc">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="110.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Głębokość">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="95.0" layoutY="310.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pobór mocy">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="value_of_glebokosc_kg" layoutX="240.0" layoutY="290.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_glebokosc">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="value_of_pobor_mocy_kg" layoutX="240.0" layoutY="310.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_pobor_mocy">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -143,7 +163,7 @@
             </AnchorPane>
             <AnchorPane fx:id="pamiec_ram" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
-                  <Text fx:id="value_of_nazwa_produktu" layoutX="40.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_nazwa_produktu" wrappingWidth="272.53675842285156">
+                  <Text fx:id="value_of_nazwa_produktu_pr" layoutX="40.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_nazwa_produktu" wrappingWidth="272.53675842285156">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -153,38 +173,38 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="114.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Producent">
+                  <Text layoutX="114.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Producent">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="156.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cena">
+                  <Text layoutX="156.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cena">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="77.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rodzaj pamięci">
+                  <Text layoutX="77.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rodzaj pamięci">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="112.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pojemność">
+                  <Text layoutX="112.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pojemność">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="108.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Taktowanie">
+                  <Text layoutX="108.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Taktowanie">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="129.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Napięcie">
+                  <Text layoutX="129.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Napięcie">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Line endX="-70.0" endY="190.0" layoutX="290.0" layoutY="90.0" startX="-70.0" startY="-15.0" />
-                  <Text layoutX="40.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opis produktu:">
+                  <Line endX="-70.0" endY="140.0" layoutX="290.0" layoutY="90.0" startX="-70.0" startY="-15.0" />
+                  <Text layoutX="40.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opis produktu:">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -194,37 +214,37 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_producent_pr" layoutX="240.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_producent">
+                  <Text fx:id="value_of_producent_pr" layoutX="240.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_producent">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_cena_pr" layoutX="240.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_cena">
+                  <Text fx:id="value_of_cena_pr" layoutX="240.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_cena">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_rodzaj_pamieci_pr" layoutX="240.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_rodzaj_pamieci">
+                  <Text fx:id="value_of_rodzaj_pamieci_pr" layoutX="240.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_rodzaj_pamieci">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_pojemnosc_pr" layoutX="240.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_pojemnosc">
+                  <Text fx:id="value_of_pojemnosc_pr" layoutX="240.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_pojemnosc">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_taktowanie_pr" layoutX="240.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_taktowanie">
+                  <Text fx:id="value_of_taktowanie_pr" layoutX="240.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_taktowanie">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_napiecie_pr" layoutX="240.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_napiecie">
+                  <Text fx:id="value_of_napiecie_pr" layoutX="240.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_napiecie">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_opis_pr" layoutX="40.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_opis_produktu">
+                  <Text fx:id="value_of_opis_pr" layoutX="40.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_opis_produktu">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -242,108 +262,108 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="115.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Producent">
+                  <Text layoutX="115.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Producent">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="155.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cena">
+                  <Text layoutX="155.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cena">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="45.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gniazdo procesora">
+                  <Text layoutX="45.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gniazdo procesora">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="135.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chipset">
+                  <Text layoutX="135.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chipset">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="100.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Typ pamięci">
+                  <Text layoutX="100.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Typ pamięci">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="12.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba banków pamięci">
+                  <Text layoutX="12.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba banków pamięci">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Line endX="-70.0" endY="280.0" layoutX="290.0" layoutY="90.0" startX="-70.0" startY="-15.0" />
-                  <Text layoutX="40.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opis produktu:">
+                  <Line endX="-70.0" endY="200.0" layoutX="290.0" layoutY="90.0" startX="-70.0" startY="-15.0" />
+                  <Text layoutX="40.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opis produktu:">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_kategoria_pg" layoutX="240.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_kategoria">
+                  <Text fx:id="value_of_kategoria_pg" layoutX="240.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_kategoria_pg">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_producent_pg" layoutX="240.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_producent">
+                  <Text fx:id="value_of_producent_pg" layoutX="240.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_producent">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_cena_pg" layoutX="240.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_cena">
+                  <Text fx:id="value_of_cena_pg" layoutX="240.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_cena">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_gniazdo_procesora_pg" layoutX="240.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_gniazdo_procesora">
+                  <Text fx:id="value_of_gniazdo_procesora_pg" layoutX="240.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_gniazdo_procesora">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_chipset_pg" layoutX="240.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_chipset">
+                  <Text fx:id="value_of_chipset_pg" layoutX="240.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_chipset">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_typ_obslugiwanej_pamieci_pg" layoutX="240.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_typ_obslugiwanej_pamieci">
+                  <Text fx:id="value_of_typ_obslugiwanej_pamieci_pg" layoutX="240.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_typ_obslugiwanej_pamieci">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_liczba_bankow_pamieci_pg" layoutX="240.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_liczba_bankow_pamieci">
+                  <Text fx:id="value_of_liczba_bankow_pamieci_pg" layoutX="240.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_liczba_bankow_pamieci">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_opis_pg" layoutX="40.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_opis_produktu">
+                  <Text fx:id="value_of_opis_pg" layoutX="40.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_opis_produktu">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <Text layoutX="23.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Max wielkość pamięci">
+                  <Text layoutX="23.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Max wielkość pamięci">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_max_wielkosc_pamieci_pg" layoutX="240.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_max_wielkość_pamięci">
+                  <Text fx:id="value_of_max_wielkosc_pamieci_pg" layoutX="240.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_max_wielkość_pamięci">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="115.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Szerokość">
+                  <Text layoutX="115.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Szerokość">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="115.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wysokość">
+                  <Text layoutX="115.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wysokość">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_szerokosc_pg" layoutX="240.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_szerokosc">
+                  <Text fx:id="value_of_szerokosc_pg" layoutX="240.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_szerokosc">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_szerokosc_pg1" layoutX="240.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_wysokosc">
+                  <Text fx:id="value_of_szerokosc_pg" layoutX="240.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_wysokosc">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -377,7 +397,7 @@
             </AnchorPane>
             <AnchorPane fx:id="procesor" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
-                  <Text fx:id="value_of_nazwa_produktu_pg2" layoutX="40.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_nazwa_produktu" wrappingWidth="272.53675842285156">
+                  <Text fx:id="value_of_nazwa_produktu_proc" layoutX="40.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_nazwa_produktu" wrappingWidth="272.53675842285156">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -387,117 +407,107 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="115.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Producent">
+                  <Text layoutX="115.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Producent">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="155.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cena">
+                  <Text layoutX="155.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cena">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="45.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gniazdo procesora">
+                  <Text layoutX="130.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rodzina">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="135.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chipset">
+                  <Text layoutX="45.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gniazdo procesora">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="100.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Typ pamięci">
+                  <Text layoutX="105.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Taktowanie">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="12.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba banków pamięci">
+                  <Text layoutX="90.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba rdzeni">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Line endX="-70.0" endY="280.0" layoutX="290.0" layoutY="90.0" startX="-70.0" startY="-15.0" />
-                  <Text layoutX="40.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opis produktu:">
+                  <Line endX="-70.0" endY="170.0" layoutX="290.0" layoutY="90.0" startX="-70.0" startY="-15.0" />
+                  <Text layoutX="40.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opis produktu:">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_kategoria_pg2" layoutX="240.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_kategoria">
+                  <Text fx:id="value_of_kategoria_proc" layoutX="240.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_kategoria">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_producent_pg2" layoutX="240.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_producent">
+                  <Text fx:id="value_of_producent_proc" layoutX="240.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_producent">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_cena_pg2" layoutX="240.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_cena">
+                  <Text fx:id="value_of_cena_proc" layoutX="240.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_cena">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_gniazdo_procesora_pg2" layoutX="240.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_gniazdo_procesora">
+                  <Text fx:id="value_of_rodzina_proc" layoutX="240.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_rodzina">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_chipset_pg2" layoutX="240.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_chipset">
+                  <Text fx:id="value_of_gniazdo_procesora_proc" layoutX="240.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_gniazdo_procesora">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_typ_obslugiwanej_pamieci_pg2" layoutX="240.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_typ_obslugiwanej_pamieci">
+                  <Text fx:id="value_of_taktowanie_proc" layoutX="240.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_taktowanie">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_liczba_bankow_pamieci_pg2" layoutX="240.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_liczba_bankow_pamieci">
+                  <Text fx:id="value_of_liczba_rdzeni_proc" layoutX="240.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_liczba_rdzeni">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_opis_pg2" layoutX="40.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_opis_produktu">
+                  <Text fx:id="value_of_opis_proc" layoutX="40.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_opis_produktu">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <Text layoutX="23.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Max wielkość pamięci">
+                  <Text layoutX="77.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba wątków">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_max_wielkosc_pamieci_pg2" layoutX="240.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_max_wielkość_pamięci">
+                  <Text fx:id="value_of_liczba_watkow_proc" layoutX="240.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_liczba_watkow">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="115.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Szerokość">
+                  <Text layoutX="95.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pobór mocy">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="115.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wysokość">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="value_of_szerokosc_pg1" layoutX="240.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_szerokosc">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="value_of_szerokosc_pg12" layoutX="240.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_wysokosc">
+                  <Text fx:id="value_of_pobor_mocy_proc" layoutX="240.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_pobor_mocy">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="dysk" prefHeight="200.0" prefWidth="200.0" visible="false">
+            <AnchorPane fx:id="dysk" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Text fx:id="value_of_nazwa_produktu_pg3" layoutX="40.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_nazwa_produktu" wrappingWidth="272.53675842285156">
+                  <Text fx:id="value_of_nazwa_produktu_dy" layoutX="40.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_nazwa_produktu" wrappingWidth="272.53675842285156">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -507,108 +517,88 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="115.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Producent">
+                  <Text layoutX="115.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Producent">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="155.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cena">
+                  <Text layoutX="155.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cena">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="45.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gniazdo procesora">
+                  <Text layoutX="110.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pojemność">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="135.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chipset">
+                  <Text layoutX="117.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Typ dysku">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="100.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Typ pamięci">
+                  <Text layoutX="115.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Szerokosc">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="12.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba banków pamięci">
+                  <Text layoutX="115.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wysokość">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Line endX="-70.0" endY="280.0" layoutX="290.0" layoutY="90.0" startX="-70.0" startY="-15.0" />
-                  <Text layoutX="40.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opis produktu:">
+                  <Line endX="-70.0" endY="150.0" layoutX="290.0" layoutY="90.0" startX="-70.0" startY="-15.0" />
+                  <Text layoutX="40.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opis produktu:">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_kategoria_pg3" layoutX="240.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_kategoria">
+                  <Text fx:id="value_of_kategoria_dy" layoutX="240.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_kategoria">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_producent_pg3" layoutX="240.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_producent">
+                  <Text fx:id="value_of_producent_dy" layoutX="240.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_producent">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_cena_pg3" layoutX="240.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_cena">
+                  <Text fx:id="value_of_cena_dy" layoutX="240.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_cena">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_gniazdo_procesora_pg3" layoutX="240.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_gniazdo_procesora">
+                  <Text fx:id="value_of_pojemnosc_dy" layoutX="240.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_pojemnosc">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_chipset_pg3" layoutX="240.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_chipset">
+                  <Text fx:id="value_of_typ_dysku_dy" layoutX="240.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_typ_dysku">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_typ_obslugiwanej_pamieci_pg3" layoutX="240.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_typ_obslugiwanej_pamieci">
+                  <Text fx:id="value_of_szerokosc_dy" layoutX="240.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_szerokosc">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_liczba_bankow_pamieci_pg3" layoutX="240.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_liczba_bankow_pamieci">
+                  <Text fx:id="value_of_wysokosc_dy" layoutX="240.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_wysokosc">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_opis_pg3" layoutX="40.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_opis_produktu">
+                  <Text fx:id="value_of_opis_dy" layoutX="40.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_opis_produktu">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <Text layoutX="23.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Max wielkość pamięci">
+                  <Text layoutX="110.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Głębokość">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_max_wielkosc_pamieci_pg3" layoutX="240.0" layoutY="300.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_max_wielkość_pamięci">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="115.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Szerokość">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="115.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wysokość">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="value_of_szerokosc_pg1" layoutX="240.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_szerokosc">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="value_of_szerokosc_pg13" layoutX="240.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_wysokosc">
+                  <Text fx:id="value_of_glebokosc_dy" layoutX="240.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_glebokosc">
                      <font>
                         <Font size="18.0" />
                      </font>
