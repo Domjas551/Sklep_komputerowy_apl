@@ -59,4 +59,8 @@ public class DataStorage {
     public void zapiszAktualnaStrone(String s){
         this.activePage=s;
     }
+
+    public String getActivePage() {
+        return activePage;
+    }
 }

@@ -13,10 +13,11 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("produkt.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("wyszukiwarka.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Wyszukiwarka");
 
+        //ustawienie ikony aplikacji
         Image icon =new Image(getClass().getResourceAsStream("/images/SISCK_icon1.png"));
         stage.getIcons().add(icon);
 

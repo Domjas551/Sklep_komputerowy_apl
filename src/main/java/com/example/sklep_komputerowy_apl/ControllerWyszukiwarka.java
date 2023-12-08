@@ -23,10 +23,8 @@ public class ControllerWyszukiwarka  implements Initializable{
     DataStorage dane=DataStorage.getInstance();
     //komponenty
     @FXML
-    private AnchorPane test;
-
-    @FXML
-    private Text testText;
+    private TextField wyszukajText;
+    private Button wyszukajButton;
     //elementy panelu wyszukiwania w zakładce płyty główne
     @FXML
     private TextField min_cena_plyty;
@@ -68,6 +66,8 @@ public class ControllerWyszukiwarka  implements Initializable{
     private ChoiceBox<String> ttyb_plyty;
     @FXML
     private Button button_szukaj_plyty;
+    @FXML
+    private Button button_wyczysc_plyty;
 
     //tabela w zakładce płyty
     @FXML
@@ -108,6 +108,8 @@ public class ControllerWyszukiwarka  implements Initializable{
     private Button button_szukaj_procesory;
     @FXML
     private ChoiceBox<String> ttyb_procesory;
+    @FXML
+    private Button button_wyczysc_procesory;
 
     //tabela w zakładce procesor
     @FXML
@@ -158,6 +160,8 @@ public class ControllerWyszukiwarka  implements Initializable{
     private Button button_szukaj_karty;
     @FXML
     private ChoiceBox<String> ttyb_karty;
+    @FXML
+    private Button button_wyczysc_karty;
 
     //tabela w zakładce karty graficzne
     @FXML
@@ -202,6 +206,8 @@ public class ControllerWyszukiwarka  implements Initializable{
     private ChoiceBox<String> ttyb_pamiec;
     @FXML
     private Button button_szukaj_pamiec;
+    @FXML
+    private Button button_wyczysc_pamiec;
 
     //tabela w zakładce karty ram
     @FXML
@@ -209,7 +215,7 @@ public class ControllerWyszukiwarka  implements Initializable{
     @FXML
     private TableColumn<TableRam, Double> tr_cena;
     @FXML
-    private TableColumn<TableRam, String> tr_rodzaj;
+    private TableColumn<TableRam, String> tr_pamiec;
     @FXML
     private TableColumn<TableRam, String> tr_nazwa;
 
@@ -242,6 +248,8 @@ public class ControllerWyszukiwarka  implements Initializable{
     private ChoiceBox<String> ttyb_dyski;
     @FXML
     private Button button_szukaj_dyski;
+    @FXML
+    private Button button_wyczysc_dyski;
 
     //tabela w zakładce dyski
     @FXML
@@ -327,7 +335,7 @@ public class ControllerWyszukiwarka  implements Initializable{
         tk_cena.setCellValueFactory(new PropertyValueFactory<TableKarty,Double>("cena"));
         //pamiec ram
         tr_nazwa.setCellValueFactory(new PropertyValueFactory<TableRam,String>("nazwa"));
-        tr_rodzaj.setCellValueFactory(new PropertyValueFactory<TableRam,String>("rodzaj"));
+        tr_pamiec.setCellValueFactory(new PropertyValueFactory<TableRam,String>("rodzaj"));
         tr_cena.setCellValueFactory(new PropertyValueFactory<TableRam,Double>("cena"));
         //dyski
         td_nazwa.setCellValueFactory(new PropertyValueFactory<TableDyski,String>("nazwa"));
@@ -373,7 +381,7 @@ public class ControllerWyszukiwarka  implements Initializable{
         //procesory
         //domyślnymi danymi
         if(dane.uzyskajPoprzednieZapytanie().equals("")){
-            String wynik[]= connection.uzyskajDane("Select distinct nazwa_produktu,seria,cena from produkt " +
+            String wynik[]= connection.uzyskajDane("Select distinct nazwa_produktu,rodzina,cena from produkt " +
                     "join procesor on produkt.id_procesora=procesor.id_procesora");
             for(int i=0;i<wynik.length;i+=3){
                 tpr_list.add(new TableProcesory(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
@@ -399,7 +407,7 @@ public class ControllerWyszukiwarka  implements Initializable{
         //domyślnymi danymi
         if(dane.uzyskajPoprzednieZapytanie().equals("")){
             String wynik[]= connection.uzyskajDane("Select distinct nazwa_produktu,uklad_graficzny,cena from produkt " +
-                    "join karta_graficzna on produkt.id_karty_graficzne=karta_graficzna.id_karty_graficznej");
+                    "join karta_graficzna on produkt.id_karty_graficznej=karta_graficzna.id_karty_graficznej");
             for(int i=0;i<wynik.length;i+=3){
                 tk_list.add(new TableKarty(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
             }
@@ -423,7 +431,7 @@ public class ControllerWyszukiwarka  implements Initializable{
         //domyślnymi danymi
         if(dane.uzyskajPoprzednieZapytanie().equals("")){
             String wynik[]= connection.uzyskajDane("Select distinct nazwa_produktu,rodzaj_pamieci,cena from produkt " +
-                    "join procesor on produkt.id_pamieci_ram=pamiec_ram.id_pamieci_ram");
+                    "join pamiec_ram on produkt.id_pamieci_ram=pamiec_ram.id_pamieci_ram");
             for(int i=0;i<wynik.length;i+=3){
                 tr_list.add(new TableRam(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
             }
@@ -448,7 +456,7 @@ public class ControllerWyszukiwarka  implements Initializable{
         //domyślnymi danymi
         if(dane.uzyskajPoprzednieZapytanie().equals("")){
             String wynik[]= connection.uzyskajDane("Select distinct nazwa_produktu,pojemnosc,cena from produkt " +
-                    "join procesor on produkt.id_dysku=dysk.id_dysku");
+                    "join dysk on produkt.id_dysku=dysk.id_dysku");
             for(int i=0;i<wynik.length;i+=3){
                 td_list.add(new TableDyski(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
             }
@@ -471,8 +479,8 @@ public class ControllerWyszukiwarka  implements Initializable{
         //zestawy
         //domyślnymi danymi
         if(dane.uzyskajPoprzednieZapytanie().equals("")){
-            String wynik[]= connection.uzyskajDane("Select distinct nazwa_zestawu,cena from zestaw ");
-            for(int i=0;i<wynik.length;i+=3){
+            String wynik[]= connection.uzyskajDane("Select distinct nazwa_zestawu,cena from zestaw");
+            for(int i=0;i<wynik.length;i+=2){
                 tz_list.add(new TableZestawy(wynik[i],Double.parseDouble(wynik[i+1])));
             }
 
@@ -576,6 +584,383 @@ public class ControllerWyszukiwarka  implements Initializable{
 
         //uaktualnienie informacji o aktywnej stronie
         dane.zapiszAktualnaStrone("zestawy");
+    }
+
+    //odsianie po nazwie produktu na aktualnie otwartej stronie
+    @FXML
+    void odsiej_po_nazwie(MouseEvent event){
+        String nazwa=wyszukajText.getText();
+
+        switch(dane.getActivePage()) {
+            case "plyty":
+                if (!nazwa.equals("")) {
+                    String zapytanie = "Select distinct nazwa_produktu,chipset,cena from produkt " +
+                            "join plyta_glowna on produkt.id_plyty_glownej=plyta_glowna.id_plyty_glownej where " +
+                            "nazwa_produktu like('%" + nazwa + "%')";
+
+                    //wypełnienie tabel
+                    ObservableList<TablePlyty> tp_list = FXCollections.observableArrayList();
+                    String wynik[] = connection.uzyskajDane(zapytanie);
+
+                    //zapisanie ostatio wykonanego zapytania
+                    dane.zapiszZapytanie(zapytanie);
+
+                    if (wynik.length <= 1) {
+                        //gdy zapytanie nie zwróciło żądnych wyników
+                        tp_list.clear();
+                    } else {
+                        for (int i = 0; i < wynik.length; i += 3) {
+                            tp_list.add(new TablePlyty(wynik[i], wynik[i + 1], Double.parseDouble(wynik[i + 2])));
+                        }
+                    }
+
+                    table_plyty.setItems(tp_list);
+                } else {
+                    String zapytanie = "Select distinct nazwa_produktu,chipset,cena from produkt " +
+                            "join plyta_glowna on produkt.id_plyty_glownej=plyta_glowna.id_plyty_glownej";
+
+                    //wypełnienie tabel
+                    ObservableList<TablePlyty> tp_list = FXCollections.observableArrayList();
+                    String wynik[] = connection.uzyskajDane(zapytanie);
+
+                    //zapisanie ostatio wykonanego zapytania
+                    dane.zapiszZapytanie("");
+
+                    if (wynik.length <= 1) {
+                        //gdy zapytanie nie zwróciło żądnych wyników
+                        tp_list.clear();
+                    } else {
+                        for (int i = 0; i < wynik.length; i += 3) {
+                            tp_list.add(new TablePlyty(wynik[i], wynik[i + 1], Double.parseDouble(wynik[i + 2])));
+                        }
+                    }
+
+                    table_plyty.setItems(tp_list);
+                }
+                break;
+            case "procesory":
+                if (!nazwa.equals("")) {
+                    String zapytanie = "Select distinct nazwa_produktu,rodzina,cena from produkt " +
+                            "join procesor on produkt.id_procesora=procesor.id_procesora where " +
+                            "nazwa_produktu like('%" + nazwa + "%')";
+
+                    //wypełnienie tabel
+                    ObservableList<TableProcesory> tpr_list = FXCollections.observableArrayList();
+                    String wynik[] = connection.uzyskajDane(zapytanie);
+
+                    //zapisanie ostatio wykonanego zapytania
+                    dane.zapiszZapytanie(zapytanie);
+
+                    if (wynik.length <= 1) {
+                        //gdy zapytanie nie zwróciło żądnych wyników
+                        tpr_list.clear();
+                    } else {
+                        for (int i = 0; i < wynik.length; i += 3) {
+                            tpr_list.add(new TableProcesory(wynik[i], wynik[i + 1], Double.parseDouble(wynik[i + 2])));
+                        }
+                    }
+
+                    table_procesory.setItems(tpr_list);
+                } else {
+                    String zapytanie = "Select distinct nazwa_produktu,rodzina,cena from produkt " +
+                            "join procesor on produkt.id_procesora=procesor.id_procesora";
+
+                    //wypełnienie tabel
+                    ObservableList<TableProcesory> tpr_list = FXCollections.observableArrayList();
+                    String wynik[] = connection.uzyskajDane(zapytanie);
+
+                    //zapisanie ostatio wykonanego zapytania
+                    dane.zapiszZapytanie("");
+
+                    if (wynik.length <= 1) {
+                        //gdy zapytanie nie zwróciło żądnych wyników
+                        tpr_list.clear();
+                    } else {
+                        for (int i = 0; i < wynik.length; i += 3) {
+                            tpr_list.add(new TableProcesory(wynik[i], wynik[i + 1], Double.parseDouble(wynik[i + 2])));
+                        }
+                    }
+
+                    table_procesory.setItems(tpr_list);
+                }
+                break;
+            case "karty":
+                if (!nazwa.equals("")) {
+                    String zapytanie = "Select distinct nazwa_produktu,uklad_graficzny,cena from produkt " +
+                            "join karta_graficzna on produkt.id_karty_graficznej=karta_graficzna.id_karty_graficznej where " +
+                            "nazwa_produktu like('%" + nazwa + "%')";
+
+                    //wypełnienie tabel
+                    ObservableList<TableKarty> tk_list = FXCollections.observableArrayList();
+                    String wynik[] = connection.uzyskajDane(zapytanie);
+
+                    //zapisanie ostatio wykonanego zapytania
+                    dane.zapiszZapytanie(zapytanie);
+
+                    if (wynik.length <= 1) {
+                        //gdy zapytanie nie zwróciło żądnych wyników
+                        tk_list.clear();
+                    } else {
+                        for (int i = 0; i < wynik.length; i += 3) {
+                            tk_list.add(new TableKarty(wynik[i], wynik[i + 1], Double.parseDouble(wynik[i + 2])));
+                        }
+                    }
+
+                    table_karty.setItems(tk_list);
+                } else {
+                    String zapytanie = "Select distinct nazwa_produktu,uklad_graficzny,cena from produkt " +
+                            "join karta_graficzna on produkt.id_karty_graficznej=karta_graficzna.id_karty_graficznej";
+
+                    //wypełnienie tabel
+                    ObservableList<TableKarty> tk_list = FXCollections.observableArrayList();
+                    String wynik[] = connection.uzyskajDane(zapytanie);
+
+                    //zapisanie ostatio wykonanego zapytania
+                    dane.zapiszZapytanie("");
+
+                    if (wynik.length <= 1) {
+                        //gdy zapytanie nie zwróciło żądnych wyników
+                        tk_list.clear();
+                    } else {
+                        for (int i = 0; i < wynik.length; i += 3) {
+                            tk_list.add(new TableKarty(wynik[i], wynik[i + 1], Double.parseDouble(wynik[i + 2])));
+                        }
+                    }
+
+                    table_karty.setItems(tk_list);
+                }
+                break;
+            case "ram":
+                if (!nazwa.equals("")) {
+                    String zapytanie = "Select distinct nazwa_produktu,rodzaj_pamieci,cena from produkt " +
+                            "join pamiec_ram on produkt.id_pamieci_ram=pamiec_ram.id_pamieci_ram where " +
+                            "nazwa_produktu like('%" + nazwa + "%')";
+
+                    //wypełnienie tabel
+                    ObservableList<TableRam> tr_list = FXCollections.observableArrayList();
+                    String wynik[] = connection.uzyskajDane(zapytanie);
+
+                    //zapisanie ostatio wykonanego zapytania
+                    dane.zapiszZapytanie(zapytanie);
+
+                    if (wynik.length <= 1) {
+                        //gdy zapytanie nie zwróciło żądnych wyników
+                        tr_list.clear();
+                    } else {
+                        for (int i = 0; i < wynik.length; i += 3) {
+                            tr_list.add(new TableRam(wynik[i], wynik[i + 1], Double.parseDouble(wynik[i + 2])));
+                        }
+                    }
+
+                    table_ram.setItems(tr_list);
+                } else {
+                    String zapytanie = "Select distinct nazwa_produktu,rodzaj_pamieci,cena from produkt " +
+                            "join pamiec_ram on produkt.id_pamieci_ram=pamiec_ram.id_pamieci_ram";
+
+                    //wypełnienie tabel
+                    ObservableList<TableRam> tr_list = FXCollections.observableArrayList();
+                    String wynik[] = connection.uzyskajDane(zapytanie);
+
+                    //zapisanie ostatio wykonanego zapytania
+                    dane.zapiszZapytanie("");
+
+                    if (wynik.length <= 1) {
+                        //gdy zapytanie nie zwróciło żądnych wyników
+                        tr_list.clear();
+                    } else {
+                        for (int i = 0; i < wynik.length; i += 3) {
+                            tr_list.add(new TableRam(wynik[i], wynik[i + 1], Double.parseDouble(wynik[i + 2])));
+                        }
+                    }
+
+                    table_ram.setItems(tr_list);
+                }
+                break;
+            case "dyski":
+                if (!nazwa.equals("")) {
+                    String zapytanie = "Select distinct nazwa_produktu,pojemnosc,cena from produkt " +
+                            "join dysk on produkt.id_dysku=dysk.id_dysku where " +
+                            "nazwa_produktu like('%" + nazwa + "%')";
+
+                    //wypełnienie tabel
+                    ObservableList<TableDyski> td_list = FXCollections.observableArrayList();
+                    String wynik[] = connection.uzyskajDane(zapytanie);
+
+                    //zapisanie ostatio wykonanego zapytania
+                    dane.zapiszZapytanie(zapytanie);
+
+                    if (wynik.length <= 1) {
+                        //gdy zapytanie nie zwróciło żądnych wyników
+                        td_list.clear();
+                    } else {
+                        for (int i = 0; i < wynik.length; i += 3) {
+                            td_list.add(new TableDyski(wynik[i], wynik[i + 1], Double.parseDouble(wynik[i + 2])));
+                        }
+                    }
+
+                    table_dyski.setItems(td_list);
+                } else {
+                    String zapytanie = "Select distinct nazwa_produktu,pojemnosc,cena from produkt " +
+                            "join dysk on produkt.id_dysku=dysk.id_dysku";
+
+                    //wypełnienie tabel
+                    ObservableList<TableDyski> td_list = FXCollections.observableArrayList();
+                    String wynik[] = connection.uzyskajDane(zapytanie);
+
+                    //zapisanie ostatio wykonanego zapytania
+                    dane.zapiszZapytanie("");
+
+                    if (wynik.length <= 1) {
+                        //gdy zapytanie nie zwróciło żądnych wyników
+                        td_list.clear();
+                    } else {
+                        for (int i = 0; i < wynik.length; i += 3) {
+                            td_list.add(new TableDyski(wynik[i], wynik[i + 1], Double.parseDouble(wynik[i + 2])));
+                        }
+                    }
+
+                    table_dyski.setItems(td_list);
+                }
+                break;
+            case "zestawy":
+                if (!nazwa.equals("")) {
+                    String zapytanie = "Select distinct nazwa_zestawu,cena from zestaw where " +
+                            "nazwa_zestawu like('%" + nazwa + "%')";
+
+                    //wypełnienie tabel
+                    ObservableList<TableZestawy> tz_list = FXCollections.observableArrayList();
+                    String wynik[] = connection.uzyskajDane(zapytanie);
+
+                    //zapisanie ostatio wykonanego zapytania
+                    dane.zapiszZapytanie(zapytanie);
+
+                    if (wynik.length <= 1) {
+                        //gdy zapytanie nie zwróciło żądnych wyników
+                        tz_list.clear();
+                    } else {
+                        for (int i = 0; i < wynik.length; i += 2) {
+                            tz_list.add(new TableZestawy(wynik[i], Double.parseDouble(wynik[i + 1])));
+                        }
+                    }
+
+                    table_zestawy.setItems(tz_list);
+                } else {
+                    String zapytanie = "Select distinct nazwa_zestawu,cena from zestaw";
+
+                    //wypełnienie tabel
+                    ObservableList<TableZestawy> tz_list = FXCollections.observableArrayList();
+                    String wynik[] = connection.uzyskajDane(zapytanie);
+
+                    //zapisanie ostatio wykonanego zapytania
+                    dane.zapiszZapytanie(zapytanie);
+
+                    if (wynik.length <= 1) {
+                        //gdy zapytanie nie zwróciło żądnych wyników
+                        tz_list.clear();
+                    } else {
+                        for (int i = 0; i < wynik.length; i += 2) {
+                            tz_list.add(new TableZestawy(wynik[i], Double.parseDouble(wynik[i + 1])));
+                        }
+                    }
+
+                    table_zestawy.setItems(tz_list);
+                }
+                break;
+
+        }
+
+    }
+
+    //czyści kryteria wyszukiwania
+    @FXML
+    void wyczysc_kryteria(MouseEvent event){
+
+        switch(dane.getActivePage()){
+            //wyczyszczenie kryteriów płyt
+            case "plyty":
+                min_cena_plyty.setText("");
+                max_cena_plyty.setText("");
+                checkbox_plyty_producent_1.setSelected(false);
+                checkbox_plyty_producent_2.setSelected(false);
+                checkbox_plyty_producent_3.setSelected(false);
+                checkbox_plyty_gniazdo_1.setSelected(false);
+                checkbox_plyty_gniazdo_2.setSelected(false);
+                checkbox_plyty_gniazdo_3.setSelected(false);
+                checkbox_plyty_chipset_1.setSelected(false);
+                checkbox_plyty_chipset_2.setSelected(false);
+                checkbox_plyty_chipset_3.setSelected(false);
+                checkbox_plyty_pamiec_1.setSelected(false);
+                checkbox_plyty_pamiec_2.setSelected(false);
+                checkbox_plyty_pamiec_3.setSelected(false);
+                checkbox_plyty_banki_1.setSelected(false);
+                checkbox_plyty_banki_2.setSelected(false);
+                checkbox_plyty_banki_3.setSelected(false);
+                checkbox_plyty_banki_4.setSelected(false);
+                break;
+            case "procesory":
+                min_cena_procesory.setText("");
+                max_cena_procesory.setText("");
+                checkbox_procesory_producent_1.setSelected(false);
+                checkbox_procesory_producent_2.setSelected(false);
+                checkbox_procesory_rodzina_1.setSelected(false);
+                checkbox_procesory_rodzina_2.setSelected(false);
+                checkbox_procesory_rodzina_3.setSelected(false);
+                checkbox_procesory_gniazdo_1.setSelected(false);
+                checkbox_procesory_gniazdo_2.setSelected(false);
+                checkbox_procesory_rdzenie_1.setSelected(false);
+                checkbox_procesory_rdzenie_2.setSelected(false);
+                checkbox_procesory_rdzenie_3.setSelected(false);
+            break;
+            case "karty":
+                min_cena_karty.setText("");
+                max_cena_karty.setText("");
+                checkbox_karty_producent_1.setSelected(false);
+                checkbox_karty_producent_2.setSelected(false);
+                checkbox_karty_producent_3.setSelected(false);
+                checkbox_karty_producent_4.setSelected(false);
+                checkbox_karty_uklad_1.setSelected(false);
+                checkbox_karty_uklad_2.setSelected(false);
+                checkbox_karty_uklad_3.setSelected(false);
+                checkbox_karty_uklad_4.setSelected(false);
+                checkbox_karty_zlacze_1.setSelected(false);
+                checkbox_karty_zlacze_2.setSelected(false);
+                checkbox_karty_zlacze_3.setSelected(false);
+                checkbox_karty_rodzaj_1.setSelected(false);
+                checkbox_karty_rodzaj_2.setSelected(false);
+                checkbox_karty_rodzaj_3.setSelected(false);
+                checkbox_karty_rodzaj_4.setSelected(false);
+                break;
+            case "ram":
+                min_cena_pamiec.setText("");
+                max_cena_pamiec.setText("");
+                checkbox_pamiec_producent_1.setSelected(false);
+                checkbox_pamiec_producent_2.setSelected(false);
+                checkbox_pamiec_producent_3.setSelected(false);
+                checkbox_pamiec_producent_4.setSelected(false);
+                checkbox_pamiec_producent_5.setSelected(false);
+                checkbox_pamiec_rodzaj_1.setSelected(false);
+                checkbox_pamiec_rodzaj_2.setSelected(false);
+                checkbox_pamiec_pojemnosc_1.setSelected(false);
+                checkbox_pamiec_pojemnosc_2.setSelected(false);
+                checkbox_pamiec_pojemnosc_3.setSelected(false);
+                checkbox_pamiec_pojemnosc_4.setSelected(false);
+                checkbox_pamiec_pojemnosc_5.setSelected(false);
+                break;
+            case "dyski":
+                min_cena_dyski.setText("");
+                max_cena_dyski.setText("");
+                checkbox_dyski_producent_1.setSelected(false);
+                checkbox_dyski_producent_2.setSelected(false);
+                checkbox_dyski_producent_3.setSelected(false);
+                checkbox_dyski_typ_1.setSelected(false);
+                checkbox_dyski_typ_2.setSelected(false);
+                checkbox_dyski_pojemnosc_1.setSelected(false);
+                checkbox_dyski_pojemnosc_2.setSelected(false);
+                checkbox_dyski_pojemnosc_3.setSelected(false);
+                checkbox_dyski_pojemnosc_4.setSelected(false);
+                checkbox_dyski_pojemnosc_5.setSelected(false);
+
+        }
     }
 
     //odsianie płyt głównych
@@ -809,8 +1194,8 @@ public class ControllerWyszukiwarka  implements Initializable{
 
         try{
             //tworzenie zapytania do BD
-            String zapytanie="Select distinct nazwa_produktu,chipset,cena from produkt " +
-                    "join plyta_glowna on produkt.id_plyty_glownej=plyta_glowna.id_plyty_glownej where ";
+            String zapytanie="Select distinct nazwa_produktu,rodzina,cena from produkt " +
+            "join procesor on produkt.id_procesora=procesor.id_procesora where ";
             //zmienne pomocnicze
             ArrayList<String> st =new ArrayList<>();
             String s1;
@@ -823,12 +1208,12 @@ public class ControllerWyszukiwarka  implements Initializable{
 
 
             zapytanie+="cena between ";
-            if(min_cena_plyty.getText().equals("")){
+            if(min_cena_procesory.getText().equals("")){
                 zapytanie+="0 and ";
             }else{
 
                 //sprawdzenie poprawności wprowadzonych danych
-                matcher = pat_naz.matcher(min_cena_plyty.getText());
+                matcher = pat_naz.matcher(min_cena_procesory.getText());
                 if (matcher.find()) {
                     //pass
                 } else {
@@ -836,16 +1221,16 @@ public class ControllerWyszukiwarka  implements Initializable{
                 }
 
                 //podmiana , na .
-                if(min_cena_plyty.getText().contains(",")){
-                    min_cena_plyty.setText(min_cena_plyty.getText().replaceAll(",","."));
+                if(min_cena_procesory.getText().contains(",")){
+                    min_cena_procesory.setText(min_cena_procesory.getText().replaceAll(",","."));
                 }
-                zapytanie+=min_cena_plyty.getText()+" and ";
+                zapytanie+=min_cena_procesory.getText()+" and ";
             }
-            if(max_cena_plyty.getText().equals("")){
+            if(max_cena_procesory.getText().equals("")){
                 zapytanie+="99999999";
             }else{
                 //sprawdzenie poprawności wprowadzonych danych
-                matcher = pat_naz.matcher(max_cena_plyty.getText());
+                matcher = pat_naz.matcher(max_cena_procesory.getText());
                 if (matcher.find()) {
                     //pass
                 } else {
@@ -853,25 +1238,22 @@ public class ControllerWyszukiwarka  implements Initializable{
                 }
 
                 //podmiana , na .
-                if(max_cena_plyty.getText().contains(",")){
-                    max_cena_plyty.setText(max_cena_plyty.getText().replaceAll(",","."));
+                if(max_cena_procesory.getText().contains(",")){
+                    max_cena_procesory.setText(max_cena_procesory.getText().replaceAll(",","."));
                 }
-                if(!min_cena_plyty.getText().equals("") && Double.parseDouble(max_cena_plyty.getText())<Double.parseDouble(min_cena_plyty.getText())){
+                if(!min_cena_procesory.getText().equals("") && Double.parseDouble(max_cena_procesory.getText())<Double.parseDouble(min_cena_procesory.getText())){
                     throw new MaxCenaException();
                 }
-                zapytanie+=max_cena_plyty.getText();
+                zapytanie+=max_cena_procesory.getText();
             }
 
             //dodanie ograniczenia na producenta
             s1=" and producent ";
-            if(checkbox_plyty_producent_1.isSelected()){
-                st.add("'Asus'");
+            if(checkbox_procesory_producent_1.isSelected()){
+                st.add("'Intel'");
             }
-            if(checkbox_plyty_producent_2.isSelected()){
-                st.add("'Gigabyte'");
-            }
-            if(checkbox_plyty_producent_3.isSelected()){
-                st.add("'MSI'");
+            if(checkbox_procesory_producent_2.isSelected()){
+                st.add("'AMD'");
             }
 
             if(st.size()>0){
@@ -889,43 +1271,40 @@ public class ControllerWyszukiwarka  implements Initializable{
                 st.clear();
             }
 
-            //dodanie ograniczenia na gniazdo procesora
+            //dodanie ograniczenia na rodzine
+            s1=" and rodzina ";
+            if(checkbox_procesory_rodzina_1.isSelected()){
+                st.add("'Core i3'");
+            }
+            if(checkbox_procesory_rodzina_2.isSelected()){
+                st.add("'Core i5'");
+            }
+            if(checkbox_procesory_rodzina_3.isSelected()){
+                st.add("'Celeron'");
+            }
+
+            if(st.size()>0){
+                s1+="in(";
+                if(st.size()==1){
+                    s1+=st.get(0)+")";
+                }else{
+                    for(int i = 0; i< st.size()-1; i++){
+                        s1+=st.get(i)+",";
+                    }
+                    s1+=st.get(st.size()-1);
+                    s1+=")";
+                }
+                zapytanie+=s1;
+                st.clear();
+            }
+
+            //dodanie ograniczenia gniazdo procesora
             s1=" and gniazdo_procesora ";
-            if(checkbox_plyty_gniazdo_1.isSelected()){
-                st.add("'Socket H4'");
-            }
-            if(checkbox_plyty_gniazdo_2.isSelected()){
-                st.add("'Socket H'");
-            }
-            if(checkbox_plyty_gniazdo_3.isSelected()){
+            if(checkbox_procesory_gniazdo_1.isSelected()){
                 st.add("'Socket R'");
             }
-
-            if(st.size()>0){
-                s1+="in(";
-                if(st.size()==1){
-                    s1+=st.get(0)+")";
-                }else{
-                    for(int i = 0; i< st.size()-1; i++){
-                        s1+=st.get(i)+",";
-                    }
-                    s1+=st.get(st.size()-1);
-                    s1+=")";
-                }
-                zapytanie+=s1;
-                st.clear();
-            }
-
-            //dodanie ograniczenia na chipset
-            s1=" and chipset ";
-            if(checkbox_plyty_chipset_1.isSelected()){
-                st.add("'Typ Z'");
-            }
-            if(checkbox_plyty_chipset_2.isSelected()){
-                st.add("'Typ X'");
-            }
-            if(checkbox_plyty_chipset_3.isSelected()){
-                st.add("'Typ C'");
+            if(checkbox_procesory_gniazdo_2.isSelected()){
+                st.add("'Socket H'");
             }
 
             if(st.size()>0){
@@ -943,46 +1322,16 @@ public class ControllerWyszukiwarka  implements Initializable{
                 st.clear();
             }
 
-            //dodanie ograniczenia na typ obsługiwanej pamięci
-            s1=" and typ_obslugiwanej_pamieci ";
-            if(checkbox_plyty_pamiec_1.isSelected()){
-                st.add("'DDR2'");
-            }
-            if(checkbox_plyty_pamiec_2.isSelected()){
-                st.add("'DDR3'");
-            }
-            if(checkbox_plyty_pamiec_3.isSelected()){
-                st.add("'DDR4'");
-            }
-
-            if(st.size()>0){
-                s1+="in(";
-                if(st.size()==1){
-                    s1+=st.get(0)+")";
-                }else{
-                    for(int i = 0; i< st.size()-1; i++){
-                        s1+=st.get(i)+",";
-                    }
-                    s1+=st.get(st.size()-1);
-                    s1+=")";
-                }
-                zapytanie+=s1;
-                st.clear();
-            }
-
-            //dodanie ograniczenia na liczbe banków pamięci
-            s1=" and liczba_bankow_pamieci ";
-            if(checkbox_plyty_banki_1.isSelected()){
+            //dodanie ograniczenia na liczbe rdzeni
+            s1=" and liczba_rdzeni ";
+            if(checkbox_procesory_rdzenie_1.isSelected()){
                 st.add("'6'");
             }
-            if(checkbox_plyty_banki_2.isSelected()){
-                st.add("'11'");
+            if(checkbox_procesory_rdzenie_2.isSelected()){
+                st.add("'10'");
             }
-            if(checkbox_plyty_banki_3.isSelected()){
-                st.add("'29'");
-            }
-            if(checkbox_plyty_banki_4.isSelected()){
-                st.add("'30'");
+            if(checkbox_procesory_rdzenie_3.isSelected()){
+                st.add("'14'");
             }
 
             if(st.size()>0){
@@ -1000,12 +1349,13 @@ public class ControllerWyszukiwarka  implements Initializable{
                 st.clear();
             }
 
-            if(ttyb_plyty.getSelectionModel().getSelectedItem()!=null && ttyb_plyty.getSelectionModel().getSelectedItem().equals("Zakup")){
+
+            if(ttyb_procesory.getSelectionModel().getSelectedItem()!=null && ttyb_procesory.getSelectionModel().getSelectedItem().equals("Zakup")){
                 zapytanie+=" and id_transakcji is null";
             }
 
             //wypełnienie tabel
-            ObservableList<TablePlyty> tp_list= FXCollections.observableArrayList();
+            ObservableList<TableProcesory> tpr_list= FXCollections.observableArrayList();
             String wynik[]= connection.uzyskajDane(zapytanie);
 
             //zapisanie ostatio wykonanego zapytania
@@ -1013,106 +1363,657 @@ public class ControllerWyszukiwarka  implements Initializable{
 
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
-                tp_list.clear();
+                tpr_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
-                    tp_list.add(new TablePlyty(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
+                    tpr_list.add(new TableProcesory(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
                 }
             }
 
-            table_plyty.setItems(tp_list);
+            table_procesory.setItems(tpr_list);
         }catch(MaxCenaException m){
             System.out.println(m);
         }catch(CenaTypeException c){
             System.out.println(c);
         }
 
-        min_cena_procesory.getText();
-        max_cena_procesory.getText();
-        checkbox_procesory_producent_1.isSelected();
-        checkbox_procesory_producent_2.isSelected();
-        checkbox_procesory_rodzina_1.isSelected();
-        checkbox_procesory_rodzina_2.isSelected();
-        checkbox_procesory_rodzina_3.isSelected();
-        checkbox_procesory_gniazdo_1.isSelected();
-        checkbox_procesory_gniazdo_2.isSelected();
-        checkbox_procesory_rdzenie_1.isSelected();
-        checkbox_procesory_rdzenie_2.isSelected();
-        checkbox_procesory_rdzenie_3.isSelected();
-        ttyb_procesory.getSelectionModel().getSelectedItem();
     }
 
     //odsianie kart graficznych
     @FXML
     void odsiej_karty(MouseEvent event) {
-        min_cena_karty.getText();
-        max_cena_karty.getText();
-        checkbox_karty_producent_1.isSelected();
-        checkbox_karty_producent_2.isSelected();
-        checkbox_karty_producent_3.isSelected();
-        checkbox_karty_producent_4.isSelected();
-        checkbox_karty_uklad_1.isSelected();
-        checkbox_karty_uklad_2.isSelected();
-        checkbox_karty_uklad_3.isSelected();
-        checkbox_karty_uklad_4.isSelected();
-        checkbox_karty_zlacze_1.isSelected();
-        checkbox_karty_zlacze_2.isSelected();
-        checkbox_karty_zlacze_3.isSelected();
-        checkbox_karty_rodzaj_1.isSelected();
-        checkbox_karty_rodzaj_2.isSelected();
-        checkbox_karty_rodzaj_3.isSelected();
-        checkbox_karty_rodzaj_4.isSelected();
-        ttyb_karty.getSelectionModel().getSelectedItem();
+
+        try{
+            //tworzenie zapytania do BD
+            String zapytanie="Select distinct nazwa_produktu,uklad_graficzny,cena from produkt " +
+                    "join karta_graficzna on produkt.id_karty_graficznej=karta_graficzna.id_karty_graficznej where ";
+            //zmienne pomocnicze
+            ArrayList<String> st =new ArrayList<>();
+            String s1;
+
+            //dodanie ograniczenia na cene
+
+            //utworzenie ograniczenia
+            Pattern pat_naz = Pattern.compile("^[0-9]*.[0-9]*+$");
+            Matcher matcher;
+
+
+            zapytanie+="cena between ";
+            if(min_cena_karty.getText().equals("")){
+                zapytanie+="0 and ";
+            }else{
+
+                //sprawdzenie poprawności wprowadzonych danych
+                matcher = pat_naz.matcher(min_cena_karty.getText());
+                if (matcher.find()) {
+                    //pass
+                } else {
+                    throw new CenaTypeException();
+                }
+
+                //podmiana , na .
+                if(min_cena_karty.getText().contains(",")){
+                    min_cena_karty.setText(min_cena_karty.getText().replaceAll(",","."));
+                }
+                zapytanie+=min_cena_karty.getText()+" and ";
+            }
+            if(max_cena_karty.getText().equals("")){
+                zapytanie+="99999999";
+            }else{
+                //sprawdzenie poprawności wprowadzonych danych
+                matcher = pat_naz.matcher(max_cena_karty.getText());
+                if (matcher.find()) {
+                    //pass
+                } else {
+                    throw new CenaTypeException();
+                }
+
+                //podmiana , na .
+                if(max_cena_karty.getText().contains(",")){
+                    max_cena_karty.setText(max_cena_karty.getText().replaceAll(",","."));
+                }
+                if(!min_cena_karty.getText().equals("") && Double.parseDouble(max_cena_karty.getText())<Double.parseDouble(min_cena_karty.getText())){
+                    throw new MaxCenaException();
+                }
+                zapytanie+=max_cena_karty.getText();
+            }
+
+            //dodanie ograniczenia na producenta
+            s1=" and producent ";
+            if(checkbox_karty_producent_1.isSelected()){
+                st.add("'MSI'");
+            }
+            if(checkbox_karty_producent_2.isSelected()){
+                st.add("'Sapphire'");
+            }
+            if(checkbox_karty_producent_3.isSelected()){
+                st.add("'Asus'");
+            }
+            if(checkbox_karty_producent_4.isSelected()){
+                st.add("'PNY'");
+            }
+
+            if(st.size()>0){
+                s1+="in(";
+                if(st.size()==1){
+                    s1+=st.get(0)+")";
+                }else{
+                    for(int i = 0; i< st.size()-1; i++){
+                        s1+=st.get(i)+",";
+                    }
+                    s1+=st.get(st.size()-1);
+                    s1+=")";
+                }
+                zapytanie+=s1;
+                st.clear();
+            }
+
+            //dodanie ograniczenia na układ graficzny
+            s1=" and uklad_graficzny ";
+            if(checkbox_karty_uklad_1.isSelected()){
+                st.add("'GeForce GTX 1650'");
+            }
+            if(checkbox_karty_uklad_2.isSelected()){
+                st.add("'Dual Radeon RX 6650'");
+            }
+            if(checkbox_karty_uklad_3.isSelected()){
+                st.add("'GeForce RTX 4070'");
+            }
+            if(checkbox_karty_uklad_4.isSelected()){
+                st.add("'GeForce RTX 3070'");
+            }
+
+            if(st.size()>0){
+                s1+="in(";
+                if(st.size()==1){
+                    s1+=st.get(0)+")";
+                }else{
+                    for(int i = 0; i< st.size()-1; i++){
+                        s1+=st.get(i)+",";
+                    }
+                    s1+=st.get(st.size()-1);
+                    s1+=")";
+                }
+                zapytanie+=s1;
+                st.clear();
+            }
+
+            //dodanie ograniczenia na rodzaj złącza
+            s1=" and rodzaj_zlacza ";
+            if(checkbox_karty_zlacze_1.isSelected()){
+                st.add("'PCI Express 2.0 x8'");
+            }
+            if(checkbox_karty_zlacze_2.isSelected()){
+                st.add("'PCI Express 4.0 x8'");
+            }
+            if(checkbox_karty_zlacze_3.isSelected()){
+                st.add("'PCI Express 4.0 x16'");
+            }
+
+            if(st.size()>0){
+                s1+="in(";
+                if(st.size()==1){
+                    s1+=st.get(0)+")";
+                }else{
+                    for(int i = 0; i< st.size()-1; i++){
+                        s1+=st.get(i)+",";
+                    }
+                    s1+=st.get(st.size()-1);
+                    s1+=")";
+                }
+                zapytanie+=s1;
+                st.clear();
+            }
+
+            //dodanie ograniczenia na rodzaj pamięci
+            s1=" and rodzaj_pamieci ";
+            if(checkbox_karty_rodzaj_1.isSelected()){
+                st.add("'GDDR3'");
+            }
+            if(checkbox_karty_rodzaj_2.isSelected()){
+                st.add("'GDDR4'");
+            }
+            if(checkbox_karty_rodzaj_3.isSelected()){
+                st.add("'GDDR6'");
+            }
+            if(checkbox_karty_rodzaj_4.isSelected()){
+                st.add("'GDDR7'");
+            }
+
+            if(st.size()>0){
+                s1+="in(";
+                if(st.size()==1){
+                    s1+=st.get(0)+")";
+                }else{
+                    for(int i = 0; i< st.size()-1; i++){
+                        s1+=st.get(i)+",";
+                    }
+                    s1+=st.get(st.size()-1);
+                    s1+=")";
+                }
+                zapytanie+=s1;
+                st.clear();
+            }
+
+
+            if(ttyb_karty.getSelectionModel().getSelectedItem()!=null && ttyb_karty.getSelectionModel().getSelectedItem().equals("Zakup")){
+                zapytanie+=" and id_transakcji is null";
+            }
+
+            //wypełnienie tabel
+            ObservableList<TableKarty> tk_list= FXCollections.observableArrayList();
+            String wynik[]= connection.uzyskajDane(zapytanie);
+
+            //zapisanie ostatio wykonanego zapytania
+            dane.zapiszZapytanie(zapytanie);
+
+            if(wynik.length<=1){
+                //gdy zapytanie nie zwróciło żądnych wyników
+                tk_list.clear();
+            }else{
+                for(int i=0;i<wynik.length;i+=3){
+                    tk_list.add(new TableKarty(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
+                }
+            }
+
+            table_karty.setItems(tk_list);
+        }catch(MaxCenaException m){
+            System.out.println(m);
+        }catch(CenaTypeException c){
+            System.out.println(c);
+        }
+
     }
 
     //odsianie pamięci RAM
     @FXML
     void odsiej_pamiec(MouseEvent event) {
-        min_cena_pamiec.getText();
-        max_cena_pamiec.getText();
-        checkbox_pamiec_producent_1.isSelected();
-        checkbox_pamiec_producent_2.isSelected();
-        checkbox_pamiec_producent_3.isSelected();
-        checkbox_pamiec_producent_4.isSelected();
-        checkbox_pamiec_producent_5.isSelected();
-        checkbox_pamiec_rodzaj_1.isSelected();
-        checkbox_pamiec_rodzaj_2.isSelected();
-        checkbox_pamiec_pojemnosc_1.isSelected();
-        checkbox_pamiec_pojemnosc_2.isSelected();
-        checkbox_pamiec_pojemnosc_3.isSelected();
-        checkbox_pamiec_pojemnosc_4.isSelected();
-        checkbox_pamiec_pojemnosc_5.isSelected();
-        ttyb_pamiec.getSelectionModel().getSelectedItem();
+
+        try{
+            //tworzenie zapytania do BD
+            String zapytanie="Select distinct nazwa_produktu,rodzaj_pamieci,cena from produkt " +
+                    "join pamiec_ram on produkt.id_pamieci_ram=pamiec_ram.id_pamieci_ram where ";
+            //zmienne pomocnicze
+            ArrayList<String> st =new ArrayList<>();
+            String s1;
+
+            //dodanie ograniczenia na cene
+
+            //utworzenie ograniczenia
+            Pattern pat_naz = Pattern.compile("^[0-9]*.[0-9]*+$");
+            Matcher matcher;
+
+
+            zapytanie+="cena between ";
+            if(min_cena_pamiec.getText().equals("")){
+                zapytanie+="0 and ";
+            }else{
+
+                //sprawdzenie poprawności wprowadzonych danych
+                matcher = pat_naz.matcher(min_cena_pamiec.getText());
+                if (matcher.find()) {
+                    //pass
+                } else {
+                    throw new CenaTypeException();
+                }
+
+                //podmiana , na .
+                if(min_cena_pamiec.getText().contains(",")){
+                    min_cena_pamiec.setText(min_cena_pamiec.getText().replaceAll(",","."));
+                }
+                zapytanie+=min_cena_pamiec.getText()+" and ";
+            }
+            if(max_cena_pamiec.getText().equals("")){
+                zapytanie+="99999999";
+            }else{
+                //sprawdzenie poprawności wprowadzonych danych
+                matcher = pat_naz.matcher(max_cena_pamiec.getText());
+                if (matcher.find()) {
+                    //pass
+                } else {
+                    throw new CenaTypeException();
+                }
+
+                //podmiana , na .
+                if(max_cena_pamiec.getText().contains(",")){
+                    max_cena_pamiec.setText(max_cena_pamiec.getText().replaceAll(",","."));
+                }
+                if(!min_cena_pamiec.getText().equals("") && Double.parseDouble(max_cena_pamiec.getText())<Double.parseDouble(min_cena_pamiec.getText())){
+                    throw new MaxCenaException();
+                }
+                zapytanie+=max_cena_pamiec.getText();
+            }
+
+            //dodanie ograniczenia na producenta
+            s1=" and producent ";
+            if(checkbox_pamiec_producent_1.isSelected()){
+                st.add("'Lexar'");
+            }
+            if(checkbox_pamiec_producent_2.isSelected()){
+                st.add("'Patriot'");
+            }
+            if(checkbox_pamiec_producent_3.isSelected()){
+                st.add("'Corsair'");
+            }
+            if(checkbox_pamiec_producent_4.isSelected()){
+                st.add("'TeamGroup'");
+            }
+            if(checkbox_pamiec_producent_5.isSelected()){
+                st.add("'Kingston'");
+            }
+
+            if(st.size()>0){
+                s1+="in(";
+                if(st.size()==1){
+                    s1+=st.get(0)+")";
+                }else{
+                    for(int i = 0; i< st.size()-1; i++){
+                        s1+=st.get(i)+",";
+                    }
+                    s1+=st.get(st.size()-1);
+                    s1+=")";
+                }
+                zapytanie+=s1;
+                st.clear();
+            }
+
+            //dodanie ograniczenia na rodzaj pamięci
+            s1=" and rodzaj_pamieci ";
+            if(checkbox_pamiec_rodzaj_1.isSelected()){
+                st.add("'DDR2'");
+            }
+            if(checkbox_pamiec_rodzaj_2.isSelected()){
+                st.add("'DDR3'");
+            }
+
+
+            if(st.size()>0){
+                s1+="in(";
+                if(st.size()==1){
+                    s1+=st.get(0)+")";
+                }else{
+                    for(int i = 0; i< st.size()-1; i++){
+                        s1+=st.get(i)+",";
+                    }
+                    s1+=st.get(st.size()-1);
+                    s1+=")";
+                }
+                zapytanie+=s1;
+                st.clear();
+            }
+
+            //dodanie ograniczenia na rodzaj złącza
+            s1=" and pojemnosc ";
+            if(checkbox_pamiec_pojemnosc_1.isSelected()){
+                st.add("'4'");
+            }
+            if(checkbox_pamiec_pojemnosc_2.isSelected()){
+                st.add("'8'");
+            }
+            if(checkbox_pamiec_pojemnosc_3.isSelected()){
+                st.add("'16'");
+            }
+            if(checkbox_pamiec_pojemnosc_4.isSelected()){
+                st.add("'32'");
+            }
+            if(checkbox_pamiec_pojemnosc_5.isSelected()){
+                st.add("'64'");
+            }
+
+            if(st.size()>0){
+                s1+="in(";
+                if(st.size()==1){
+                    s1+=st.get(0)+")";
+                }else{
+                    for(int i = 0; i< st.size()-1; i++){
+                        s1+=st.get(i)+",";
+                    }
+                    s1+=st.get(st.size()-1);
+                    s1+=")";
+                }
+                zapytanie+=s1;
+                st.clear();
+            }
+
+            if(ttyb_pamiec.getSelectionModel().getSelectedItem()!=null && ttyb_pamiec.getSelectionModel().getSelectedItem().equals("Zakup")){
+                zapytanie+=" and id_transakcji is null";
+            }
+
+            //wypełnienie tabel
+            ObservableList<TableRam> tr_list= FXCollections.observableArrayList();
+            String wynik[]= connection.uzyskajDane(zapytanie);
+
+            //zapisanie ostatio wykonanego zapytania
+            dane.zapiszZapytanie(zapytanie);
+
+            if(wynik.length<=1){
+                //gdy zapytanie nie zwróciło żądnych wyników
+                tr_list.clear();
+            }else{
+                for(int i=0;i<wynik.length;i+=3){
+                    tr_list.add(new TableRam(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
+                }
+            }
+
+            table_ram.setItems(tr_list);
+        }catch(MaxCenaException m){
+            System.out.println(m);
+        }catch(CenaTypeException c){
+            System.out.println(c);
+        }
     }
 
     //odsianie dysków
     @FXML
     void odsiej_dyski(MouseEvent event) {
-        min_cena_dyski.getText();
-        max_cena_dyski.getText();
-        checkbox_dyski_producent_1.isSelected();
-        checkbox_dyski_producent_2.isSelected();
-        checkbox_dyski_producent_3.isSelected();
-        checkbox_dyski_typ_1.isSelected();
-        checkbox_dyski_typ_2.isSelected();
-        checkbox_dyski_pojemnosc_1.isSelected();
-        checkbox_dyski_pojemnosc_2.isSelected();
-        checkbox_dyski_pojemnosc_3.isSelected();
-        checkbox_dyski_pojemnosc_4.isSelected();
-        checkbox_dyski_pojemnosc_5.isSelected();
-        ttyb_dyski.getSelectionModel().getSelectedItem();
+
+        try{
+            //tworzenie zapytania do BD
+            String zapytanie="Select distinct nazwa_produktu,pojemnosc,cena from produkt " +
+                    "join dysk on produkt.id_dysku=dysk.id_dysku where ";
+            //zmienne pomocnicze
+            ArrayList<String> st =new ArrayList<>();
+            String s1;
+
+            //dodanie ograniczenia na cene
+
+            //utworzenie ograniczenia
+            Pattern pat_naz = Pattern.compile("^[0-9]*.[0-9]*+$");
+            Matcher matcher;
+
+
+            zapytanie+="cena between ";
+            if(min_cena_dyski.getText().equals("")){
+                zapytanie+="0 and ";
+            }else{
+
+                //sprawdzenie poprawności wprowadzonych danych
+                matcher = pat_naz.matcher(min_cena_dyski.getText());
+                if (matcher.find()) {
+                    //pass
+                } else {
+                    throw new CenaTypeException();
+                }
+
+                //podmiana , na .
+                if(min_cena_dyski.getText().contains(",")){
+                    min_cena_dyski.setText(min_cena_dyski.getText().replaceAll(",","."));
+                }
+                zapytanie+=min_cena_dyski.getText()+" and ";
+            }
+            if(max_cena_dyski.getText().equals("")){
+                zapytanie+="99999999";
+            }else{
+                //sprawdzenie poprawności wprowadzonych danych
+                matcher = pat_naz.matcher(max_cena_dyski.getText());
+                if (matcher.find()) {
+                    //pass
+                } else {
+                    throw new CenaTypeException();
+                }
+
+                //podmiana , na .
+                if(max_cena_dyski.getText().contains(",")){
+                    max_cena_dyski.setText(max_cena_dyski.getText().replaceAll(",","."));
+                }
+                if(!min_cena_dyski.getText().equals("") && Double.parseDouble(max_cena_dyski.getText())<Double.parseDouble(min_cena_dyski.getText())){
+                    throw new MaxCenaException();
+                }
+                zapytanie+=max_cena_dyski.getText();
+            }
+
+            //dodanie ograniczenia na producenta
+            s1=" and producent ";
+            if(checkbox_dyski_producent_1.isSelected()){
+                st.add("'Seagate'");
+            }
+            if(checkbox_dyski_producent_2.isSelected()){
+                st.add("'WD'");
+            }
+            if(checkbox_dyski_producent_3.isSelected()){
+                st.add("'Toshiba'");
+            }
+
+            if(st.size()>0){
+                s1+="in(";
+                if(st.size()==1){
+                    s1+=st.get(0)+")";
+                }else{
+                    for(int i = 0; i< st.size()-1; i++){
+                        s1+=st.get(i)+",";
+                    }
+                    s1+=st.get(st.size()-1);
+                    s1+=")";
+                }
+                zapytanie+=s1;
+                st.clear();
+            }
+
+            //dodanie ograniczenia typ dysku
+            s1=" and typ_dysku ";
+            if(checkbox_dyski_typ_1.isSelected()){
+                st.add("'HDD'");
+            }
+            if(checkbox_dyski_typ_2.isSelected()){
+                st.add("'SSD'");
+            }
+
+            if(st.size()>0){
+                s1+="in(";
+                if(st.size()==1){
+                    s1+=st.get(0)+")";
+                }else{
+                    for(int i = 0; i< st.size()-1; i++){
+                        s1+=st.get(i)+",";
+                    }
+                    s1+=st.get(st.size()-1);
+                    s1+=")";
+                }
+                zapytanie+=s1;
+                st.clear();
+            }
+
+            //dodanie ograniczenia na pojemność
+            s1=" and pojemnosc ";
+            if(checkbox_dyski_pojemnosc_1.isSelected()){
+                st.add("'250'");
+            }
+            if(checkbox_dyski_pojemnosc_2.isSelected()){
+                st.add("'500'");
+            }
+            if(checkbox_dyski_pojemnosc_3.isSelected()){
+                st.add("'1000'");
+            }
+            if(checkbox_dyski_pojemnosc_4.isSelected()){
+                st.add("'1500'");
+            }
+            if(checkbox_dyski_pojemnosc_5.isSelected()){
+                st.add("'2000'");
+            }
+
+            if(st.size()>0){
+                s1+="in(";
+                if(st.size()==1){
+                    s1+=st.get(0)+")";
+                }else{
+                    for(int i = 0; i< st.size()-1; i++){
+                        s1+=st.get(i)+",";
+                    }
+                    s1+=st.get(st.size()-1);
+                    s1+=")";
+                }
+                zapytanie+=s1;
+                st.clear();
+            }
+
+            if(ttyb_dyski.getSelectionModel().getSelectedItem()!=null && ttyb_dyski.getSelectionModel().getSelectedItem().equals("Zakup")){
+                zapytanie+=" and id_transakcji is null";
+            }
+
+            //wypełnienie tabel
+            ObservableList<TableDyski> td_list= FXCollections.observableArrayList();
+            String wynik[]= connection.uzyskajDane(zapytanie);
+
+            //zapisanie ostatio wykonanego zapytania
+            dane.zapiszZapytanie(zapytanie);
+
+            if(wynik.length<=1){
+                //gdy zapytanie nie zwróciło żądnych wyników
+                td_list.clear();
+            }else{
+                for(int i=0;i<wynik.length;i+=3){
+                    td_list.add(new TableDyski(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
+                }
+            }
+
+            table_dyski.setItems(td_list);
+        }catch(MaxCenaException m){
+            System.out.println(m);
+        }catch(CenaTypeException c){
+            System.out.println(c);
+        }
+
     }
 
     //odsianie zestawów
     @FXML
-    void odsiej_zestawy(MouseEvent event) throws IOException {
-        min_cena_zestawy.getText();
-        max_cena_zestawy.getText();
+    void odsiej_zestawy(MouseEvent event){
 
-        String[] wynik= connection.uzyskajDane("Select * from produkt where id_produktu=7");
+        try{
+            //tworzenie zapytania do BD
+            String zapytanie="Select distinct nazwa_zestawu,cena from zestaw where ";
+            //zmienne pomocnicze
+            ArrayList<String> st =new ArrayList<>();
+            String s1;
 
-        for(int i=0;i<wynik.length;i++){
-            System.out.println(wynik[i]);
+            //dodanie ograniczenia na cene
+
+            //utworzenie ograniczenia
+            Pattern pat_naz = Pattern.compile("^[0-9]*.[0-9]*+$");
+            Matcher matcher;
+
+
+            zapytanie+="cena between ";
+            if(min_cena_zestawy.getText().equals("")){
+                zapytanie+="0 and ";
+            }else{
+
+                //sprawdzenie poprawności wprowadzonych danych
+                matcher = pat_naz.matcher(min_cena_zestawy.getText());
+                if (matcher.find()) {
+                    //pass
+                } else {
+                    throw new CenaTypeException();
+                }
+
+                //podmiana , na .
+                if(min_cena_zestawy.getText().contains(",")){
+                    min_cena_zestawy.setText(min_cena_zestawy.getText().replaceAll(",","."));
+                }
+                zapytanie+=min_cena_zestawy.getText()+" and ";
+            }
+            if(max_cena_zestawy.getText().equals("")){
+                zapytanie+="99999999";
+            }else{
+                //sprawdzenie poprawności wprowadzonych danych
+                matcher = pat_naz.matcher(max_cena_zestawy.getText());
+                if (matcher.find()) {
+                    //pass
+                } else {
+                    throw new CenaTypeException();
+                }
+
+                //podmiana , na .
+                if(max_cena_zestawy.getText().contains(",")){
+                    max_cena_zestawy.setText(max_cena_zestawy.getText().replaceAll(",","."));
+                }
+                if(!min_cena_zestawy.getText().equals("") && Double.parseDouble(max_cena_zestawy.getText())<Double.parseDouble(min_cena_zestawy.getText())){
+                    throw new MaxCenaException();
+                }
+                zapytanie+=max_cena_zestawy.getText();
+            }
+
+            //wypełnienie tabel
+            ObservableList<TableZestawy> tz_list= FXCollections.observableArrayList();
+            String wynik[]= connection.uzyskajDane(zapytanie);
+
+            //zapisanie ostatio wykonanego zapytania
+            dane.zapiszZapytanie(zapytanie);
+
+            if(wynik.length<=1){
+                //gdy zapytanie nie zwróciło żądnych wyników
+                tz_list.clear();
+            }else{
+                for(int i=0;i<wynik.length;i+=2){
+                    tz_list.add(new TableZestawy(wynik[i],Double.parseDouble(wynik[i+1])));
+                }
+            }
+
+            table_zestawy.setItems(tz_list);
+        }catch(MaxCenaException m){
+            System.out.println(m);
+        }catch(CenaTypeException c){
+            System.out.println(c);
         }
 
     }

@@ -13,9 +13,22 @@ public class ConnectionStorage {
 
     //zmienna przechowująca połączenie do serwera zarządzającym BD
     private int port;
+    private Socket socket;
+    private InputStreamReader isr;
+    private BufferedReader br;
+    private PrintWriter pw;
 
     private ConnectionStorage(){
-        port=6700;
+        try{
+            port=6700;
+            socket=new Socket("127.0.0.1",port);
+            isr=new InputStreamReader(socket.getInputStream());
+            br=new BufferedReader(isr);
+            pw= new PrintWriter(socket.getOutputStream(), true);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
     }
 
     public static ConnectionStorage getInstance(){
@@ -29,12 +42,12 @@ public class ConnectionStorage {
 
         try{
             //utworzenie socketu
-            Socket socket=new Socket("127.0.0.1",port);
+            //Socket socket=new Socket("127.0.0.1",port);
             //reader do odczytania danych od serwera
-            InputStreamReader isr = new InputStreamReader(socket.getInputStream());
-            BufferedReader br = new BufferedReader(isr);
+            //InputStreamReader isr = new InputStreamReader(socket.getInputStream());
+            //BufferedReader br = new BufferedReader(isr);
             //writer do wysyłania danych do serwera
-            PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
+            //PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
 
             //wysłanie zapytania do serwera
             pw.println(zapytanie);
@@ -42,9 +55,9 @@ public class ConnectionStorage {
             wynik= br.readLine().split(";");
 
             //zamknięcie writera i readera
-            pw.close();
-            br.close();
-            socket.close();
+            //pw.close();
+            //br.close();
+            //socket.close();
 
             return wynik;
         }catch(SocketException s){

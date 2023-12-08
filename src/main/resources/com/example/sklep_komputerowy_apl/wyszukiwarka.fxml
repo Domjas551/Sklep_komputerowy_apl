@@ -14,15 +14,15 @@
 
 <AnchorPane fx:id="test" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep_komputerowy_apl.ControllerWyszukiwarka">
    <children>
-      <TextField layoutX="185.0" layoutY="38.0" prefHeight="26.0" prefWidth="282.0" />
-      <Button layoutX="467.0" layoutY="38.0" mnemonicParsing="false" text="Wyszukaj" />
+      <TextField fx:id="wyszukajText" layoutX="185.0" layoutY="38.0" prefHeight="26.0" prefWidth="282.0" />
+      <Button fx:id="wyszukajButton" layoutX="467.0" layoutY="38.0" mnemonicParsing="false" onMouseClicked="#odsiej_po_nazwie" text="Wyszukaj" />
       <StackPane layoutX="21.0" layoutY="91.0" prefHeight="460.0" prefWidth="754.0">
          <children>
             <AnchorPane fx:id="plytyGl" prefHeight="866.0" prefWidth="757.0">
                <children>
-                  <ScrollPane hbarPolicy="NEVER" layoutX="-2.0" layoutY="14.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="1161.0" prefWidth="227.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="-714.8000000000002" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="531.6" AnchorPane.topAnchor="14.0">
+                  <ScrollPane hbarPolicy="NEVER" layoutX="1.0" layoutY="14.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="459.0" prefWidth="227.0" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="531.0" AnchorPane.topAnchor="14.0">
                      <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1142.0" prefWidth="214.0" style="-fx-background-color: gray;">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1204.0" prefWidth="212.0" style="-fx-background-color: gray;">
                            <children>
                               <Text layoutX="38.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opcje wyszukiwania">
                                  <font>
@@ -86,11 +86,12 @@
                                     <Font size="14.0" />
                                  </font>
                               </Text>
+                              <Button fx:id="button_wyczysc_plyty" layoutX="84.0" layoutY="1150.0" mnemonicParsing="false" onMouseClicked="#wyczysc_kryteria" text="Wyczyść" />
                            </children>
                         </AnchorPane>
                      </content>
                   </ScrollPane>
-                  <ScrollPane layoutX="225.0" layoutY="14.0" prefHeight="459.0" prefWidth="531.0">
+                  <ScrollPane layoutX="228.0" layoutY="14.0" prefHeight="459.0" prefWidth="531.0">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="442.0" prefWidth="526.0">
                            <children>
@@ -111,7 +112,7 @@
                <children>
                   <ScrollPane hbarPolicy="NEVER" layoutX="1.0" layoutY="14.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="459.0" prefWidth="227.0" vbarPolicy="ALWAYS">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="930.0" prefWidth="212.0" style="-fx-background-color: gray;">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="938.0" prefWidth="212.0" style="-fx-background-color: gray;">
                            <children>
                               <Text layoutX="38.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opcje wyszukiwania">
                                  <font>
@@ -123,9 +124,9 @@
                                     <Font size="14.0" />
                                  </font>
                               </Text>
-                              <TextField fx:id="min_cena_procesory" layoutX="16.0" layoutY="88.0" />
+                              <TextField fx:id="min_cena_procesory" layoutX="16.0" layoutY="88.0" nodeOrientation="LEFT_TO_RIGHT" />
                               <Text layoutX="177.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Od" />
-                              <TextField fx:id="max_cena_procesory" layoutX="17.0" layoutY="123.0" />
+                              <TextField fx:id="max_cena_procesory" layoutX="17.0" layoutY="123.0" nodeOrientation="LEFT_TO_RIGHT" />
                               <Text layoutX="177.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Do" />
                               <Text layoutX="125.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Producenci">
                                  <font>
@@ -164,6 +165,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Text>
+                              <Button fx:id="button_wyczysc_procesory" layoutX="84.0" layoutY="900.0" mnemonicParsing="false" onMouseClicked="#wyczysc_kryteria" text="Wyczyść" />
                            </children>
                         </AnchorPane>
                      </content>
@@ -175,7 +177,7 @@
                               <TableView fx:id="table_procesory" prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
                                  <columns>
                                     <TableColumn fx:id="tpr_nazwa" prefWidth="296.80003052949905" text="Nazwa" />
-                                    <TableColumn fx:id="tpr_seria" prefWidth="122.39990234375" text="Seria" />
+                                    <TableColumn fx:id="tpr_seria" prefWidth="122.39990234375" text="Rodzina" />
                                     <TableColumn fx:id="tpr_cena" prefWidth="108.79998779296875" text="Cena" />
                                  </columns>
                               </TableView>
@@ -187,9 +189,9 @@
             </AnchorPane>
             <AnchorPane fx:id="kartyGraficzne" prefHeight="742.0" prefWidth="757.0" visible="false">
                <children>
-                  <ScrollPane hbarPolicy="NEVER" layoutX="1.0" layoutY="7.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="459.0" prefWidth="227.0" vbarPolicy="ALWAYS">
+                  <ScrollPane hbarPolicy="NEVER" layoutX="1.0" layoutY="14.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="459.0" prefWidth="227.0" vbarPolicy="ALWAYS">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1033.0" prefWidth="214.0" style="-fx-background-color: gray;">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1074.0" prefWidth="214.0" style="-fx-background-color: gray;">
                            <children>
                               <Text layoutX="38.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opcje wyszukiwania">
                                  <font>
@@ -201,9 +203,9 @@
                                     <Font size="14.0" />
                                  </font>
                               </Text>
-                              <TextField fx:id="min_cena_karty" layoutX="16.0" layoutY="88.0" />
+                              <TextField fx:id="min_cena_karty" layoutX="16.0" layoutY="88.0" nodeOrientation="LEFT_TO_RIGHT" />
                               <Text layoutX="177.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Od" />
-                              <TextField fx:id="max_cena_karty" layoutX="17.0" layoutY="123.0" />
+                              <TextField fx:id="max_cena_karty" layoutX="17.0" layoutY="123.0" nodeOrientation="LEFT_TO_RIGHT" />
                               <Text layoutX="177.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Do" />
                               <Text layoutX="125.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Producenci">
                                  <font>
@@ -247,6 +249,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Text>
+                              <Button fx:id="button_wyczysc_karty" layoutX="84.0" layoutY="1040.0" mnemonicParsing="false" onMouseClicked="#wyczysc_kryteria" text="Wyczyść" />
                            </children>
                         </AnchorPane>
                      </content>
@@ -272,7 +275,7 @@
                <children>
                   <ScrollPane hbarPolicy="NEVER" layoutX="1.0" layoutY="14.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="459.0" prefWidth="227.0" vbarPolicy="ALWAYS">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="900.0" prefWidth="214.0" style="-fx-background-color: gray;">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="943.0" prefWidth="214.0" style="-fx-background-color: gray;">
                            <children>
                               <Text layoutX="38.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opcje wyszukiwania">
                                  <font>
@@ -284,9 +287,9 @@
                                     <Font size="14.0" />
                                  </font>
                               </Text>
-                              <TextField fx:id="min_cena_pamiec" layoutX="16.0" layoutY="88.0" />
+                              <TextField fx:id="min_cena_pamiec" layoutX="16.0" layoutY="88.0" nodeOrientation="LEFT_TO_RIGHT" />
                               <Text layoutX="177.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Od" />
-                              <TextField fx:id="max_cena_pamiec" layoutX="17.0" layoutY="123.0" />
+                              <TextField fx:id="max_cena_pamiec" layoutX="17.0" layoutY="123.0" nodeOrientation="LEFT_TO_RIGHT" />
                               <Text layoutX="177.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Do" />
                               <Text layoutX="125.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Producenci">
                                  <font>
@@ -322,6 +325,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Text>
+                              <Button fx:id="button_wyczysc_pamiec" layoutX="84.0" layoutY="905.0" mnemonicParsing="false" onMouseClicked="#wyczysc_kryteria" text="Wyczyść" />
                            </children>
                         </AnchorPane>
                      </content>
@@ -343,11 +347,11 @@
                   </ScrollPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="dyski" prefHeight="102.0" prefWidth="240.0" visible="false">
+            <AnchorPane fx:id="dyski" prefHeight="1092.0" prefWidth="759.0" visible="false">
                <children>
                   <ScrollPane hbarPolicy="NEVER" layoutX="1.0" layoutY="14.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="459.0" prefWidth="227.0" vbarPolicy="ALWAYS">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="828.0" prefWidth="214.0" style="-fx-background-color: gray;">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="870.0" prefWidth="214.0" style="-fx-background-color: gray;">
                            <children>
                               <Text layoutX="38.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opcje wyszukiwania">
                                  <font>
@@ -359,9 +363,9 @@
                                     <Font size="14.0" />
                                  </font>
                               </Text>
-                              <TextField fx:id="min_cena_dyski" layoutX="16.0" layoutY="88.0" />
+                              <TextField fx:id="min_cena_dyski" layoutX="16.0" layoutY="88.0" nodeOrientation="LEFT_TO_RIGHT" />
                               <Text layoutX="177.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Od" />
-                              <TextField fx:id="max_cena_dyski" layoutX="17.0" layoutY="123.0" />
+                              <TextField fx:id="max_cena_dyski" layoutX="17.0" layoutY="123.0" nodeOrientation="LEFT_TO_RIGHT" />
                               <Text layoutX="177.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Do" />
                               <Text layoutX="125.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Producenci">
                                  <font>
@@ -395,6 +399,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Text>
+                              <Button fx:id="button_wyczysc_dyski" layoutX="84.0" layoutY="835.0" mnemonicParsing="false" onMouseClicked="#wyczysc_kryteria" text="Wyczyść" />
                            </children>
                         </AnchorPane>
                      </content>
@@ -432,9 +437,9 @@
                                     <Font size="14.0" />
                                  </font>
                               </Text>
-                              <TextField fx:id="min_cena_zestawy" layoutX="16.0" layoutY="88.0" />
+                              <TextField fx:id="min_cena_zestawy" layoutX="16.0" layoutY="88.0" nodeOrientation="LEFT_TO_RIGHT" />
                               <Text layoutX="177.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Od" />
-                              <TextField fx:id="max_cena_zestawy" layoutX="17.0" layoutY="123.0" />
+                              <TextField fx:id="max_cena_zestawy" layoutX="17.0" layoutY="123.0" nodeOrientation="LEFT_TO_RIGHT" />
                               <Text layoutX="177.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Do" />
                               <Button fx:id="button_szukaj_zestawy" layoutX="90.0" layoutY="190.0" mnemonicParsing="false" onMouseClicked="#odsiej_zestawy" text="Szukaj" />
                            </children>
