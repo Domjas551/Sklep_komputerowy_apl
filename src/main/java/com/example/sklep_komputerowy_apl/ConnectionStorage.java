@@ -77,22 +77,8 @@ public class ConnectionStorage {
     public void wprowadzDane(String zapytanie){
 
         try{
-            //utworzenie socketu
-            Socket socket=new Socket("127.0.0.1",port);
-            //reader do odczytania danych od serwera
-            InputStreamReader isr = new InputStreamReader(socket.getInputStream());
-            BufferedReader br = new BufferedReader(isr);
-            //writer do wysyłania danych do serwera
-            PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
-
             //wysłanie zapytania do serwera
             pw.println(zapytanie);
-
-            //zamknięcie writera i readera
-            pw.close();
-            br.close();
-            socket.close();
-
         }catch(UnknownHostException e){
             e.printStackTrace();
         }catch(IOException e){
