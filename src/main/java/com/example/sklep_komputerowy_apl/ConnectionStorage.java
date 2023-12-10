@@ -76,13 +76,7 @@ public class ConnectionStorage {
     //funkcja do wprowadzenia/zmiany danych w BD
     public void wprowadzDane(String zapytanie){
 
-        try{
-            //wysłanie zapytania do serwera
-            pw.println(zapytanie);
-        }catch(UnknownHostException e){
-            e.printStackTrace();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+        pw.println(zapytanie);
+
     }
 }
