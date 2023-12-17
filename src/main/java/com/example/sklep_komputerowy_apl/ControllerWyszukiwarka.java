@@ -8,9 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -19,8 +17,10 @@ import java.util.regex.Pattern;
 
 public class ControllerWyszukiwarka  implements Initializable{
 
+    //podłączenie do klas z danymi oraz komunikacją z BD
     ConnectionStorage connection=ConnectionStorage.getInstance();
     DataStorage dane=DataStorage.getInstance();
+
     //komponenty
     @FXML
     private TextField wyszukajText;
@@ -591,7 +591,7 @@ public class ControllerWyszukiwarka  implements Initializable{
     void odsiej_po_nazwie(MouseEvent event){
         String nazwa=wyszukajText.getText();
 
-        switch(dane.getActivePage()) {
+        switch(dane.getWyszukiwarka_activePage()) {
             case "plyty":
                 if (!nazwa.equals("")) {
                     String zapytanie = "Select distinct nazwa_produktu,chipset,cena from produkt " +
@@ -875,7 +875,7 @@ public class ControllerWyszukiwarka  implements Initializable{
     @FXML
     void wyczysc_kryteria(MouseEvent event){
 
-        switch(dane.getActivePage()){
+        switch(dane.getWyszukiwarka_activePage()){
             //wyczyszczenie kryteriów płyt
             case "plyty":
                 min_cena_plyty.setText("");
@@ -978,7 +978,7 @@ public class ControllerWyszukiwarka  implements Initializable{
             //dodanie ograniczenia na cene
 
             //utworzenie ograniczenia
-            Pattern pat_naz = Pattern.compile("^[0-9]*.[0-9]*+$");
+            Pattern pat_naz = Pattern.compile("^[0-9]*[.]?[0-9]?[0-9]?+$");
             Matcher matcher;
 
 

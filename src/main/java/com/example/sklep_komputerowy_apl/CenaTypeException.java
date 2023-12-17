@@ -4,7 +4,7 @@ public class CenaTypeException extends RuntimeException{
     private String message;
 
     public CenaTypeException() {
-        this.message="Cena może zawierać tylko cyfry oraz ',' lub '.'";
+        this.message="Cena może zawierać tylko cyfry, w tym dwie liczby po przecinku oraz ',' lub '.'";
     }
 
     public String toString(){

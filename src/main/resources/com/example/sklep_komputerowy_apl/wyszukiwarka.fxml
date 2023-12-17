@@ -7,6 +7,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
@@ -14,8 +16,8 @@
 
 <AnchorPane fx:id="test" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep_komputerowy_apl.ControllerWyszukiwarka">
    <children>
-      <TextField fx:id="wyszukajText" layoutX="185.0" layoutY="38.0" prefHeight="26.0" prefWidth="282.0" />
-      <Button fx:id="wyszukajButton" layoutX="467.0" layoutY="38.0" mnemonicParsing="false" onMouseClicked="#odsiej_po_nazwie" text="Wyszukaj" />
+      <TextField fx:id="wyszukajText" layoutX="217.0" layoutY="37.0" prefHeight="26.0" prefWidth="282.0" />
+      <Button fx:id="wyszukajNazwaButton" layoutX="499.0" layoutY="37.0" mnemonicParsing="false" onMouseClicked="#odsiej_po_nazwie" text="Wyszukaj" />
       <StackPane layoutX="21.0" layoutY="91.0" prefHeight="460.0" prefWidth="754.0">
          <children>
             <AnchorPane fx:id="plytyGl" prefHeight="866.0" prefWidth="757.0">
@@ -469,9 +471,52 @@
       <Button fx:id="button_kartyGraf" layoutX="180.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showKarty" text="Karty graficzne" />
       <Button fx:id="button_pamRam" layoutX="275.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showPamiecRam" text="Pamięć RAM" />
       <Button fx:id="button_dyski" layoutX="358.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showDyski" text="Dyski" />
-      <Text layoutX="740.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nazwa" />
-      <Button fx:id="button_zaloguj" layoutX="730.0" layoutY="39.0" mnemonicParsing="false" text="Zaloguj" />
-      <Button layoutX="732.0" layoutY="39.0" mnemonicParsing="false" text="Wyloguj" visible="false" />
       <Button fx:id="button_zestawy" layoutX="403.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showZestawy" text="Zestawy" />
+      <StackPane layoutX="580.0" layoutY="3.0" prefHeight="102.0" prefWidth="200.0">
+         <children>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="button_zaloguj" layoutX="144.0" layoutY="69.0" mnemonicParsing="false" text="Zaloguj" />
+                  <Button fx:id="button_cart1" layoutY="21.0" mnemonicParsing="false"  prefHeight="26.0" prefWidth="45.0">
+                     <graphic>
+                        <ImageView fx:id="image_cart1" fitHeight="27.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../images/shopping_cart.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" visible="false">
+               <children>
+                  <Button layoutX="140.0" layoutY="69.0" mnemonicParsing="false" text="Wyloguj" />
+                  <Button fx:id="button_value_of_name" layoutX="64.0" layoutY="14.0" mnemonicParsing="false"  text="value_of_name">
+                     <graphic>
+                        <ImageView fx:id="image_user" fitHeight="37.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../images/user_icon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="button_cart" layoutY="19.0" mnemonicParsing="false"  prefHeight="26.0" prefWidth="45.0">
+                     <graphic>
+                        <ImageView fx:id="image_cart" fitHeight="27.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../images/shopping_cart.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
+      <Text fx:id="button_home" fill="#d3d3d3" layoutX="21.0" layoutY="61.0"  strokeType="OUTSIDE" strokeWidth="0.0" text="KompPol@nd">
+         <font>
+            <Font name="System Bold Italic" size="27.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
