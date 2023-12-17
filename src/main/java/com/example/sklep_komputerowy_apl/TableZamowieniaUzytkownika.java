@@ -1,41 +1,41 @@
 package com.example.sklep_komputerowy_apl;
 
 public class TableZamowieniaUzytkownika {
-    private String dataZlozenia;
-    private String dataOdbioru;
-    private String nazwyProduktow;
+    private String data_zlo;
+    private String data_odb;
+    private String nazwy;
     private String status;
 
 
     public TableZamowieniaUzytkownika(String dataZlozenia, String dataOdbioru, String nazwyProduktow, String status) {
-        this.dataZlozenia=dataZlozenia;
-        this.dataOdbioru=dataOdbioru;
-        this.nazwyProduktow=nazwyProduktow;
+        this.data_zlo=dataZlozenia;
+        this.data_odb=dataOdbioru;
+        this.nazwy=nazwyProduktow;
         this.status=status;
     }
 
-    public String getDataZlozenia() {
-        return dataZlozenia;
+    public String getData_zlo() {
+        return data_zlo;
     }
 
-    public void setDataZlozenia(String dataZlozenia) {
-        this.dataZlozenia = dataZlozenia;
+    public void setData_zlo(String dataZlozenia) {
+        this.data_zlo = dataZlozenia;
     }
 
-    public String getDataOdbioru() {
-        return dataOdbioru;
+    public String getData_odb() {
+        return data_odb;
     }
 
-    public void setDataOdbioru(String dataOdbioru) {
-        this.dataOdbioru = dataOdbioru;
+    public void setData_odb(String dataOdbioru) {
+        this.data_odb = dataOdbioru;
     }
 
-    public String getNazwyProduktow() {
-        return nazwyProduktow;
+    public String getNazwy() {
+        return nazwy;
     }
 
-    public void setNazwyProduktow(String nazwyProduktow) {
-        this.nazwyProduktow = nazwyProduktow;
+    public void setNazwy(String nazwyProduktow) {
+        this.nazwy = nazwyProduktow;
     }
 
     public String getStatus() {

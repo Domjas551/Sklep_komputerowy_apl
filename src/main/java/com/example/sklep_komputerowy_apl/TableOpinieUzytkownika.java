@@ -1,32 +1,22 @@
 package com.example.sklep_komputerowy_apl;
 
 public class TableOpinieUzytkownika {
-    private String data;
-    private String nazwaProduktu;
+    private String nazwa;
     private Double ocena;
-    private String tresc;
+    private String komentarz;
 
-    public TableOpinieUzytkownika(String data, String nazwaProduktu, Double ocena, String tresc) {
-        this.data = data;
-        this.nazwaProduktu=nazwaProduktu;
+    public TableOpinieUzytkownika(Double ocena, String nazwaProduktu, String tresc) {
+        this.nazwa=nazwaProduktu;
         this.ocena=ocena;
-        this.tresc = tresc;
+        this.komentarz = tresc;
     }
 
-    public String getData() {
-        return data;
+    public String getNazwa() {
+        return nazwa;
     }
 
-    public void setData(String data) {
-        this.data = data;
-    }
-
-    public String getNazwaProduktu() {
-        return nazwaProduktu;
-    }
-
-    public void setNazwaProduktu(String nazwaProduktu) {
-        this.nazwaProduktu = nazwaProduktu;
+    public void setNazwa(String nazwaProduktu) {
+        this.nazwa = nazwaProduktu;
     }
 
     public Double getOcena() {
@@ -37,11 +27,11 @@ public class TableOpinieUzytkownika {
         this.ocena = ocena;
     }
 
-    public String getTresc() {
-        return tresc;
+    public String getKomentarz() {
+        return komentarz;
     }
 
-    public void setTresc(String tresc) {
-        this.tresc = tresc;
+    public void setKomentarz(String tresc) {
+        this.komentarz = tresc;
     }
 }

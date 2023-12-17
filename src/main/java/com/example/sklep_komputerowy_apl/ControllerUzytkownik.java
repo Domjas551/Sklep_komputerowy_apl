@@ -21,7 +21,7 @@ public class ControllerUzytkownik implements Initializable {
     DataStorage dane=DataStorage.getInstance();
 
     //Wartosci przyjete roboczo
-    private String idZalogowoanegoUuzytkownika;
+    private String idZalogowanegoUzytkownika="13";
 
     //Elementy
     //Elementy poza zakładkami
@@ -100,9 +100,6 @@ public class ControllerUzytkownik implements Initializable {
     private TableView<TableOpinieUzytkownika> table_opinie;
 
     @FXML
-    private TableColumn<TableOpinieUzytkownika, String> column_opinie_data;
-
-    @FXML
     private TableColumn<TableOpinieUzytkownika, String> column_opinie_nazwa_produktu;
 
     @FXML
@@ -157,9 +154,8 @@ public class ControllerUzytkownik implements Initializable {
         column_profil_komunikaty_data.setCellValueFactory(new PropertyValueFactory<TableKomunikatyUzytkownika, String>("data"));
         column_profil_komunikaty_tresc.setCellValueFactory(new PropertyValueFactory<TableKomunikatyUzytkownika, String>("tresc"));
         //OpinieUzytkownika
-        column_opinie_data.setCellValueFactory(new PropertyValueFactory<TableOpinieUzytkownika, String>("data"));
         column_opinie_ocena.setCellValueFactory(new PropertyValueFactory<TableOpinieUzytkownika, Double>("ocena"));
-        column_opinie_tresc.setCellValueFactory(new PropertyValueFactory<TableOpinieUzytkownika, String>("tresc"));
+        column_opinie_tresc.setCellValueFactory(new PropertyValueFactory<TableOpinieUzytkownika, String>("komentarz"));
         column_opinie_nazwa_produktu.setCellValueFactory(new PropertyValueFactory<TableOpinieUzytkownika, String>("nazwa"));
         //TransakcjeUzytkownika
         column_transakcje_cena.setCellValueFactory(new PropertyValueFactory<TableTransakcjeUzytkownika, Double>("cena"));
@@ -179,15 +175,121 @@ public class ControllerUzytkownik implements Initializable {
         ObservableList<TableZamowieniaUzytkownika> tzu_list = FXCollections.observableArrayList();
 
         //TableKomunikatyUzytkownika
-        String wynik[] = connection.uzyskajDane("SELECT data, tresc " +
+        String wynik[] = connection.uzyskajDane("Select data, tresc " +
                 "FROM Wiadomosc " +
-                "WHERE id_uzytkownika = " + idZalogowoanegoUuzytkownika + ";");
-        for (int i = 0; i < wynik.length; i += 2) {
-            tku_list.add(new TableKomunikatyUzytkownika(wynik[i], wynik[i + 1]));
+                "WHERE id_uzytkownika = " + idZalogowanegoUzytkownika);
+        if(wynik.length!=1)
+        {
+            for (int i = 0; i < wynik.length; i += 2) {
+                tku_list.add(new TableKomunikatyUzytkownika(wynik[i], wynik[i + 1]));
+            }
+            table_profil_komunikaty.setItems(tku_list);
         }
-        table_profil_komunikaty.setItems(tku_list);
 
+        //TableOpinieUzytkownka
+        wynik = connection.uzyskajDane("Select " +
+                "o.ocena, " +
+                "o.komentarz, " +
+                "CASE " +
+                "WHEN ppr.id_pamieci_ram IS NOT NULL THEN ppr.nazwa_produktu " +
+                "WHEN ppg.id_plyty_glownej IS NOT NULL THEN ppg.nazwa_produktu " +
+                "WHEN pkg.id_karty_graficznej IS NOT NULL THEN pkg.nazwa_produktu " +
+                "WHEN pproc.id_procesora IS NOT NULL THEN pproc.nazwa_produktu " +
+                "WHEN pd.id_dysku IS NOT NULL THEN pd.nazwa_produktu " +
+                "ELSE NULL " +
+                "END AS nazwa_produktu " +
+                "FROM Opinia o " +
+                "LEFT JOIN Pamiec_RAM ppr ON o.id_pamieci_ram = ppr.id_pamieci_ram " +
+                "LEFT JOIN Plyta_glowna ppg ON o.id_plyty_glownej = ppg.id_plyty_glownej " +
+                "LEFT JOIN Karta_graficzna pkg ON o.id_karty_graficznej = pkg.id_karty_graficznej " +
+                "LEFT JOIN Procesor pproc ON o.id_procesora = pproc.id_procesora " +
+                "LEFT JOIN Dysk pd ON o.id_dysku = pd.id_dysku " +
+                "WHERE o.id_uzytkownika = " + idZalogowanegoUzytkownika);
+        if(wynik.length!=1) {
+            for (int i = 0; i < wynik.length; i += 3) {
+                tou_list.add(new TableOpinieUzytkownika(Double.parseDouble(wynik[i]), wynik[i + 2], wynik[i + 1]));
+            }
+            table_opinie.setItems(tou_list);
+        }
 
+        //TableTransakcjeUzytkownika
+        wynik = connection.uzyskajDane("Select " +
+                "t.data_t, " +
+                "t.cena_calkowita, " +
+                "LISTAGG( " +
+                "CASE " +
+                "WHEN ppr.id_pamieci_ram IS NOT NULL THEN ppr.nazwa_produktu " +
+                "WHEN ppg.id_plyty_glownej IS NOT NULL THEN ppg.nazwa_produktu " +
+                "WHEN pkg.id_karty_graficznej IS NOT NULL THEN pkg.nazwa_produktu " +
+                "WHEN pproc.id_procesora IS NOT NULL THEN pproc.nazwa_produktu " +
+                "WHEN pd.id_dysku IS NOT NULL THEN pd.nazwa_produktu " +
+                "ELSE NULL " +
+                "END, " +
+                "', ' " +
+                ") WITHIN GROUP (ORDER BY p.id_produktu) AS concatenated_product_names " +
+                "FROM Transakcja t " +
+                "JOIN Produkt p ON t.id_transakcji = p.id_transakcji " +
+                "LEFT JOIN Pamiec_RAM ppr ON p.id_pamieci_ram = ppr.id_pamieci_ram " +
+                "LEFT JOIN Plyta_glowna ppg ON p.id_plyty_glownej = ppg.id_plyty_glownej " +
+                "LEFT JOIN Karta_graficzna pkg ON p.id_karty_graficznej = pkg.id_karty_graficznej " +
+                "LEFT JOIN Procesor pproc ON p.id_procesora = pproc.id_procesora " +
+                "LEFT JOIN Dysk pd ON p.id_dysku = pd.id_dysku " +
+                "WHERE t.id_uzytkownika = " + idZalogowanegoUzytkownika +
+                " GROUP BY t.data_t, t.cena_calkowita");
+        if(wynik.length!=1) {
+            for (int i = 0; i < wynik.length; i += 3) {
+                ttu_list.add(new TableTransakcjeUzytkownika(wynik[i], wynik[i + 2], Double.parseDouble(wynik[i + 1])));
+            }
+            table_transakcje.setItems(ttu_list);
+        }
+
+        //TableZamowieniaUzytkownika
+        wynik = connection.uzyskajDane("Select " +
+                "z.data_zlozenia, " +
+                "z.data_odbioru, " +
+                "z.status_odbioru, " +
+                "LISTAGG( " +
+                "CASE " +
+                "WHEN ppr.id_pamieci_ram IS NOT NULL THEN ppr.nazwa_produktu " +
+                "WHEN ppg.id_plyty_glownej IS NOT NULL THEN ppg.nazwa_produktu " +
+                "WHEN pkg.id_karty_graficznej IS NOT NULL THEN pkg.nazwa_produktu " +
+                "WHEN pproc.id_procesora IS NOT NULL THEN pproc.nazwa_produktu " +
+                "WHEN pd.id_dysku IS NOT NULL THEN pd.nazwa_produktu " +
+                "ELSE NULL " +
+                "END, " +
+                "', ' " +
+                ") WITHIN GROUP (ORDER BY p.id_produktu) AS concatenated_product_names " +
+                "FROM Zamowienie z " +
+                "JOIN Produkt p ON z.id_zamowienia = p.id_zamowienia " +
+                "LEFT JOIN Pamiec_RAM ppr ON p.id_pamieci_ram = ppr.id_pamieci_ram " +
+                "LEFT JOIN Plyta_glowna ppg ON p.id_plyty_glownej = ppg.id_plyty_glownej " +
+                "LEFT JOIN Karta_graficzna pkg ON p.id_karty_graficznej = pkg.id_karty_graficznej " +
+                "LEFT JOIN Procesor pproc ON p.id_procesora = pproc.id_procesora " +
+                "LEFT JOIN Dysk pd ON p.id_dysku = pd.id_dysku " +
+                "WHERE z.id_uzytkownika = " + idZalogowanegoUzytkownika +
+                " GROUP BY z.data_zlozenia, z.data_odbioru, z.status_odbioru");
+        if(wynik.length!=1) {
+            for (int i = 0; i < wynik.length; i += 4) {
+                tzu_list.add(new TableZamowieniaUzytkownika(wynik[i], wynik[i + 1], wynik[i + 3], wynik[i + 2]));
+            }
+            table_zamowienia.setItems(tzu_list);
+        }
+
+        //Button_value_of_name
+        wynik = connection.uzyskajDane("Select imie from Uzytkownik where id_uzytkownika = " + idZalogowanegoUzytkownika);
+        button_value_of_name.setText(wynik[0]);
+
+        //Value_of_name
+        wynik = connection.uzyskajDane("Select imie from Uzytkownik where id_uzytkownika = " + idZalogowanegoUzytkownika);
+        value_of_imie.setText(wynik[0]);
+
+        //Value_of_nazwisko
+        wynik = connection.uzyskajDane("Select nazwisko from Uzytkownik where id_uzytkownika = " + idZalogowanegoUzytkownika);
+        value_of_nazwisko.setText(wynik[0]);
+
+        //Value_of_name
+        wynik = connection.uzyskajDane("Select email from Uzytkownik where id_uzytkownika = " + idZalogowanegoUzytkownika);
+        value_of_email.setText(wynik[0]);
     }
 
 
@@ -270,7 +372,7 @@ public class ControllerUzytkownik implements Initializable {
         opinie.setVisible(false);
 
         //uaktualnienie informacji o aktywnej stronie
-        dane.zapiszAktualnaStrone("zatwierdzenie usuniecia");
+        dane.zapiszAktualnaStrone("zatwierdzenie_usuniecia");
     }
 
     @FXML

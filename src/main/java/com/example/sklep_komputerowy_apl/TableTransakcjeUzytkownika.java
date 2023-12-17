@@ -2,12 +2,12 @@ package com.example.sklep_komputerowy_apl;
 public class TableTransakcjeUzytkownika {
     private String data;
     private Double cena;
-    private String nazwyProduktow;
+    private String nazwy;
 
 
     public TableTransakcjeUzytkownika(String data, String nazwyProduktow, Double cena) {
         this.data = data;
-        this.nazwyProduktow=nazwyProduktow;
+        this.nazwy=nazwyProduktow;
         this.cena=cena;
     }
 
@@ -27,11 +27,11 @@ public class TableTransakcjeUzytkownika {
         this.cena = cena;
     }
 
-    public String getNazwyProduktow() {
-        return nazwyProduktow;
+    public String getNazwy() {
+        return nazwy;
     }
 
-    public void setNazwyProduktow(String nazwyProduktow) {
-        this.nazwyProduktow = nazwyProduktow;
+    public void setNazwy(String nazwyProduktow) {
+        this.nazwy = nazwyProduktow;
     }
 }
