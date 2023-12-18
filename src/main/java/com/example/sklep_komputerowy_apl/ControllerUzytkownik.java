@@ -21,10 +21,10 @@ public class ControllerUzytkownik implements Initializable {
     DataStorage dane=DataStorage.getInstance();
 
     //Wartosci przyjete roboczo
-    private String idZalogowanegoUzytkownika="13";
+    private String idZalogowanegoUzytkownika="43";
 
     //Elementy
-    //Elementy poza zakładkami
+    //Elementy poza zakladkami
     @FXML
     private Button button_cart;
 
@@ -97,16 +97,16 @@ public class ControllerUzytkownik implements Initializable {
     private AnchorPane opinie;
 
     @FXML
-    private TableView<TableOpinieUzytkownika> table_opinie;
+    private TableView<TableOpinie> table_opinie;
 
     @FXML
-    private TableColumn<TableOpinieUzytkownika, String> column_opinie_nazwa_produktu;
+    private TableColumn<TableOpinie, String> column_opinie_nazwa_produktu;
 
     @FXML
-    private TableColumn<TableOpinieUzytkownika, Double> column_opinie_ocena;
+    private TableColumn<TableOpinie, Double> column_opinie_ocena;
 
     @FXML
-    private TableColumn<TableOpinieUzytkownika, String> column_opinie_tresc;
+    private TableColumn<TableOpinie, String> column_opinie_tresc;
 
     //Elementy w zakladce transakcje
     @FXML
@@ -154,9 +154,9 @@ public class ControllerUzytkownik implements Initializable {
         column_profil_komunikaty_data.setCellValueFactory(new PropertyValueFactory<TableKomunikatyUzytkownika, String>("data"));
         column_profil_komunikaty_tresc.setCellValueFactory(new PropertyValueFactory<TableKomunikatyUzytkownika, String>("tresc"));
         //OpinieUzytkownika
-        column_opinie_ocena.setCellValueFactory(new PropertyValueFactory<TableOpinieUzytkownika, Double>("ocena"));
-        column_opinie_tresc.setCellValueFactory(new PropertyValueFactory<TableOpinieUzytkownika, String>("komentarz"));
-        column_opinie_nazwa_produktu.setCellValueFactory(new PropertyValueFactory<TableOpinieUzytkownika, String>("nazwa"));
+        column_opinie_ocena.setCellValueFactory(new PropertyValueFactory<TableOpinie, Double>("ocena"));
+        column_opinie_tresc.setCellValueFactory(new PropertyValueFactory<TableOpinie, String>("komentarz"));
+        column_opinie_nazwa_produktu.setCellValueFactory(new PropertyValueFactory<TableOpinie, String>("nazwa"));
         //TransakcjeUzytkownika
         column_transakcje_cena.setCellValueFactory(new PropertyValueFactory<TableTransakcjeUzytkownika, Double>("cena"));
         column_transakcje_data.setCellValueFactory(new PropertyValueFactory<TableTransakcjeUzytkownika, String>("data"));
@@ -170,7 +170,7 @@ public class ControllerUzytkownik implements Initializable {
         //wypełnienie tabel
         //utworzenie list do wypełniania odpowiednich typów
         ObservableList<TableKomunikatyUzytkownika> tku_list = FXCollections.observableArrayList();
-        ObservableList<TableOpinieUzytkownika> tou_list = FXCollections.observableArrayList();
+        ObservableList<TableOpinie> tou_list = FXCollections.observableArrayList();
         ObservableList<TableTransakcjeUzytkownika> ttu_list = FXCollections.observableArrayList();
         ObservableList<TableZamowieniaUzytkownika> tzu_list = FXCollections.observableArrayList();
 
@@ -207,7 +207,7 @@ public class ControllerUzytkownik implements Initializable {
                 "WHERE o.id_uzytkownika = " + idZalogowanegoUzytkownika);
         if(wynik.length!=1) {
             for (int i = 0; i < wynik.length; i += 3) {
-                tou_list.add(new TableOpinieUzytkownika(Double.parseDouble(wynik[i]), wynik[i + 2], wynik[i + 1]));
+                tou_list.add(new TableOpinie(Double.parseDouble(wynik[i]), wynik[i + 2], wynik[i + 1]));
             }
             table_opinie.setItems(tou_list);
         }

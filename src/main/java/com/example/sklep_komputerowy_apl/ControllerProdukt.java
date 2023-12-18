@@ -1,14 +1,32 @@
 package com.example.sklep_komputerowy_apl;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
-public class ControllerProdukt {
+import java.net.URL;
+import java.util.ResourceBundle;
 
+public class ControllerProdukt implements Initializable {
+    ConnectionStorage connection=ConnectionStorage.getInstance();
+    DataStorage dane=DataStorage.getInstance();
+    int kategoria=-1;
+
+    //Wartosci przyjete roboczo
+    private String idWybranegoProduktu="101";
+
+
+    //Elementy
+    //Elementy poza zakladkami
     @FXML
     private AnchorPane background;
 
@@ -28,7 +46,20 @@ public class ControllerProdukt {
     private Button button_specyfikacja;
 
     @FXML
+    private ImageView image_cart;
+
+    //Elementy logowania/wylogowania
+    @FXML
     private Button button_value_of_name;
+
+    @FXML
+    private AnchorPane wyloguj;
+
+    @FXML
+    private ImageView image_user;
+
+    @FXML
+    private AnchorPane zaloguj;
 
     @FXML
     private Button button_wyloguj;
@@ -36,77 +67,139 @@ public class ControllerProdukt {
     @FXML
     private Button button_zaloguj;
 
-    @FXML
-    private AnchorPane dysk;
-
-    @FXML
-    private ImageView image_cart;
-
-    @FXML
-    private ImageView image_user;
-
-    @FXML
-    private AnchorPane karta_graficzna;
-
+    //Elementy w zakladce opinie
     @FXML
     private AnchorPane opinie;
 
     @FXML
+    private TableView<TableOpinie> table_produkt_opinia;
+
+    @FXML
+    private TableColumn<TableOpinie, String> column_produkt_opinia_nazwa_produktu;
+
+    @FXML
+    private TableColumn<TableOpinie, Double> column_produkt_opinia_ocena;
+
+    @FXML
+    private TableColumn<TableOpinie, String> column_produkt_opinia_tresc;
+
+    //Elementy w zakladce pamiec_ram
+    @FXML
     private AnchorPane pamiec_ram;
-
-    @FXML
-    private AnchorPane plyta_glowna;
-
-    @FXML
-    private AnchorPane procesor;
-
-    @FXML
-    private Text value_of_cena_dy;
-
-    @FXML
-    private Text value_of_cena_kg;
-
-    @FXML
-    private Text value_of_cena_pg;
 
     @FXML
     private Text value_of_cena_pr;
 
     @FXML
-    private Text value_of_cena_proc;
+    private Text value_of_napiecie_pr;
+
+    @FXML
+    private Text value_of_nazwa_produktu_pr;
+
+    @FXML
+    private Text value_of_opis_pr;
+
+    @FXML
+    private Text value_of_pojemnosc_pr;
+
+    @FXML
+    private Text value_of_producent_pr;
+
+    @FXML
+    private Text value_of_rodzaj_pamieci_pr;
+
+    @FXML
+    private Text value_of_taktowanie_pr;
+
+    //Elementy w zakladce plyta_glowna
+    @FXML
+    private AnchorPane plyta_glowna;
+
+    @FXML
+    private Text value_of_cena_pg;
 
     @FXML
     private Text value_of_chipset_pg;
 
     @FXML
-    private Text value_of_glebokosc_dy;
+    private Text value_of_gniazdo_procesora_pg;
+
+    @FXML
+    private Text value_of_liczba_bankow_pamieci_pg;
+
+    @FXML
+    private Text value_of_max_wielkosc_pamieci_pg;
+
+    @FXML
+    private Text value_of_nazwa_produktu_pg;
+
+    @FXML
+    private Text value_of_opis_pg;
+
+    @FXML
+    private Text value_of_producent_pg;
+
+    @FXML
+    private Text value_of_szerokosc_pg;
+
+    @FXML
+    private Text value_of_typ_obslugiwanej_pamieci_pg;
+
+    @FXML
+    private Text value_of_wysokosc_pg;
+
+    //Elementy w zakladce karta_graficzna
+    @FXML
+    private AnchorPane karta_graficzna;
+
+    @FXML
+    private Text value_of_cena_kg;
 
     @FXML
     private Text value_of_glebokosc_kg;
 
     @FXML
-    private Text value_of_gniazdo_procesora_pg;
+    private Text value_of_nazwa_produktu_kg;
+
+    @FXML
+    private Text value_of_opis_kg;
+
+    @FXML
+    private Text value_of_pobor_mocy_kg;
+
+    @FXML
+    private Text value_of_producent_kg;
+
+    @FXML
+    private Text value_of_rodzaj_pamieci_kg;
+
+    @FXML
+    private Text value_of_rodzaj_zlacza_kg;
+
+    @FXML
+    private Text value_of_szerokosc_kg;
+
+    @FXML
+    private Text value_of_taktowanie_kg;
+
+    @FXML
+    private Text value_of_typ_obslugiwanej_pamiec_kg;
+
+    @FXML
+    private Text value_of_uklad_graficzny_kg;
+
+    @FXML
+    private Text value_of_wysokosc_kg;
+
+    //Elementy w zakladce procesor
+    @FXML
+    private AnchorPane procesor;
+
+    @FXML
+    private Text value_of_cena_proc;
 
     @FXML
     private Text value_of_gniazdo_procesora_proc;
-
-    @FXML
-    private Text value_of_kategoria_dy;
-
-    @FXML
-    private Text value_of_kategoria_kg;
-
-    @FXML
-    private Text value_of_kategoria_pg;
-
-    @FXML
-    private Text value_of_kategoria_pr;
-
-    @FXML
-    private Text value_of_kategoria_proc;
-
-    @FXML
-    private Text value_of_liczba_bankow_pamieci_pg;
 
     @FXML
     private Text value_of_liczba_rdzeni_proc;
@@ -115,124 +208,160 @@ public class ControllerProdukt {
     private Text value_of_liczba_watkow_proc;
 
     @FXML
-    private Text value_of_max_wielkosc_pamieci_pg;
-
-    @FXML
-    private Text value_of_napiecie_pr;
-
-    @FXML
-    private Text value_of_nazwa_produktu_dy;
-
-    @FXML
-    private Text value_of_nazwa_produktu_kg;
-
-    @FXML
-    private Text value_of_nazwa_produktu_pg;
-
-    @FXML
-    private Text value_of_nazwa_produktu_pr;
-
-    @FXML
     private Text value_of_nazwa_produktu_proc;
-
-    @FXML
-    private Text value_of_opis_dy;
-
-    @FXML
-    private Text value_of_opis_kg;
-
-    @FXML
-    private Text value_of_opis_pg;
-
-    @FXML
-    private Text value_of_opis_pr;
 
     @FXML
     private Text value_of_opis_proc;
 
     @FXML
-    private Text value_of_pobor_mocy_kg;
-
-    @FXML
     private Text value_of_pobor_mocy_proc;
-
-    @FXML
-    private Text value_of_pojemnosc_dy;
-
-    @FXML
-    private Text value_of_pojemnosc_pr;
-
-    @FXML
-    private Text value_of_producent_dy;
-
-    @FXML
-    private Text value_of_producent_kg;
-
-    @FXML
-    private Text value_of_producent_pg;
-
-    @FXML
-    private Text value_of_producent_pr;
 
     @FXML
     private Text value_of_producent_proc;
 
     @FXML
-    private Text value_of_rodzaj_pamieci_kg;
-
-    @FXML
-    private Text value_of_rodzaj_pamieci_pr;
-
-    @FXML
-    private Text value_of_rodzaj_zlacza_kg;
-
-    @FXML
     private Text value_of_rodzina_proc;
+
+    @FXML
+    private Text value_of_taktowanie_proc;
+
+    //Elementy w zakladce dysk
+    @FXML
+    private AnchorPane dysk;
+
+    @FXML
+    private Text value_of_cena_dy;
+
+    @FXML
+    private Text value_of_glebokosc_dy;
+
+    @FXML
+    private Text value_of_nazwa_produktu_dy;
+
+    @FXML
+    private Text value_of_opis_dy;
+
+    @FXML
+    private Text value_of_pojemnosc_dy;
+
+    @FXML
+    private Text value_of_producent_dy;
 
     @FXML
     private Text value_of_szerokosc_dy;
 
     @FXML
-    private Text value_of_szerokosc_kg;
-
-    @FXML
-    private Text value_of_szerokosc_pg;
-
-    @FXML
-    private Text value_of_taktowanie_kg;
-
-    @FXML
-    private Text value_of_taktowanie_pr;
-
-    @FXML
-    private Text value_of_taktowanie_proc;
-
-    @FXML
     private Text value_of_typ_dysku_dy;
-
-    @FXML
-    private Text value_of_typ_obslugiwanej_pamiec_kg;
-
-    @FXML
-    private Text value_of_typ_obslugiwanej_pamieci_pg;
-
-    @FXML
-    private Text value_of_uklad_graficzny_kg;
 
     @FXML
     private Text value_of_wysokosc_dy;
 
-    @FXML
-    private Text value_of_wysokosc_kg;
+    //-------------------------------------
+    //Funkcje
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle)
+    {
 
-    @FXML
-    private Text value_of_wysokosc_pg;
+        //ustawienie tabel
+        //OpinieUzytkownika
+        column_produkt_opinia_ocena.setCellValueFactory(new PropertyValueFactory<TableOpinie, Double>("ocena"));
+        column_produkt_opinia_tresc.setCellValueFactory(new PropertyValueFactory<TableOpinie, String>("komentarz"));
+        column_produkt_opinia_nazwa_produktu.setCellValueFactory(new PropertyValueFactory<TableOpinie, String>("nazwa"));
 
-    @FXML
-    private AnchorPane wyloguj;
+        //wypełnienie tabel
+        //utworzenie list do wypełniania odpowiednich typów
+        ObservableList<TableOpinie> top_list = FXCollections.observableArrayList();
 
-    @FXML
-    private AnchorPane zaloguj;
+        //Ustalenie kategorii wybranego produkt
+        String wynik[] = connection.uzyskajDane("Select id_pamieci_ram, id_plyty_glownej, id_karty_graficznej, id_procesora, id_dysku from produkt where id_produktu = " + idWybranegoProduktu);
+        for (int i = 0; i < wynik.length; i ++) {
+            if(!wynik[i].equals("null"))
+            {
+                kategoria=i;
+                break;
+            }
+        }
+        System.out.println(kategoria);
+
+        //TableOpinie
+        wynik = connection.uzyskajDane("Select" +
+                " o.ocena," +
+                " o.komentarz," +
+                " CASE" +
+                " WHEN ppr.id_pamieci_ram IS NOT NULL THEN ppr.nazwa_produktu" +
+                " WHEN ppg.id_plyty_glownej IS NOT NULL THEN ppg.nazwa_produktu" +
+                " WHEN pkg.id_karty_graficznej IS NOT NULL THEN pkg.nazwa_produktu" +
+                " WHEN pproc.id_procesora IS NOT NULL THEN pproc.nazwa_produktu" +
+                " WHEN pd.id_dysku IS NOT NULL THEN pd.nazwa_produktu" +
+                " ELSE NULL" +
+                " END AS nazwa_produktu" +
+                " FROM produkt p" +
+                " LEFT JOIN Pamiec_RAM ppr ON p.id_pamieci_ram = ppr.id_pamieci_ram" +
+                " LEFT JOIN Plyta_glowna ppg ON p.id_plyty_glownej = ppg.id_plyty_glownej" +
+                " LEFT JOIN Karta_graficzna pkg ON p.id_karty_graficznej = pkg.id_karty_graficznej" +
+                " LEFT JOIN Procesor pproc ON p.id_procesora = pproc.id_procesora" +
+                " LEFT JOIN Dysk pd ON p.id_dysku = pd.id_dysku" +
+                " JOIN opinia o on o.id_pamieci_ram=ppr.id_pamieci_ram or o.id_plyty_glownej=ppg.id_plyty_glownej or o.id_karty_graficznej=pkg.id_karty_graficznej or o.id_procesora=pproc.id_procesora or o.id_dysku=pd.id_dysku" +
+                " WHERE p.id_produktu = " + idWybranegoProduktu);
+        if(wynik.length!=1) {
+            for (int i = 0; i < wynik.length; i += 3) {
+                top_list.add(new TableOpinie(Double.parseDouble(wynik[i]), wynik[i + 2], wynik[i + 1]));
+            }
+            table_produkt_opinia.setItems(top_list);
+        }
+
+        switch(kategoria) {
+            case 0:
+                //Specyfikacja pamiec_ram
+                wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena, rodzaj_pamieci, pojemnosc, taktowanie, napiecie, opis" +
+                        " from produkt join pamiec_ram on produkt.id_pamieci_ram=pamiec_ram.id_pamieci_ram" +
+                        " where id_produktu = " + idWybranegoProduktu);
+                value_of_nazwa_produktu_pr.setText(wynik[0]);
+                value_of_producent_pr.setText(wynik[1]);
+                value_of_cena_pr.setText(wynik[2] + " zł");
+                value_of_rodzaj_pamieci_pr.setText(wynik[3]);
+                value_of_pojemnosc_pr.setText(wynik[4]+ " Gb");
+                value_of_taktowanie_pr.setText(wynik[5]+ " Hz");
+                value_of_napiecie_pr.setText(wynik[6]+ " V");
+                value_of_opis_pr.setText(wynik[7]);
+                break;
+            case 1:
+                //Specyfikacja pamiec_ram
+                wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena, gniazdo_procesora, chipset, typ_obslugiwanej_pamieci, liczba_bankow_pamieci, max_wielkosc_pamieci, szerokosc, wysokosc, opis" +
+                        " from produkt join plyta_glowna on produkt.id_plyty_glownej=plyta_glowna.id_plyty_glownej" +
+                        " where id_produktu = " + idWybranegoProduktu);
+                value_of_nazwa_produktu_pg.setText(wynik[0]);
+                value_of_producent_pg.setText(wynik[1]);
+                value_of_cena_pg.setText(wynik[2] + " zł");
+                value_of_gniazdo_procesora_pg.setText(wynik[3]);
+                value_of_chipset_pg.setText(wynik[4]);
+                value_of_typ_obslugiwanej_pamieci_pg.setText(wynik[5]);
+                value_of_liczba_bankow_pamieci_pg.setText(wynik[6]);
+                value_of_max_wielkosc_pamieci_pg.setText(wynik[7]+" Gb");
+                value_of_szerokosc_pg.setText(wynik[8]+ " mm");
+                value_of_wysokosc_pg.setText(wynik[9]+ " mm");
+                value_of_opis_pg.setText(wynik[10]);
+                break;
+            case 2:
+                //Specyfikacja pamiec_ram
+                wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena, gniazdo_procesora, chipset, typ_obslugiwanej_pamieci, liczba_bankow_pamieci, max_wielkosc_pamieci, szerokosc, wysokosc, opis" +
+                        " from produkt join plyta_glowna on produkt.id_plyty_glownej=plyta_glowna.id_plyty_glownej" +
+                        " where id_produktu = " + idWybranegoProduktu);
+                value_of_nazwa_produktu_pg.setText(wynik[0]);
+                value_of_producent_pg.setText(wynik[1]);
+                value_of_cena_pg.setText(wynik[2] + " zł");
+                value_of_gniazdo_procesora_pg.setText(wynik[3]);
+                value_of_chipset_pg.setText(wynik[4]);
+                value_of_typ_obslugiwanej_pamieci_pg.setText(wynik[5]);
+                value_of_liczba_bankow_pamieci_pg.setText(wynik[6]);
+                value_of_max_wielkosc_pamieci_pg.setText(wynik[7]+" Gb");
+                value_of_szerokosc_pg.setText(wynik[8]+ " mm");
+                value_of_wysokosc_pg.setText(wynik[9]+ " mm");
+                value_of_opis_pg.setText(wynik[10]);
+                break;
+        }
+        showSpecyfikacja();
+    }
 
     @FXML
     void addToCart(MouseEvent event) {
@@ -256,12 +385,140 @@ public class ControllerProdukt {
 
     @FXML
     void showOpinie(MouseEvent event) {
+        pamiec_ram.setVisible(false);
+        plyta_glowna.setVisible(false);
+        karta_graficzna.setVisible(false);
+        procesor.setVisible(false);
+        dysk.setVisible(false);
+        opinie.setVisible(true);
 
+        //uaktualnienie informacji o aktywnej stronie
+        dane.zapiszAktualnaStrone("opinie");
+
+    }
+
+    void showSpecyfikacja() {
+        switch(kategoria) {
+            case 0:
+                pamiec_ram.setVisible(true);
+                plyta_glowna.setVisible(false);
+                karta_graficzna.setVisible(false);
+                procesor.setVisible(false);
+                dysk.setVisible(false);
+                opinie.setVisible(false);
+
+                //uaktualnienie informacji o aktywnej stronie
+                dane.zapiszAktualnaStrone("pamiec_ram");
+                break;
+            case 1:
+                pamiec_ram.setVisible(false);
+                plyta_glowna.setVisible(true);
+                karta_graficzna.setVisible(false);
+                procesor.setVisible(false);
+                dysk.setVisible(false);
+                opinie.setVisible(false);
+
+                //uaktualnienie informacji o aktywnej stronie
+                dane.zapiszAktualnaStrone("plyta_glowna");
+                break;
+            case 2:
+                pamiec_ram.setVisible(false);
+                plyta_glowna.setVisible(false);
+                karta_graficzna.setVisible(true);
+                procesor.setVisible(false);
+                dysk.setVisible(false);
+                opinie.setVisible(false);
+
+                //uaktualnienie informacji o aktywnej stronie
+                dane.zapiszAktualnaStrone("karta_graficzna");
+                break;
+            case 3:
+                pamiec_ram.setVisible(false);
+                plyta_glowna.setVisible(false);
+                karta_graficzna.setVisible(false);
+                procesor.setVisible(true);
+                dysk.setVisible(false);
+                opinie.setVisible(false);
+
+                //uaktualnienie informacji o aktywnej stronie
+                dane.zapiszAktualnaStrone("procesor");
+                break;
+            case 4:
+                pamiec_ram.setVisible(false);
+                plyta_glowna.setVisible(false);
+                karta_graficzna.setVisible(false);
+                procesor.setVisible(false);
+                dysk.setVisible(true);
+                opinie.setVisible(false);
+
+                //uaktualnienie informacji o aktywnej stronie
+                dane.zapiszAktualnaStrone("dysk");
+                break;
+
+        }
     }
 
     @FXML
     void showSpecyfikacja(MouseEvent event) {
 
+        switch(kategoria) {
+            case 0:
+                pamiec_ram.setVisible(true);
+                plyta_glowna.setVisible(false);
+                karta_graficzna.setVisible(false);
+                procesor.setVisible(false);
+                dysk.setVisible(false);
+                opinie.setVisible(false);
+
+                //uaktualnienie informacji o aktywnej stronie
+                dane.zapiszAktualnaStrone("pamiec_ram");
+                break;
+            case 1:
+                pamiec_ram.setVisible(false);
+                plyta_glowna.setVisible(true);
+                karta_graficzna.setVisible(false);
+                procesor.setVisible(false);
+                dysk.setVisible(false);
+                opinie.setVisible(false);
+
+                //uaktualnienie informacji o aktywnej stronie
+                dane.zapiszAktualnaStrone("plyta_glowna");
+                break;
+            case 2:
+                pamiec_ram.setVisible(false);
+                plyta_glowna.setVisible(false);
+                karta_graficzna.setVisible(true);
+                procesor.setVisible(false);
+                dysk.setVisible(false);
+                opinie.setVisible(false);
+
+                //uaktualnienie informacji o aktywnej stronie
+                dane.zapiszAktualnaStrone("karta_graficzna");
+                break;
+            case 3:
+                pamiec_ram.setVisible(false);
+                plyta_glowna.setVisible(false);
+                karta_graficzna.setVisible(false);
+                procesor.setVisible(true);
+                dysk.setVisible(false);
+                opinie.setVisible(false);
+
+                //uaktualnienie informacji o aktywnej stronie
+                dane.zapiszAktualnaStrone("procesor");
+                break;
+            case 4:
+                pamiec_ram.setVisible(false);
+                plyta_glowna.setVisible(false);
+                karta_graficzna.setVisible(false);
+                procesor.setVisible(false);
+                dysk.setVisible(true);
+                opinie.setVisible(false);
+
+                //uaktualnienie informacji o aktywnej stronie
+                dane.zapiszAktualnaStrone("dysk");
+                break;
+
+        }
     }
 
     @FXML

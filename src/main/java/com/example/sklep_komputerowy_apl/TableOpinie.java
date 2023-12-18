@@ -1,11 +1,11 @@
 package com.example.sklep_komputerowy_apl;
 
-public class TableOpinieUzytkownika {
+public class TableOpinie {
     private String nazwa;
     private Double ocena;
     private String komentarz;
 
-    public TableOpinieUzytkownika(Double ocena, String nazwaProduktu, String tresc) {
+    public TableOpinie(Double ocena, String nazwaProduktu, String tresc) {
         this.nazwa=nazwaProduktu;
         this.ocena=ocena;
         this.komentarz = tresc;

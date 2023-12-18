@@ -69,7 +69,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_kategoria_kg" layoutX="240.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_kategoria">
+                  <Text layoutX="240.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Karta graficzna">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -104,7 +104,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_opis_kg" layoutX="40.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_opis_produktu">
+                  <Text fx:id="value_of_opis_kg" layoutX="40.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_opis_produktu" wrappingWidth="650.0">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -161,7 +161,7 @@
                   </Text>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="pamiec_ram" prefHeight="200.0" prefWidth="200.0" visible="false">
+            <AnchorPane fx:id="pamiec_ram" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Text fx:id="value_of_nazwa_produktu_pr" layoutX="40.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_nazwa_produktu" wrappingWidth="272.53675842285156">
                      <font>
@@ -209,7 +209,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_kategoria_pr" layoutX="240.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_kategoria">
+                  <Text layoutX="240.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pamięć RAM">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -244,7 +244,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_opis_pr" layoutX="40.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_opis_produktu">
+                  <Text fx:id="value_of_opis_pr" layoutX="40.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_opis_produktu" wrappingWidth="650.0">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -298,7 +298,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_kategoria_pg" layoutX="240.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_kategoria_pg">
+                  <Text layoutX="240.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Płyta Główna">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -333,7 +333,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_opis_pg" layoutX="40.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_opis_produktu">
+                  <Text fx:id="value_of_opis_pg" layoutX="40.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_opis_produktu" wrappingWidth="650.0">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -381,12 +381,11 @@
                      <content>
                         <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="335.0" prefWidth="670.0">
                            <children>
-                              <TableView prefHeight="350.0" prefWidth="680.0" style="-fx-background-color: lightgrey;">
+                              <TableView fx:id="table_produkt_opinia" prefHeight="350.0" prefWidth="680.0" style="-fx-background-color: lightgrey;">
                                  <columns>
-                                    <TableColumn prefWidth="180.0" text="Data" />
-                                    <TableColumn prefWidth="49.0" text="Ocena" />
-                                    <TableColumn prefWidth="115.0" text="Nazwa produktu" />
-                                    <TableColumn prefWidth="333.0" text="Treść" />
+                                    <TableColumn fx:id="column_produkt_opinia_ocena" prefWidth="49.0" text="Ocena" />
+                                    <TableColumn fx:id="column_produkt_opinia_nazwa_produktu" prefWidth="115.0" text="Nazwa produktu" />
+                                    <TableColumn fx:id="column_produkt_opinia_tresc" prefWidth="514.4000244140625" text="Treść" />
                                  </columns>
                               </TableView>
                            </children>
@@ -443,7 +442,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_kategoria_proc" layoutX="240.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_kategoria">
+                  <Text layoutX="240.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Procesor">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -478,7 +477,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_opis_proc" layoutX="40.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_opis_produktu">
+                  <Text fx:id="value_of_opis_proc" layoutX="40.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_opis_produktu" wrappingWidth="650.0">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -505,7 +504,7 @@
                   </Text>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="dysk" prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane fx:id="dysk" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
                   <Text fx:id="value_of_nazwa_produktu_dy" layoutX="40.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_nazwa_produktu" wrappingWidth="272.53675842285156">
                      <font>
@@ -553,7 +552,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_kategoria_dy" layoutX="240.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_kategoria">
+                  <Text layoutX="240.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dysk">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -588,7 +587,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_opis_dy" layoutX="40.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_opis_produktu">
+                  <Text fx:id="value_of_opis_dy" layoutX="40.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_opis_produktu" wrappingWidth="650.0">
                      <font>
                         <Font size="14.0" />
                      </font>
