@@ -161,7 +161,7 @@
                   </Text>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="pamiec_ram" prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane fx:id="pamiec_ram" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
                   <Text fx:id="value_of_nazwa_produktu_pr" layoutX="40.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_nazwa_produktu" wrappingWidth="272.53675842285156">
                      <font>
@@ -504,7 +504,7 @@
                   </Text>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="dysk" prefHeight="200.0" prefWidth="200.0" visible="false">
+            <AnchorPane fx:id="dysk" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Text fx:id="value_of_nazwa_produktu_dy" layoutX="40.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_nazwa_produktu" wrappingWidth="272.53675842285156">
                      <font>
@@ -616,7 +616,7 @@
             <AnchorPane fx:id="wyloguj" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Button fx:id="button_wyloguj" layoutX="80.0" layoutY="72.0" mnemonicParsing="false" onMouseClicked="#wyloguj" text="Wyloguj" />
-                  <Button fx:id="button_value_of_name" layoutX="2.0" layoutY="18.0" mnemonicParsing="false" onMouseClicked="#goToUzytkownik" text="value_of_name">
+                  <Button fx:id="button_value_of_name" layoutX="-2.0" layoutY="18.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#goToUzytkownik" prefHeight="46.0" prefWidth="139.0" text="value_of_name">
                      <graphic>
                         <ImageView fx:id="image_user" fitHeight="37.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
                            <image>

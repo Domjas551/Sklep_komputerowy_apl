@@ -22,7 +22,8 @@ public class ControllerProdukt implements Initializable {
     int kategoria=-1;
 
     //Wartosci przyjete roboczo
-    private String idWybranegoProduktu="101";
+    private String idWybranegoProduktu="411";
+    private String idZalogowanegoUzytkownika="43";
 
 
     //Elementy
@@ -281,7 +282,6 @@ public class ControllerProdukt implements Initializable {
                 break;
             }
         }
-        System.out.println(kategoria);
 
         //TableOpinie
         wynik = connection.uzyskajDane("Select" +
@@ -343,44 +343,80 @@ public class ControllerProdukt implements Initializable {
                 value_of_opis_pg.setText(wynik[10]);
                 break;
             case 2:
-                //Specyfikacja pamiec_ram
-                wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena, gniazdo_procesora, chipset, typ_obslugiwanej_pamieci, liczba_bankow_pamieci, max_wielkosc_pamieci, szerokosc, wysokosc, opis" +
-                        " from produkt join plyta_glowna on produkt.id_plyty_glownej=plyta_glowna.id_plyty_glownej" +
+                //Specyfikacja karta_graficzna
+                wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena, uklad_graficzny, rodzaj_zlacza, pamiec, rodzaj_pamieci, taktowanie_pamieci, szerokosc, wysokosc, glebokosc, pobor_mocy, opis" +
+                        " from produkt join karta_graficzna on produkt.id_karty_graficznej=karta_graficzna.id_karty_graficznej" +
                         " where id_produktu = " + idWybranegoProduktu);
-                value_of_nazwa_produktu_pg.setText(wynik[0]);
-                value_of_producent_pg.setText(wynik[1]);
-                value_of_cena_pg.setText(wynik[2] + " zł");
-                value_of_gniazdo_procesora_pg.setText(wynik[3]);
-                value_of_chipset_pg.setText(wynik[4]);
-                value_of_typ_obslugiwanej_pamieci_pg.setText(wynik[5]);
-                value_of_liczba_bankow_pamieci_pg.setText(wynik[6]);
-                value_of_max_wielkosc_pamieci_pg.setText(wynik[7]+" Gb");
-                value_of_szerokosc_pg.setText(wynik[8]+ " mm");
-                value_of_wysokosc_pg.setText(wynik[9]+ " mm");
-                value_of_opis_pg.setText(wynik[10]);
+                value_of_nazwa_produktu_kg.setText(wynik[0]);
+                value_of_producent_kg.setText(wynik[1]);
+                value_of_cena_kg.setText(wynik[2] + " zł");
+                value_of_uklad_graficzny_kg.setText(wynik[3]);
+                value_of_rodzaj_zlacza_kg.setText(wynik[4]);
+                value_of_typ_obslugiwanej_pamiec_kg.setText(wynik[5]);
+                value_of_rodzaj_pamieci_kg.setText(wynik[6]);
+                value_of_taktowanie_kg.setText(wynik[7]+" Hz");
+                value_of_szerokosc_kg.setText(wynik[8]+ " mm");
+                value_of_wysokosc_kg.setText(wynik[9]+ " mm");
+                value_of_glebokosc_kg.setText(wynik[10]+ " mm");
+                value_of_pobor_mocy_kg.setText(wynik[11]+ " W");
+                value_of_opis_kg.setText(wynik[12]);
+                break;
+            case 3:
+                //Specyfikacja_procesor
+                wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena, rodzina, gniazdo_procesora, taktowanie, liczba_rdzeni, liczba_watkow, pobor_mocy, opis" +
+                        " from produkt join procesor on produkt.id_procesora=procesor.id_procesora" +
+                        " where id_produktu = " + idWybranegoProduktu);
+                value_of_nazwa_produktu_proc.setText(wynik[0]);
+                value_of_producent_proc.setText(wynik[1]);
+                value_of_cena_proc.setText(wynik[2] + " zł");
+                value_of_rodzina_proc.setText(wynik[3]);
+                value_of_gniazdo_procesora_proc.setText(wynik[4]);
+                value_of_taktowanie_proc.setText(wynik[5]+ " Hz");
+                value_of_liczba_rdzeni_proc.setText(wynik[6]);
+                value_of_liczba_watkow_proc.setText(wynik[7]);
+                value_of_pobor_mocy_proc.setText(wynik[8]+ " W");
+                value_of_opis_proc.setText(wynik[9]);
+                break;
+            case 4:
+                //Specyfikacja_procesor
+                wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena, pojemnosc, typ_dysku, szerokosc,wysokosc, glebokosc, opis" +
+                        " from produkt join dysk on produkt.id_dysku=dysk.id_dysku" +
+                        " where id_produktu = " + idWybranegoProduktu);
+                value_of_nazwa_produktu_dy.setText(wynik[0]);
+                value_of_producent_dy.setText(wynik[1]);
+                value_of_cena_dy.setText(wynik[2] + " zł");
+                value_of_pojemnosc_dy.setText(wynik[3]+" Gb");
+                value_of_typ_dysku_dy.setText(wynik[4]);
+                value_of_szerokosc_dy.setText(wynik[5]+" mm");
+                value_of_wysokosc_dy.setText(wynik[6]+" mm");
+                value_of_glebokosc_dy.setText(wynik[7]+" mm");
+                value_of_opis_dy.setText(wynik[8]);
                 break;
         }
         showSpecyfikacja();
+
+        wynik = connection.uzyskajDane("Select imie from uzytkownik where id_uzytkownika = " + idZalogowanegoUzytkownika);
+        button_value_of_name.setText(wynik[0]);
     }
 
     @FXML
     void addToCart(MouseEvent event) {
-
+        //TODO
     }
 
     @FXML
     void goHome(MouseEvent event) {
-
+        //TODO
     }
 
     @FXML
     void goToCart(MouseEvent event) {
-
+        //TODO
     }
 
     @FXML
     void goToUzytkownik(MouseEvent event) {
-
+        //TODO
     }
 
     @FXML
@@ -523,12 +559,12 @@ public class ControllerProdukt implements Initializable {
 
     @FXML
     void wyloguj(MouseEvent event) {
-
+        //TODO
     }
 
     @FXML
     void zaloguj(MouseEvent event) {
-
+        //TODO
     }
 
 }
