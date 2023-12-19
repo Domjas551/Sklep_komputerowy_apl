@@ -16,6 +16,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -198,31 +201,37 @@ public class ControllerAdmin implements Initializable {
     @FXML
     private TextField szukaj_nazwa;
     @FXML
-    private TableView<?> table_tra_zam;
+    private TableView<TableTrazam> table_tra_zam;
     @FXML
-    private TableView<?> table_uzytkownicy;
+    private TableView<TableUzytkownicy> table_uzytkownicy;
     @FXML
-    private TextField texarea_trazam_email;
+    private TextField textarea_trazam_email;
+    @FXML
+    private TextField textarea_trazam_id;
     @FXML
     private TextField textfield_email;
     @FXML
     private ChoiceBox<String> trazam_typ;
     @FXML
-    private TableColumn<?, ?> ttz_cena;
+    private TableColumn<TableTrazam, Double> ttz_cena;
     @FXML
-    private TableColumn<?, ?> ttz_email;
+    private TableColumn<TableTrazam, String> ttz_email;
     @FXML
-    private TableColumn<?, ?> ttz_ilosc;
+    private TableColumn<TableTrazam, String> ttz_id;
     @FXML
-    private TableColumn<?, ?> tu_email;
+    private TableColumn<TableTrazam, String> ttz_typ;
     @FXML
-    private TableColumn<?, ?> tu_r10;
+    private TableColumn<TableTrazam, Integer> ttz_ilosc;
     @FXML
-    private TableColumn<?, ?> tu_r15;
+    private TableColumn<TableUzytkownicy, String> tu_email;
     @FXML
-    private TableColumn<?, ?> tu_r25;
+    private TableColumn<TableUzytkownicy, String> tu_r10;
     @FXML
-    private TableColumn<?, ?> tu_r5;
+    private TableColumn<TableUzytkownicy, String> tu_r15;
+    @FXML
+    private TableColumn<TableUzytkownicy, String> tu_r25;
+    @FXML
+    private TableColumn<TableUzytkownicy, String> tu_r5;
     @FXML
     private AnchorPane uzupelnianie;
     @FXML
@@ -241,17 +250,33 @@ public class ControllerAdmin implements Initializable {
     private TableColumn<TableUzupelnianie, String> tuz_typ;
 
     //dane
-    String nazwy_plyty[];
-    String nazwy_procesory[];
-    String nazwy_karty[];
-    String nazwy_pamiec[];
-    String nazwy_dyski[];
-    String nazwy_zestawy[];
+    private String nazwy_plyty[];
+    private String nazwy_procesory[];
+    private String nazwy_karty[];
+    private String nazwy_pamiec[];
+    private String nazwy_dyski[];
+    private String nazwy_zestawy[];
+
+    private String email;
+    private String r5;
+    private String r10;
+    private String r15;
+    private String r25;
+
+    private ArrayList<String> nazwyProduktowUzupelnij=new ArrayList<>();
+    private ArrayList<String> typProduktowUzupelnij=new ArrayList<>();
+    private ArrayList<Integer> iloscProduktowUzupelnij=new ArrayList<>();
+
+    private String nazwaWybranyProdukt;
+    private String typWybranyProdukt;
+
+    private String trazamId;
+    private String trazamTyp;
+
 
     //wprowadzenie wartości do tabel
+    //tabela uzupełnień
     public void odswiezTableUzupelnij(){
-        // tabela uzupełniania komponentów
-
         //utworzenie list do wypełniania odpowiednich typów
         ObservableList<TableUzupelnianie> tuz_list= FXCollections.observableArrayList();
 
@@ -277,11 +302,16 @@ public class ControllerAdmin implements Initializable {
                     "join dysk on produkt.id_dysku=dysk.id_dysku " +
                     "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu) order by ilosc asc");
 
-            for(int i=0;i<wynik.length;i+=3){
-                tuz_list.add(new TableUzupelnianie(wynik[i],wynik[i+1],Integer.parseInt(wynik[i+2])));
-                dane.getNazwyProduktowUzupelnij().add(wynik[i]);
-                dane.getTypProduktowUzupelnij().add(wynik[i+1]);
-                dane.getIloscProduktowUzupelnij().add(Integer.parseInt(wynik[i+2]));
+            if(wynik.length<=1){
+                //gdy zapytanie nie zwróciło żądnych wyników
+                tuz_list.clear();
+            }else{
+                for(int i=0;i<wynik.length;i+=3){
+                    tuz_list.add(new TableUzupelnianie(wynik[i],wynik[i+1],Integer.parseInt(wynik[i+2])));
+                    nazwyProduktowUzupelnij.add(wynik[i]);
+                    typProduktowUzupelnij.add(wynik[i+1]);
+                    iloscProduktowUzupelnij.add(Integer.parseInt(wynik[i+2]));
+                }
             }
 
             table_uzupelnianie.setItems(tuz_list);
@@ -301,16 +331,99 @@ public class ControllerAdmin implements Initializable {
         }
     }
 
+    //tabela transakcji-zamówień
+    public void uzupelnijTableTrazam(){
+
+        //utworzenie list do wypełniania odpowiednich typów
+        ObservableList<TableTrazam> ttz_list= FXCollections.observableArrayList();
+
+        //wypełnienie danymi z BD
+        if(dane.getOstatnieZapytanieTableTrazam().equals("")){
+            String wynik[]= connection.uzyskajDane("Select id_transakcji as id, email,'T' as typ, " +
+                    "(Select count(*) from produkt where id_transakcji=t.id_transakcji) as ilosc, cena_calkowita from transakcja t " +
+                    "join uzytkownik on t.id_uzytkownika=uzytkownik.id_uzytkownika  where status='oczekująca'" +
+                    "union " +
+                    "Select id_zamowienia as id, email,'Z' as typ, (Select count(*) from produkt where id_zamowienia=z.id_zamowienia) as ilosc, cena_calkowita from zamowienie z " +
+                    "join uzytkownik on z.id_uzytkownika=uzytkownik.id_uzytkownika where status_odbioru='oczekujace'");
+
+            if(wynik.length<=1){
+                //gdy zapytanie nie zwróciło żądnych wyników
+                ttz_list.clear();
+            }else{
+                for(int i=0;i<wynik.length;i+=5){
+                    ttz_list.add(new TableTrazam(wynik[i],wynik[i+1],wynik[i+2],Integer.parseInt(wynik[i+3]),Double.parseDouble(wynik[i+4])));
+                }
+            }
+
+            table_tra_zam.setItems(ttz_list);
+        }else{
+            //danymi z uprzednio wykonanego zapytania
+            String wynik[]= connection.uzyskajDane(dane.getOstatnieZapytanieTableTrazam());
+            if(wynik.length<=1){
+                //gdy zapytanie nie zwróciło żądnych wyników
+                ttz_list.clear();
+            }else{
+                for(int i=0;i<wynik.length;i+=5){
+                    ttz_list.add(new TableTrazam(wynik[i],wynik[i+1],wynik[i+2],Integer.parseInt(wynik[i+3]),Double.parseDouble(wynik[i+4])));
+                }
+            }
+
+            table_tra_zam.setItems(ttz_list);
+        }
+    }
+
+    //tabela użtkowników i rabatów
+    public void uzupelnijTableUzytkownicy(){
+        //utworzenie list do wypełniania odpowiednich typów
+        ObservableList<TableUzytkownicy> tu_list= FXCollections.observableArrayList();
+
+        //wypełnienie danymi z BD
+        if(dane.getOstatnieZapytanieTableUzytkownicy().equals("")){
+            String wynik[]= connection.uzyskajDane("Select email, " +
+                    "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=1) then 'P' else 'N' end as \"0.05\", " +
+                "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=2) then 'P' else 'N' end as \"0.1\", " +
+                "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=3) then 'P' else 'N' end as \"0.15\", " +
+                "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=4) then 'P' else 'N' end as \"0.25\" from uzytkownik u");
+
+            if(wynik.length<=1){
+                //gdy zapytanie nie zwróciło żądnych wyników
+                tu_list.clear();
+            }else{
+                for(int i=0;i<wynik.length;i+=5){
+                    tu_list.add(new TableUzytkownicy(wynik[i],wynik[i+1],wynik[i+2],wynik[i+3],wynik[i+4]));
+                }
+            }
+
+            table_uzytkownicy.setItems(tu_list);
+        }else{
+            //danymi z uprzednio wykonanego zapytania
+            String wynik[]= connection.uzyskajDane(dane.getOstatnieZapytanieTableUzytkownicy());
+            if(wynik.length<=1){
+                //gdy zapytanie nie zwróciło żądnych wyników
+                tu_list.clear();
+            }else{
+                for(int i=0;i<wynik.length;i+=5){
+                    tu_list.add(new TableUzytkownicy(wynik[i],wynik[i+1],wynik[i+2],wynik[i+3],wynik[i+4]));
+                }
+            }
+
+            table_uzytkownicy.setItems(tu_list);
+        }
+    }
+
     //inicializacja strony admina
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         //ustawienie wartości w choiceboxach
         magazyn_akcja.getItems().addAll("Uzupełnij","Dodaj");
         f_typ_produktu.getItems().addAll("Płyta główna","Procesor","Karta graficzna","Pamięć RAM","Dysk","Zestaw");
+        trazam_typ.getItems().addAll("Transakcja","Zamówienie","Oba");
+        scrollbar_typ_rabatu.getItems().addAll("5%","10%","15%","25%");
 
         //ustawienie domyślnej wartości
         magazyn_akcja.setValue("Uzupełnij");
         f_typ_produktu.setValue("Płyta główna");
+        scrollbar_typ_rabatu.setValue("5%");
         //ustawienie wykonywanych funkcji przy zmianie wartośći w choiceboxach
         magazyn_akcja.setOnAction(actionEvent -> formZmienStrone());
         f_typ_produktu.setOnAction(actionEvent -> formZmienStroneForm());
@@ -401,8 +514,30 @@ public class ControllerAdmin implements Initializable {
         tuz_typ.setCellValueFactory(new PropertyValueFactory<TableUzupelnianie,String>("typ"));
         tuz_ilosc.setCellValueFactory(new PropertyValueFactory<TableUzupelnianie,Integer>("ilosc"));
 
+        //tabela trazam
+        ttz_id.setCellValueFactory(new PropertyValueFactory<TableTrazam,String>("id"));
+        ttz_email.setCellValueFactory(new PropertyValueFactory<TableTrazam,String>("email"));
+        ttz_typ.setCellValueFactory(new PropertyValueFactory<TableTrazam,String>("typ"));
+        ttz_ilosc.setCellValueFactory(new PropertyValueFactory<TableTrazam,Integer>("ilosc"));
+        ttz_cena.setCellValueFactory(new PropertyValueFactory<TableTrazam,Double>("cena"));
+
+        //tabela uzytkowników i rabatów
+        tu_email.setCellValueFactory(new PropertyValueFactory<TableUzytkownicy,String>("email"));
+        tu_r5.setCellValueFactory(new PropertyValueFactory<TableUzytkownicy,String>("rabat5"));
+        tu_r10.setCellValueFactory(new PropertyValueFactory<TableUzytkownicy,String>("rabat10"));
+        tu_r15.setCellValueFactory(new PropertyValueFactory<TableUzytkownicy,String>("rabat15"));
+        tu_r25.setCellValueFactory(new PropertyValueFactory<TableUzytkownicy,String>("rabat25"));
+
         //wstawienie wartości do tabel
+
+        //tabela uzupełniania komponentów
         odswiezTableUzupelnij();
+
+        //tabela transakcji-zamówień
+        uzupelnijTableTrazam();
+
+        //tabela użytkowników
+        uzupelnijTableUzytkownicy();
 
     };
 
@@ -1243,7 +1378,7 @@ public class ControllerAdmin implements Initializable {
 
             //wypełnienie danymi z BD
 
-            String wynik[]= connection.uzyskajDane("Select nazwa_produktu, typ, ilosc from (Select plyta_glowna.nazwa_produktu, 'Płyta główna' as typ, count(*) as ilosc from produkt " +
+            String zapytanie="Select nazwa_produktu, typ, ilosc from (Select plyta_glowna.nazwa_produktu, 'Płyta główna' as typ, count(*) as ilosc from produkt " +
                     "join plyta_glowna on produkt.id_plyty_glownej=plyta_glowna.id_plyty_glownej " +
                     "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu" +
                     " union " +
@@ -1261,13 +1396,20 @@ public class ControllerAdmin implements Initializable {
                     "union " +
                     "select dysk.nazwa_produktu, 'Dysk' as typ, count(*) as ilosc from produkt " +
                     "join dysk on produkt.id_dysku=dysk.id_dysku " +
-                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu) where nazwa_produktu like('%"+nazwa+"%') order by ilosc asc");
+                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu) where nazwa_produktu like('%"+nazwa+"%') order by ilosc asc";
+            String wynik[]= connection.uzyskajDane(zapytanie);
 
+            if(wynik.length<=1){
+                //gdy zapytanie nie zwróciło żądnych wyników
+                tuz_list.clear();
+            }else{
                 for(int i=0;i<wynik.length;i+=3){
                     tuz_list.add(new TableUzupelnianie(wynik[i],wynik[i+1],Integer.parseInt(wynik[i+2])));
                 }
+            }
 
                 table_uzupelnianie.setItems(tuz_list);
+                dane.setOstatnieZapytanieUzupelnijTable(zapytanie);
         }else{
             //wyszukanie wszystkich
 
@@ -1296,11 +1438,17 @@ public class ControllerAdmin implements Initializable {
                     "join dysk on produkt.id_dysku=dysk.id_dysku " +
                     "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu) order by ilosc asc");
 
-            for(int i=0;i<wynik.length;i+=3){
-                tuz_list.add(new TableUzupelnianie(wynik[i],wynik[i+1],Integer.parseInt(wynik[i+2])));
+            if(wynik.length<=1){
+                //gdy zapytanie nie zwróciło żądnych wyników
+                tuz_list.clear();
+            }else{
+                for(int i=0;i<wynik.length;i+=3){
+                    tuz_list.add(new TableUzupelnianie(wynik[i],wynik[i+1],Integer.parseInt(wynik[i+2])));
+                }
             }
 
             table_uzupelnianie.setItems(tuz_list);
+            dane.setOstatnieZapytanieUzupelnijTable("");
         }
     }
 
@@ -1310,7 +1458,8 @@ public class ControllerAdmin implements Initializable {
     void wybierzProdukt(MouseEvent event){
         Integer index=table_uzupelnianie.getSelectionModel().getSelectedIndex();
 
-        dane.wybierzProdukt(tuz_nazwa.getCellData(index),tuz_typ.getCellData(index));
+        nazwaWybranyProdukt=tuz_nazwa.getCellData(index);
+        typWybranyProdukt=tuz_typ.getCellData(index);
     }
 
     //funkcja do uzupełniania wybranego produktu o podaną ilość
@@ -1320,18 +1469,18 @@ public class ControllerAdmin implements Initializable {
         if(!uzupelnij_ilosc.getText().equals("")){
             int ilosc=Integer.parseInt(uzupelnij_ilosc.getText());
 
-            if(dane.getTypWybranyProdukt().equals("Płyta główna")){
+            if(typWybranyProdukt.equals("Płyta główna")){
 
                 for(int i=0;i<ilosc;i++){
 
                     String wynik=connection.wprowadzDane("Insert into produkt " +
                             "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
                             " null, null, null, " +
-                            "(select id_plyty_glownej from plyta_glowna where nazwa_produktu='"+dane.getNazwaWybranyProdukt()+"'), " +
+                            "(select id_plyty_glownej from plyta_glowna where nazwa_produktu='"+nazwaWybranyProdukt+"'), " +
                             "null,null,null,null)");
                     System.out.println(wynik);
                 }
-            }else if(dane.getTypWybranyProdukt().equals("Procesor")){
+            }else if(typWybranyProdukt.equals("Procesor")){
                 for(int i=0;i<ilosc;i++){
 
                     String wynik=connection.wprowadzDane("Insert into produkt " +
@@ -1339,37 +1488,24 @@ public class ControllerAdmin implements Initializable {
                             " null, null, null, " +
                             "null, " +
                             "null," +
-                            "(select id_procesora from procesor where nazwa_produktu='"+dane.getNazwaWybranyProdukt()+"')," +
+                            "(select id_procesora from procesor where nazwa_produktu='"+nazwaWybranyProdukt+"')," +
                             "null,null)");
                     System.out.println(wynik);
                 }
-            }else if(dane.getTypWybranyProdukt().equals("Pamięć RAM")){
+            }else if(typWybranyProdukt.equals("Pamięć RAM")){
                 for(int i=0;i<ilosc;i++){
 
                     String wynik=connection.wprowadzDane("Insert into produkt " +
                             "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
                             " null, null," +
-                            " (select id_pamieci_ram from pamiec_ram where nazwa_produktu='"+dane.getNazwaWybranyProdukt()+"'), " +
+                            " (select id_pamieci_ram from pamiec_ram where nazwa_produktu='"+nazwaWybranyProdukt+"'), " +
                             "null, " +
                             "null," +
                             "null," +
                             "null,null)");
                     System.out.println(wynik);
                 }
-            }else if(dane.getTypWybranyProdukt().equals("Karta graficzna")){
-                for(int i=0;i<ilosc;i++){
-
-                    String wynik=connection.wprowadzDane("Insert into produkt " +
-                            "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
-                            " null, null," +
-                            " null, " +
-                            "null, " +
-                            "(select id_karty_graficznej from karta_graficzna where nazwa_produktu='"+dane.getNazwaWybranyProdukt()+"')," +
-                            "null," +
-                            "null,null)");
-                    System.out.println(wynik);
-                }
-            }else if(dane.getTypWybranyProdukt().equals("Dysk")){
+            }else if(typWybranyProdukt.equals("Karta graficzna")){
                 for(int i=0;i<ilosc;i++){
 
                     String wynik=connection.wprowadzDane("Insert into produkt " +
@@ -1377,9 +1513,22 @@ public class ControllerAdmin implements Initializable {
                             " null, null," +
                             " null, " +
                             "null, " +
+                            "(select id_karty_graficznej from karta_graficzna where nazwa_produktu='"+nazwaWybranyProdukt+"')," +
+                            "null," +
+                            "null,null)");
+                    System.out.println(wynik);
+                }
+            }else if(typWybranyProdukt.equals("Dysk")){
+                for(int i=0;i<ilosc;i++){
+
+                    String wynik=connection.wprowadzDane("Insert into produkt " +
+                            "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
+                            " null, null," +
+                            " null, " +
+                            "null, " +
                             "null," +
                             "null," +
-                            "(select id_dysku from dysk where nazwa_produktu='"+dane.getNazwaWybranyProdukt()+"'),null)");
+                            "(select id_dysku from dysk where nazwa_produktu='"+nazwaWybranyProdukt+"'),null)");
                     System.out.println(wynik);
                 }
             }
@@ -1395,20 +1544,20 @@ public class ControllerAdmin implements Initializable {
     @FXML
     void uzupelnijWszystkieProdukty(){
 
-        System.out.println(dane.getNazwyProduktowUzupelnij().size());
+        System.out.println(nazwyProduktowUzupelnij.size());
 
-        for(int j=0;j<dane.getNazwyProduktowUzupelnij().size();j++) {
+        for(int j=0;j<nazwyProduktowUzupelnij.size();j++) {
 
-            if(dane.getIloscProduktowUzupelnij().get(j)<10) {
+            if(iloscProduktowUzupelnij.get(j)<10) {
                 {
-                    if (dane.getTypProduktowUzupelnij().get(j).equals("Płyta główna")) {
+                    if (typProduktowUzupelnij.get(j).equals("Płyta główna")) {
 
-                        for (int i = 0; i < (10-dane.getIloscProduktowUzupelnij().get(j)); i++) {
+                        for (int i = 0; i < (10-iloscProduktowUzupelnij.get(j)); i++) {
 
                             String wynik = connection.wprowadzDane("Insert into produkt " +
                                     "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
                                     " null, null, null, " +
-                                    "(select id_plyty_glownej from plyta_glowna where nazwa_produktu='" + dane.getNazwyProduktowUzupelnij().get(j) + "'), " +
+                                    "(select id_plyty_glownej from plyta_glowna where nazwa_produktu='" + nazwyProduktowUzupelnij.get(j) + "'), " +
                                     "null,null,null,null)");
                             System.out.println(wynik);
 
@@ -1417,15 +1566,15 @@ public class ControllerAdmin implements Initializable {
                                 break;
                             }
                         }
-                    } else if (dane.getTypProduktowUzupelnij().get(j).equals("Procesor")) {
-                        for (int i = 0; i < (10-dane.getIloscProduktowUzupelnij().get(j)); i++) {
+                    } else if (typProduktowUzupelnij.get(j).equals("Procesor")) {
+                        for (int i = 0; i < (10-iloscProduktowUzupelnij.get(j)); i++) {
 
                             String wynik = connection.wprowadzDane("Insert into produkt " +
                                     "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
                                     " null, null, null, " +
                                     "null, " +
                                     "null," +
-                                    "(select id_procesora from procesor where nazwa_produktu='" + dane.getNazwyProduktowUzupelnij().get(j) + "')," +
+                                    "(select id_procesora from procesor where nazwa_produktu='" + nazwyProduktowUzupelnij.get(j) + "')," +
                                     "null,null)");
                             System.out.println(wynik);
 
@@ -1434,13 +1583,13 @@ public class ControllerAdmin implements Initializable {
                                 break;
                             }
                         }
-                    } else if (dane.getTypProduktowUzupelnij().get(j).equals("Pamięć RAM")) {
-                        for (int i = 0; i < (10-dane.getIloscProduktowUzupelnij().get(j)); i++) {
+                    } else if (typProduktowUzupelnij.get(j).equals("Pamięć RAM")) {
+                        for (int i = 0; i < (10-iloscProduktowUzupelnij.get(j)); i++) {
 
                             String wynik = connection.wprowadzDane("Insert into produkt " +
                                     "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
                                     " null, null," +
-                                    " (select id_pamieci_ram from pamiec_ram where nazwa_produktu='" + dane.getNazwyProduktowUzupelnij().get(j) + "'), " +
+                                    " (select id_pamieci_ram from pamiec_ram where nazwa_produktu='" + nazwyProduktowUzupelnij.get(j) + "'), " +
                                     "null, " +
                                     "null," +
                                     "null," +
@@ -1452,35 +1601,35 @@ public class ControllerAdmin implements Initializable {
                                 break;
                             }
                         }
-                    } else if (dane.getTypProduktowUzupelnij().get(j).equals("Karta graficzna")) {
-                        for (int i = 0; i < (10-dane.getIloscProduktowUzupelnij().get(j)); i++) {
-
-                            String wynik = connection.wprowadzDane("Insert into produkt " +
-                                    "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
-                                    " null, null," +
-                                    " null, " +
-                                    "null, " +
-                                    "(select id_karty_graficznej from karta_graficzna where nazwa_produktu='" + dane.getNazwyProduktowUzupelnij().get(j) + "')," +
-                                    "null," +
-                                    "null,null)");
-                            System.out.println(wynik);
-
-                            //przerwanie pętli w razie wystąpienia błędu
-                            if(wynik.equals("Wprowadzenie/modyfikacja danych nieudana")){
-                                break;
-                            }
-                        }
-                    } else if (dane.getTypProduktowUzupelnij().get(j).equals("Dysk")) {
-                        for (int i = 0; i < (10-dane.getIloscProduktowUzupelnij().get(j)); i++) {
+                    } else if (typProduktowUzupelnij.get(j).equals("Karta graficzna")) {
+                        for (int i = 0; i < (10-iloscProduktowUzupelnij.get(j)); i++) {
 
                             String wynik = connection.wprowadzDane("Insert into produkt " +
                                     "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
                                     " null, null," +
                                     " null, " +
                                     "null, " +
+                                    "(select id_karty_graficznej from karta_graficzna where nazwa_produktu='" + nazwyProduktowUzupelnij.get(j) + "')," +
+                                    "null," +
+                                    "null,null)");
+                            System.out.println(wynik);
+
+                            //przerwanie pętli w razie wystąpienia błędu
+                            if(wynik.equals("Wprowadzenie/modyfikacja danych nieudana")){
+                                break;
+                            }
+                        }
+                    } else if (typProduktowUzupelnij.get(j).equals("Dysk")) {
+                        for (int i = 0; i < (10-iloscProduktowUzupelnij.get(j)); i++) {
+
+                            String wynik = connection.wprowadzDane("Insert into produkt " +
+                                    "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
+                                    " null, null," +
+                                    " null, " +
+                                    "null, " +
                                     "null," +
                                     "null," +
-                                    "(select id_dysku from dysk where nazwa_produktu='" + dane.getNazwyProduktowUzupelnij().get(j) + "'),null)");
+                                    "(select id_dysku from dysk where nazwa_produktu='" + nazwyProduktowUzupelnij.get(j) + "'),null)");
                             System.out.println(wynik);
 
                             //przerwanie pętli w razie wystąpienia błędu
@@ -1497,6 +1646,256 @@ public class ControllerAdmin implements Initializable {
         odswiezTableUzupelnij();
     }
 
+    //funkcja do przesiewania danych w tabeli transakcji-zamówień
+    @FXML
+    void przesiejTableTrazam(){
+        try {
+            //utworzenie list do wypełniania odpowiednich typów
+            ObservableList<TableTrazam> ttz_list = FXCollections.observableArrayList();
+
+            //pobranie wartości z pól wyszukiwania
+            String email = textarea_trazam_email.getText();
+
+            //sprawdzenie poprawności id
+
+            //utworzenie ograniczenia na cene
+            Pattern pat_cena = Pattern.compile("^[0-9]*+$");
+            Matcher matcher;
+
+            if (!textarea_trazam_id.getText().equals("")) {
+                //sprawdzenie poprawności wprowadzonych danych
+                matcher = pat_cena.matcher(textarea_trazam_id.getText());
+                if (matcher.find()) {
+                    //pass
+                } else {
+                    throw new TypeException("Id przyjmuje tylko cyfry");
+                }
+            }
+
+            String id = textarea_trazam_id.getText();
+
+            String zapytanie = "Select id, email, typ, ilosc, cena_calkowita from (Select id_transakcji as id, email,'T' as typ, " +
+                    "(Select count(*) from produkt where id_transakcji=t.id_transakcji) as ilosc, cena_calkowita from transakcja t " +
+                    "join uzytkownik on t.id_uzytkownika=uzytkownik.id_uzytkownika  where status='oczekująca' " +
+                    "union " +
+                    "Select id_zamowienia as id, email,'Z' as typ, (Select count(*) from produkt where id_zamowienia=z.id_zamowienia) as ilosc, cena_calkowita from zamowienie z " +
+                    "join uzytkownik on z.id_uzytkownika=uzytkownik.id_uzytkownika where status_odbioru='oczekujace') t where ";
+
+            ArrayList<String> sl = new ArrayList<>();
+
+            if (!email.equals("")) {
+                sl.add("email like('%" + email + "%')");
+            }
+            if (trazam_typ.getSelectionModel().getSelectedItem() != null && !trazam_typ.getSelectionModel().getSelectedItem().equals("Oba")) {
+                sl.add("typ='" + (trazam_typ.getSelectionModel().getSelectedItem().equals("Transakcja") ? "T'" : "Z'"));
+            }
+            if (!id.equals("")) {
+                sl.add("id=" + id);
+            }
+
+            for (int i = 0; i < sl.size(); i++) {
+                if(i==0){
+                    zapytanie+=sl.get(i);
+                }else{
+                    zapytanie+=" and "+sl.get(i);
+                }
+            }
+            if(sl.size()>0){
+                //wprowadzenie elementów do tabeli
+                String wynik[]= connection.uzyskajDane(zapytanie);
+
+                if(wynik.length<=1){
+                    //gdy zapytanie nie zwróciło żądnych wyników
+                    ttz_list.clear();
+                }else{
+                    for(int i=0;i<wynik.length;i+=5){
+                        ttz_list.add(new TableTrazam(wynik[i],wynik[i+1],wynik[i+2],Integer.parseInt(wynik[i+3]),Double.parseDouble(wynik[i+4])));
+                    }
+                }
+
+                table_tra_zam.setItems(ttz_list);
+
+                dane.setOstatnieZapytanieTableTrazam(zapytanie);
+            }else {
+                dane.setOstatnieZapytanieTableTrazam("");
+                uzupelnijTableTrazam();
+            }
+
+        }catch(TypeException t){
+            System.out.println(t);
+        }
+    }
+
+    //funkcja do wybierania transakcji/zamówienia z tabeli
+    @FXML
+    void wybierzTrazam(){
+        Integer index=table_tra_zam.getSelectionModel().getSelectedIndex();
+
+        trazamId=ttz_id.getCellData(index);
+        trazamTyp=ttz_typ.getCellData(index);
+    }
+
+    //funkcja do zatwierdzania transakcji/zamówień
+    @FXML
+    void zatwierdzTrazam(){
+        String id=trazamId;
+        String typ=trazamTyp;
+
+        if(typ.equals("T")){
+            String wynik=connection.wprowadzDane("Update transakcja " +
+                    "set status='zatwierdzona' where id_transakcji="+id);
+            System.out.println(wynik);
+        }else{
+
+            String wynik=connection.wprowadzDane("Update zamowienie " +
+                    "set status_odbioru='do odbioru' where id_zamowienia="+id);
+            System.out.println(wynik);
+        }
+
+        uzupelnijTableTrazam();
+
+    }
+
+    //funkcja do odrzucania transakcji/zamówień
+    @FXML
+    void odrzucTrazam(){
+        String id=trazamId;
+        String typ=trazamTyp;
+
+        if(typ.equals("T")){
+            String wynik=connection.wprowadzDane("Update transakcja " +
+                    "set status='anulowana' where id_transakcji="+id);
+            System.out.println(wynik);
+        }else{
+            String wynik=connection.wprowadzDane("Update zamowienie " +
+                    "set status_odbioru='anulowane' where id_zamowienia="+id);
+            System.out.println(wynik);
+        }
+
+        uzupelnijTableTrazam();
+
+    }
+
+    //funkcja do przesiewania tabeli użytkownicy
+    @FXML
+    void przesiejTableUzytkownicy(){
+
+        //utworzenie list do wypełniania odpowiednich typów
+        ObservableList<TableUzytkownicy> tu_list = FXCollections.observableArrayList();
+
+        //pobranie wartości z pól wyszukiwania
+        String email = textfield_email.getText();
+
+        String zapytanie = "Select email, " +
+                "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=1) then 'P' else 'N' end as \"0.05\", " +
+                "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=2) then 'P' else 'N' end as \"0.1\", " +
+                "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=3) then 'P' else 'N' end as \"0.15\", " +
+            "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=4) then 'P' else 'N' end as \"0.25\" from uzytkownik u where ";
+
+        if (!email.equals("")) {
+            zapytanie+="email like('%" + email + "%')";
+
+            //wprowadzenie elementów do tabeli
+            String wynik[]= connection.uzyskajDane(zapytanie);
+
+            if(wynik.length<=1){
+                //gdy zapytanie nie zwróciło żądnych wyników
+                tu_list.clear();
+            }else{
+                for(int i=0;i<wynik.length;i+=5){
+                    tu_list.add(new TableUzytkownicy(wynik[i],wynik[i+1],wynik[i+2],wynik[i+3],wynik[i+4]));
+                }
+            }
+
+            table_uzytkownicy.setItems(tu_list);
+
+            dane.setOstatnieZapytanieTableUzytkownicy(zapytanie);
+        }else{
+            dane.setOstatnieZapytanieTableUzytkownicy("");
+            uzupelnijTableUzytkownicy();
+        }
+
+    }
+
+    //funkcja do pobierania użytkownika
+    @FXML
+    void pobierzUzytkownika(MouseEvent event){
+        Integer index=table_uzytkownicy.getSelectionModel().getSelectedIndex();
+
+        email=tu_email.getCellData(index);
+        r5=tu_r5.getCellData(index);
+        r10=tu_r10.getCellData(index);
+        r15=tu_r15.getCellData(index);
+        r25=tu_r25.getCellData(index);
+    }
+
+    //funkcja do przyznawania rabatów
+    @FXML
+    void przyznajRabat(){
+        String rabat=scrollbar_typ_rabatu.getSelectionModel().getSelectedItem();
+        String id_rabatu;
+        String id_uz=connection.uzyskajDane("Select id_uzytkownika from uzytkownik where email='"+email+"'")[0];
+
+        LocalDateTime date = LocalDateTime.now();
+        date=date.plusMonths(1);
+        DateTimeFormatter formatowanie = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
+
+        String formattedDate = date.format(formatowanie);
+
+        switch(rabat){
+            case "5%":
+                if(r5.equals("N")){
+                    id_rabatu=connection.uzyskajDane("Select id_rabatu from typ_rabatu where kwota=0.05")[0];
+                    String wynik=connection.wprowadzDane("insert into uzytkownik_rabat " +
+                            "values("+id_rabatu+", " +
+                            id_uz+"," +
+                            "'"+formattedDate+"')");
+                    System.out.println(wynik);
+                }else{
+                    System.out.println("Uzytkownik posiada już ten rabat");
+                }
+                break;
+            case "10%":
+                if(r10.equals("N")){
+                    id_rabatu=connection.uzyskajDane("Select id_rabatu from typ_rabatu where kwota=0.10")[0];
+                    String wynik=connection.wprowadzDane("insert into uzytkownik_rabat " +
+                            "values("+id_rabatu+", " +
+                            id_uz+"," +
+                            "'"+formattedDate+"')");
+                    System.out.println(wynik);
+                }else{
+                    System.out.println("Uzytkownik posiada już ten rabat");
+                }
+                break;
+            case "15%":
+                if(r15.equals("N")){
+                    id_rabatu=connection.uzyskajDane("Select id_rabatu from typ_rabatu where kwota=0.15")[0];
+                    String wynik=connection.wprowadzDane("insert into uzytkownik_rabat " +
+                            "values("+id_rabatu+", " +
+                            id_uz+"," +
+                            "'"+formattedDate+"')");
+                    System.out.println(wynik);
+                }else{
+                    System.out.println("Uzytkownik posiada już ten rabat");
+                }
+                break;
+            case "25%":
+            if(r25.equals("N")){
+                id_rabatu=connection.uzyskajDane("Select id_rabatu from typ_rabatu where kwota=0.25")[0];
+                String wynik=connection.wprowadzDane("insert into uzytkownik_rabat " +
+                        "values("+id_rabatu+", " +
+                        id_uz+"," +
+                        "'"+formattedDate+"')");
+                System.out.println(wynik);
+            }else{
+                System.out.println("Uzytkownik posiada już ten rabat");
+            }
+            break;
+        }
+
+        uzupelnijTableUzytkownicy();
+
+    }
 
 }
 

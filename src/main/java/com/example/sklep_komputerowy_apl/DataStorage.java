@@ -14,13 +14,15 @@ public class DataStorage {
     private String ostatnieZapytanieRam="";
     private String ostatnieZapytanieDyski="";
     private String ostatnieZapytanieZestawy="";
+    //ostatnie zapytanie do tabeli uzupełnień komponentów
     private String ostatnieZapytanieUzupelnijTable="";
-    private ArrayList<String> nazwyProduktowUzupelnij=new ArrayList<>();
-    private ArrayList<String> typProduktowUzupelnij=new ArrayList<>();
-    private ArrayList<Integer> iloscProduktowUzupelnij=new ArrayList<>();
 
-    private String nazwaWybranyProdukt;
-    private String typWybranyProdukt;
+    //ostatnie zapytanie do tabeli transakcji-zamówień
+    private String ostatnieZapytanieTableTrazam="";
+
+    //ostatnie zapyranie do tabeli użytkowników
+    private String ostatnieZapytanieTableUzytkownicy="";
+
 
     public DataStorage(){
         this.wyszukiwarka_activePage ="plyty";
@@ -82,40 +84,19 @@ public class DataStorage {
         this.ostatnieZapytanieUzupelnijTable = ostatnieZapytanieUzupelnijTable;
     }
 
-    public void setNazwyProduktowUzupelnij(ArrayList<String> nazwyProduktowUzupelnij) {
-        this.nazwyProduktowUzupelnij = nazwyProduktowUzupelnij;
+    public String getOstatnieZapytanieTableTrazam() {
+        return ostatnieZapytanieTableTrazam;
     }
 
-    public void setTypProduktowUzupelnij(ArrayList<String> typProduktowUzupelnij) {
-        this.typProduktowUzupelnij = typProduktowUzupelnij;
+    public void setOstatnieZapytanieTableTrazam(String ostatnieZapytanieTableTrazam) {
+        this.ostatnieZapytanieTableTrazam = ostatnieZapytanieTableTrazam;
     }
 
-    public void setIloscProduktowUzupelnij(ArrayList<Integer> iloscProduktowUzupelnij) {
-        this.iloscProduktowUzupelnij = iloscProduktowUzupelnij;
+    public String getOstatnieZapytanieTableUzytkownicy() {
+        return ostatnieZapytanieTableUzytkownicy;
     }
 
-    public ArrayList<String> getNazwyProduktowUzupelnij() {
-        return nazwyProduktowUzupelnij;
-    }
-
-    public ArrayList<Integer> getIloscProduktowUzupelnij() {
-        return iloscProduktowUzupelnij;
-    }
-
-    public ArrayList<String> getTypProduktowUzupelnij() {
-        return typProduktowUzupelnij;
-    }
-
-    public void wybierzProdukt(String nazwa, String typ){
-        this.nazwaWybranyProdukt=nazwa;
-        this.typWybranyProdukt=typ;
-    }
-
-    public String getNazwaWybranyProdukt() {
-        return nazwaWybranyProdukt;
-    }
-
-    public String getTypWybranyProdukt() {
-        return typWybranyProdukt;
+    public void setOstatnieZapytanieTableUzytkownicy(String ostatnieZapytanieTableUzytkownicy) {
+        this.ostatnieZapytanieTableUzytkownicy = ostatnieZapytanieTableUzytkownicy;
     }
 }

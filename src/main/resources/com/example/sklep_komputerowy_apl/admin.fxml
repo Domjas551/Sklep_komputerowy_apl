@@ -43,7 +43,7 @@
                   </ScrollPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="magazyn" prefHeight="563.0" prefWidth="774.0">
+            <AnchorPane fx:id="magazyn" prefHeight="563.0" prefWidth="774.0" visible="false">
                <children>
                   <ScrollPane hbarPolicy="NEVER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="460.0" prefWidth="200.0" vbarPolicy="NEVER">
                     <content>
@@ -276,12 +276,14 @@
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="458.0" prefWidth="200.0" style="-fx-background-color: gray;">
                            <children>
                               <Text layoutX="50.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wyszukaj po email" />
-                              <TextField fx:id="texarea_trazam_email" layoutX="26.0" layoutY="60.0" />
-                              <Button fx:id="button_szukaj_trazam" layoutX="75.0" layoutY="100.0" mnemonicParsing="false" text="Szukaj" />
-                              <Text layoutX="90.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Typ" />
-                              <ChoiceBox fx:id="trazam_typ" layoutX="24.0" layoutY="172.0" prefWidth="150.0" />
-                              <Button fx:id="button_trazam_zatrwierdz" layoutX="65.0" layoutY="230.0" mnemonicParsing="false" text="Zatwierdź" />
-                              <Button fx:id="button_trazam_odrzuc" layoutX="70.0" layoutY="280.0" mnemonicParsing="false" text="Odrzuć" />
+                              <TextField fx:id="textarea_trazam_email" layoutX="26.0" layoutY="60.0" nodeOrientation="LEFT_TO_RIGHT" />
+                              <Button fx:id="button_szukaj_trazam" layoutX="75.0" layoutY="240.0" mnemonicParsing="false" onMouseClicked="#przesiejTableTrazam" text="Szukaj" />
+                              <Text layoutX="90.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Typ" />
+                              <ChoiceBox fx:id="trazam_typ" layoutX="24.0" layoutY="190.0" prefWidth="150.0" />
+                              <Button fx:id="button_trazam_zatrwierdz" layoutX="65.0" layoutY="280.0" mnemonicParsing="false" onMouseClicked="#zatwierdzTrazam" text="Zatwierdź" />
+                              <Button fx:id="button_trazam_odrzuc" layoutX="72.5" layoutY="320.0" mnemonicParsing="false" onMouseClicked="#odrzucTrazam" text="Odrzuć" />
+                              <Text layoutX="57.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wyszukaj po id" />
+                              <TextField fx:id="textarea_trazam_id" layoutX="26.0" layoutY="130.0" nodeOrientation="LEFT_TO_RIGHT" />
                            </children></AnchorPane>
                      </content>
                   </ScrollPane>
@@ -289,11 +291,13 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="458.0" prefWidth="572.0">
                            <children>
-                              <TableView fx:id="table_tra_zam" prefHeight="460.0" prefWidth="574.0" style="-fx-background-color: lightgray;">
+                              <TableView fx:id="table_tra_zam" onMouseClicked="#wybierzTrazam" prefHeight="460.0" prefWidth="574.0" style="-fx-background-color: lightgray;">
                                 <columns>
-                                  <TableColumn fx:id="ttz_email" prefWidth="368.0000122189522" text="email" />
-                                  <TableColumn fx:id="ttz_ilosc" prefWidth="98.4000244140625" text="ilość produktów" />
-                                    <TableColumn fx:id="ttz_cena" prefWidth="107.20001220703125" text="Cena" />
+                                    <TableColumn fx:id="ttz_id" prefWidth="43.20001298189163" text="Id" />
+                                  <TableColumn fx:id="ttz_email" prefWidth="285.5999870300293" text="email" />
+                                    <TableColumn fx:id="ttz_typ" prefWidth="65.59991455078125" text="Typ" />
+                                  <TableColumn fx:id="ttz_ilosc" prefWidth="101.60003662109375" text="ilość produktów" />
+                                    <TableColumn fx:id="ttz_cena" prefWidth="76.7999267578125" text="Cena" />
                                 </columns>
                               </TableView>
                            </children></AnchorPane>
@@ -301,7 +305,7 @@
                   </ScrollPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="uzytkownicy" prefHeight="200.0" prefWidth="200.0" visible="false">
+            <AnchorPane fx:id="uzytkownicy" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <ScrollPane hbarPolicy="NEVER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="460.0" prefWidth="200.0" style="-fx-background-color: lightgray;" vbarPolicy="NEVER">
                      <content>
@@ -312,10 +316,10 @@
                               <Text layoutX="40.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Przyznawanie rabatów" />
                               <Text layoutX="90.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Typ" />
                               <ChoiceBox fx:id="scrollbar_typ_rabatu" layoutX="20.0" layoutY="170.0" prefWidth="150.0" />
-                              <Button layoutX="70.0" layoutY="210.0" mnemonicParsing="false" text="Przyznaj" />
+                              <Button layoutX="70.0" layoutY="210.0" mnemonicParsing="false" onMouseClicked="#przyznajRabat" text="Przyznaj" />
                               <Text layoutX="45.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wyszukaj po emailu" />
-                              <TextField fx:id="textfield_email" layoutX="20.0" layoutY="290.0" />
-                              <Button fx:id="button_uzytkownik_szukaj" layoutX="75.0" layoutY="330.0" mnemonicParsing="false" text="Szukaj" />
+                              <TextField fx:id="textfield_email" layoutX="20.0" layoutY="290.0" nodeOrientation="LEFT_TO_RIGHT" />
+                              <Button fx:id="button_uzytkownik_szukaj" layoutX="75.0" layoutY="330.0" mnemonicParsing="false" onMouseClicked="#przesiejTableUzytkownicy" text="Szukaj" />
                            </children></AnchorPane>
                      </content>
                   </ScrollPane>
@@ -323,7 +327,7 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="457.0" prefWidth="572.0">
                            <children>
-                              <TableView fx:id="table_uzytkownicy" prefHeight="460.0" prefWidth="574.0">
+                              <TableView fx:id="table_uzytkownicy" onMouseClicked="#pobierzUzytkownika" prefHeight="460.0" prefWidth="574.0">
                                 <columns>
                                   <TableColumn fx:id="tu_email" prefWidth="247.20007020235062" text="Email" />
                                   <TableColumn fx:id="tu_r5" minWidth="0.0" prefWidth="79.19996643066406" text="5%" />
