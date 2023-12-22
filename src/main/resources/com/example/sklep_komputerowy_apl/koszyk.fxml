@@ -53,12 +53,12 @@
                <content>
                   <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="670.0">
                      <children>
-                        <TableView prefHeight="310.0" prefWidth="680.0" style="-fx-background-color: lightgrey;">
+                        <TableView fx:id="table_koszyk" prefHeight="310.0" prefWidth="680.0" style="-fx-background-color: lightgrey;">
                            <columns>
-                              <TableColumn prefWidth="200.0" text="Nazwa produktu" />
-                              <TableColumn prefWidth="190.0" text="Typ" />
-                              <TableColumn prefWidth="160.0" text="Producent" />
-                              <TableColumn prefWidth="130.0" text="Cena" />
+                              <TableColumn fx:id="column_koszyk_nazwa_produktu" prefWidth="200.0" text="Nazwa produktu" />
+                              <TableColumn fx:id="column_koszyk_typ" prefWidth="190.0" text="Typ" />
+                              <TableColumn fx:id="column_koszyk_producent" prefWidth="160.0" text="Producent" />
+                              <TableColumn fx:id="column_koszyk_cena" prefWidth="130.0" text="Cena" />
                            </columns>
                         </TableView>
                      </children>
@@ -70,7 +70,7 @@
                   <Font size="14.0" />
                </font>
             </Text>
-            <Text fx:id="value_of_cena_calkowita" layoutX="605.0" layoutY="425.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_cena_calkowita">
+            <Text fx:id="value_of_cena_calkowita" layoutX="605.0" layoutY="425.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0 zl">
                <font>
                   <Font size="14.0" />
                </font>

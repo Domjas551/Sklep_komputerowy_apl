@@ -25,7 +25,6 @@ public class ControllerProdukt implements Initializable {
     private String idWybranegoProduktu="411";
     private String idZalogowanegoUzytkownika="43";
 
-
     //Elementy
     //Elementy poza zakladkami
     @FXML
@@ -262,7 +261,6 @@ public class ControllerProdukt implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-
         //ustawienie tabel
         //OpinieUzytkownika
         column_produkt_opinia_ocena.setCellValueFactory(new PropertyValueFactory<TableOpinie, Double>("ocena"));
