@@ -1,9 +1,14 @@
 package com.example.sklep_komputerowy_apl;
 
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ScrollPane;
@@ -44,6 +49,10 @@ public class ControllerAdmin implements Initializable {
     private Button button_uzupelnij_wszystko;
     @FXML
     private ChoiceBox<String> choicebox_typ_statystyk;
+    @FXML
+    private ChoiceBox<String> choicebox_st_uz;
+    @FXML
+    private ChoiceBox<String> choicebox_st_prod;
     @FXML
     private ChoiceBox<String> f_typ_produktu;
     @FXML
@@ -248,6 +257,42 @@ public class ControllerAdmin implements Initializable {
     private TableColumn<TableUzupelnianie, String> tuz_nazwa;
     @FXML
     private TableColumn<TableUzupelnianie, String> tuz_typ;
+    @FXML
+    private AnchorPane st_pie_produkty;
+    @FXML
+    private AnchorPane st_chart_uzOba;
+    @FXML
+    private AnchorPane st_chart_uzTran;
+    @FXML
+    private AnchorPane st_chart_uzZam;
+    @FXML
+    private AnchorPane st_chart_plyty;
+    @FXML
+    private AnchorPane st_chart_procesory;
+    @FXML
+    private AnchorPane st_chart_karty;
+    @FXML
+    private AnchorPane st_chart_pamiec;
+    @FXML
+    private AnchorPane st_chart_dyski;
+    @FXML
+    private PieChart pie_produkty;
+    @FXML
+    private BarChart<String,Double> bar_user_zakupy;
+    @FXML
+    private BarChart<String,Double> bar_user_tran;
+    @FXML
+    private BarChart<String,Double> bar_user_zam;
+    @FXML
+    private BarChart<String,Double> bar_plyty;
+    @FXML
+    private BarChart<String,Double> bar_procesory;
+    @FXML
+    private BarChart<String,Double> bar_karty;
+    @FXML
+    private BarChart<String,Double> bar_pamiec;
+    @FXML
+    private BarChart<String,Double> bar_dyski;
 
     //dane
     private String nazwy_plyty[];
@@ -419,14 +464,23 @@ public class ControllerAdmin implements Initializable {
         f_typ_produktu.getItems().addAll("Płyta główna","Procesor","Karta graficzna","Pamięć RAM","Dysk","Zestaw");
         trazam_typ.getItems().addAll("Transakcja","Zamówienie","Oba");
         scrollbar_typ_rabatu.getItems().addAll("5%","10%","15%","25%");
+        choicebox_typ_statystyk.getItems().addAll("Top 5 Użytkownicy", "Produkty", "Top 5 produkty");
+        choicebox_st_uz.getItems().addAll("Transakcje","Zamówienia","Oba");
+        choicebox_st_prod.getItems().addAll("Płyty główne","Procesory","Karty graficzne","Pamięci RAM","Dyski");
 
         //ustawienie domyślnej wartości
         magazyn_akcja.setValue("Uzupełnij");
         f_typ_produktu.setValue("Płyta główna");
         scrollbar_typ_rabatu.setValue("5%");
-        //ustawienie wykonywanych funkcji przy zmianie wartośći w choiceboxach
+        choicebox_typ_statystyk.setValue("Produkty");
+        choicebox_st_uz.setValue("Oba");
+        choicebox_st_prod.setValue("Płyty główne");
+        //ustawienie wykonywanych funkcji przy zmianie wartości w choiceboxach
         magazyn_akcja.setOnAction(actionEvent -> formZmienStrone());
         f_typ_produktu.setOnAction(actionEvent -> formZmienStroneForm());
+        choicebox_typ_statystyk.setOnAction(actionEvent -> pokazStatystykiI());
+        choicebox_st_uz.setOnAction(actionEvent -> pokazStatystykiII());
+        choicebox_st_prod.setOnAction(actionEvent -> pokazStatystykiIII());
 
         //pobranie nazw istniejących produktów
         nazwy_plyty=connection.uzyskajDane("Select nazwa_produktu from PLYTA_GLOWNA");
@@ -538,6 +592,98 @@ public class ControllerAdmin implements Initializable {
 
         //tabela użytkowników
         uzupelnijTableUzytkownicy();
+
+        //statystyki
+
+        //wykres produktów
+
+        //utworzenie list do wypełniania odpowiednich typów
+        ObservableList<PieChart.Data> pieU_list= FXCollections.observableArrayList();
+
+        //wypełnienie danymi z BD
+
+        String wynik[]= connection.uzyskajDane("Select 'Płyta główna' as typ, count(*) as ilosc from produkt where id_plyty_glownej is not null and "+
+            "(id_transakcji in (select id_transakcji from transakcja where status='zatwierdzona') or id_zamowienia in (select id_zamowienia from zamowienie where status_odbioru='zrealizowane')) "+
+            "union "+
+            "select 'Procesor' as typ, count(*) as ilosc from produkt where id_procesora is not null and "+
+            "(id_transakcji in (select id_transakcji from transakcja where status='zatwierdzona') or id_zamowienia in (select id_zamowienia from zamowienie where status_odbioru='zrealizowane')) "+
+            "union "+
+            "select 'Karta graficzna' as typ, count(*) as ilosc from produkt where id_karty_graficznej is not null and "+
+            "(id_transakcji in (select id_transakcji from transakcja where status='zatwierdzona') or id_zamowienia in (select id_zamowienia from zamowienie where status_odbioru='zrealizowane')) "+
+            "union "+
+            "select 'Pamięć RAM' as typ, count(*) as ilosc from produkt where id_pamieci_ram is not null and "+
+            "(id_transakcji in (select id_transakcji from transakcja where status='zatwierdzona') or id_zamowienia in (select id_zamowienia from zamowienie where status_odbioru='zrealizowane')) "+
+            "union "+
+            "select 'Dysk' as typ, count(*) as ilosc from produkt where id_dysku is not null and "+
+            "(id_transakcji in (select id_transakcji from transakcja where status='zatwierdzona') or id_zamowienia in (select id_zamowienia from zamowienie where status_odbioru='zrealizowane'))");
+
+        if(wynik.length<=1){
+            //gdy zapytanie nie zwróciło żądnych wyników
+            pieU_list.clear();
+        }else{
+            for(int i=0;i<wynik.length;i+=2){
+                pieU_list.add(new PieChart.Data(wynik[i],Integer.parseInt(wynik[i+1])));
+                //seria1.getData().add(new XYChart.Data<>(wynik[i], Double.parseDouble(wynik[i + 1])));
+            }
+        }
+
+        pieU_list.forEach(data -> data.nameProperty().bind(
+                Bindings.concat(data.getName()," ilość: ",data.getPieValue())
+        ));
+
+        pie_produkty.getData().addAll(pieU_list);
+        //barUserZakupy.getData().addAll(seria1);
+
+        //wykres użytkowników ogólny
+
+        //utworzenie list do wypełniania odpowiednich typów
+        XYChart.Series seria1=new XYChart.Series<>();
+        seria1.setName("Zakupy");
+
+        //wypełnienie danymi z BD
+
+        wynik= connection.uzyskajDane("Select id_uzytkownika, count(id) as ilosc from " +
+                "(select uzytkownik.id_uzytkownika, id_zamowienia as id from uzytkownik join zamowienie on uzytkownik.id_uzytkownika=zamowienie.id_uzytkownika where status_odbioru!='oczekujace'"+
+                "union "+
+                "select uzytkownik.id_uzytkownika, id_transakcji as id from uzytkownik join transakcja on uzytkownik.id_uzytkownika=transakcja.id_uzytkownika where status!='oczekująca') " +
+                "group by id_uzytkownika order by ilosc desc fetch first 5 rows only");
+
+
+        if(wynik.length<=1){
+            //gdy zapytanie nie zwróciło żądnych wyników
+            //todo alert
+        }else{
+            for(int i=0;i<wynik.length;i+=2){
+                //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
+                seria1.getData().add(new XYChart.Data<>(wynik[i], Double.parseDouble(wynik[i + 1])));
+            }
+        }
+
+        bar_user_zakupy.getData().addAll(seria1);
+
+        //wykres produktów: płyty główne
+
+        //utworzenie list do wypełniania odpowiednich typów
+        XYChart.Series seria2=new XYChart.Series<>();
+        seria2.setName("Ilość wybrań");
+
+        //wypełnienie danymi z BD
+
+        wynik= connection.uzyskajDane("Select id_plyty_glownej, count(id_produktu) as id from produkt " +
+                "where id_plyty_glownej is not null and (id_zamowienia is not null or id_transakcji is not null) " +
+                "group by id_plyty_glownej order by id desc fetch first 5 rows only");
+
+        if(wynik.length<=1){
+            //gdy zapytanie nie zwróciło żądnych wyników
+            //todo alert
+        }else{
+            for(int i=0;i<wynik.length;i+=2){
+                //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
+                seria2.getData().add(new XYChart.Data<>(wynik[i], Double.parseDouble(wynik[i + 1])));
+            }
+        }
+
+        bar_plyty.getData().addAll(seria2);
 
     };
 
@@ -1894,6 +2040,365 @@ public class ControllerAdmin implements Initializable {
         }
 
         uzupelnijTableUzytkownicy();
+
+    }
+
+    //funkcje do wyświetlania statystyk
+    @FXML
+    void pokazStatystykiI(){
+
+        String st=choicebox_typ_statystyk.getSelectionModel().getSelectedItem();
+
+        switch(st){
+            case "Produkty":
+                //utworzenie list do wypełniania odpowiednich typów
+                ObservableList<PieChart.Data> pieU_list= FXCollections.observableArrayList();
+
+                //wypełnienie danymi z BD
+
+                String wynik[]= connection.uzyskajDane("Select 'Płyta główna' as typ, count(*) as ilosc from produkt where id_plyty_glownej is not null and "+
+                        "(id_transakcji in (select id_transakcji from transakcja where status='zatwierdzona') or id_zamowienia in (select id_zamowienia from zamowienie where status_odbioru='zrealizowane')) "+
+                        "union "+
+                        "select 'Procesor' as typ, count(*) as ilosc from produkt where id_procesora is not null and "+
+                        "(id_transakcji in (select id_transakcji from transakcja where status='zatwierdzona') or id_zamowienia in (select id_zamowienia from zamowienie where status_odbioru='zrealizowane')) "+
+                        "union "+
+                        "select 'Karta graficzna' as typ, count(*) as ilosc from produkt where id_karty_graficznej is not null and "+
+                        "(id_transakcji in (select id_transakcji from transakcja where status='zatwierdzona') or id_zamowienia in (select id_zamowienia from zamowienie where status_odbioru='zrealizowane')) "+
+                        "union "+
+                        "select 'Pamięć RAM' as typ, count(*) as ilosc from produkt where id_pamieci_ram is not null and "+
+                        "(id_transakcji in (select id_transakcji from transakcja where status='zatwierdzona') or id_zamowienia in (select id_zamowienia from zamowienie where status_odbioru='zrealizowane')) "+
+                        "union "+
+                        "select 'Dysk' as typ, count(*) as ilosc from produkt where id_dysku is not null and "+
+                        "(id_transakcji in (select id_transakcji from transakcja where status='zatwierdzona') or id_zamowienia in (select id_zamowienia from zamowienie where status_odbioru='zrealizowane'))");
+                if(wynik.length<=1){
+                    //gdy zapytanie nie zwróciło żądnych wyników
+                    pieU_list.clear();
+                }else{
+                    for(int i=0;i<wynik.length;i+=2){
+                        pieU_list.add(new PieChart.Data(wynik[i],Integer.parseInt(wynik[i+1])));
+                    }
+                }
+
+                pieU_list.forEach(data -> data.nameProperty().bind(
+                        Bindings.concat(data.getName()," ilość: ",data.getPieValue())
+                ));
+
+                //wstawienie danych
+                pie_produkty.getData().clear();
+                pie_produkty.getData().addAll(pieU_list);
+
+                choicebox_st_uz.setVisible(false);
+                choicebox_st_prod.setVisible(false);
+                st_pie_produkty.setVisible(true);
+                st_chart_uzOba.setVisible(false);
+                st_chart_uzTran.setVisible(false);
+                st_chart_uzZam.setVisible(false);
+                st_chart_plyty.setVisible(false);
+                st_chart_procesory.setVisible(false);
+                st_chart_karty.setVisible(false);
+                st_chart_pamiec.setVisible(false);
+                st_chart_dyski.setVisible(false);
+
+                break;
+            case "Top 5 Użytkownicy":
+
+                choicebox_st_uz.setVisible(true);
+                choicebox_st_prod.setVisible(false);
+                st_pie_produkty.setVisible(false);
+                st_chart_uzOba.setVisible(true);
+                st_chart_uzTran.setVisible(false);
+                st_chart_uzZam.setVisible(false);
+                st_chart_plyty.setVisible(false);
+                st_chart_procesory.setVisible(false);
+                st_chart_karty.setVisible(false);
+                st_chart_pamiec.setVisible(false);
+                st_chart_dyski.setVisible(false);
+
+                break;
+            case "Top 5 produkty":
+
+                choicebox_st_uz.setVisible(false);
+                choicebox_st_prod.setVisible(true);
+                st_pie_produkty.setVisible(false);
+                st_chart_uzOba.setVisible(false);
+                st_chart_uzTran.setVisible(false);
+                st_chart_uzZam.setVisible(false);
+                st_chart_plyty.setVisible(true);
+                st_chart_procesory.setVisible(false);
+                st_chart_karty.setVisible(false);
+                st_chart_pamiec.setVisible(false);
+                st_chart_dyski.setVisible(false);
+
+                break;
+        }
+    }
+    @FXML
+    void pokazStatystykiII(){
+
+        String stu=choicebox_st_uz.getSelectionModel().getSelectedItem();
+
+        switch(stu){
+            case "Oba":
+
+                //utworzenie list do wypełniania odpowiednich typów
+                XYChart.Series seria1=new XYChart.Series<>();
+                seria1.setName("Zakupy");
+                //wypełnienie danymi z BD
+
+                String wynik[]= connection.uzyskajDane("Select id_uzytkownika, count(id) as ilosc from " +
+                        "(select uzytkownik.id_uzytkownika, id_zamowienia as id from uzytkownik join zamowienie on uzytkownik.id_uzytkownika=zamowienie.id_uzytkownika where status_odbioru!='oczekujace'"+
+                        "union "+
+                        "select uzytkownik.id_uzytkownika, id_transakcji as id from uzytkownik join transakcja on uzytkownik.id_uzytkownika=transakcja.id_uzytkownika where status!='oczekująca') " +
+                        "group by id_uzytkownika order by ilosc desc fetch first 5 rows only");
+
+
+                if(wynik.length<=1){
+                    //gdy zapytanie nie zwróciło żądnych wyników
+                    //todo alert
+                }else{
+                    for(int i=0;i<wynik.length;i+=2){
+                        //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
+                        seria1.getData().add(new XYChart.Data<>(wynik[i], Double.parseDouble(wynik[i + 1])));
+                    }
+                }
+
+                bar_user_zakupy.getData().clear();
+                bar_user_zakupy.getData().addAll(seria1);
+
+                st_chart_uzOba.setVisible(true);
+                st_chart_uzTran.setVisible(false);
+                st_chart_uzZam.setVisible(false);
+
+                break;
+            case "Transakcje":
+
+                //utworzenie list do wypełniania odpowiednich typów
+                XYChart.Series seria2=new XYChart.Series<>();
+                seria2.setName("Transakcje");
+                //wypełnienie danymi z BD
+
+                wynik= connection.uzyskajDane("Select id_uzytkownika, count(id) as ilosc from " +
+                        "(select uzytkownik.id_uzytkownika, id_transakcji as id from uzytkownik join transakcja on uzytkownik.id_uzytkownika=transakcja.id_uzytkownika where status!='oczekująca') " +
+                        "group by id_uzytkownika order by ilosc desc fetch first 5 rows only");
+
+
+                if(wynik.length<=1){
+                    //gdy zapytanie nie zwróciło żądnych wyników
+                    //todo alert
+                }else{
+                    for(int i=0;i<wynik.length;i+=2){
+                        //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
+                        seria2.getData().add(new XYChart.Data<>(wynik[i], Double.parseDouble(wynik[i + 1])));
+                    }
+                }
+
+                bar_user_tran.getData().clear();
+                bar_user_tran.getData().addAll(seria2);
+
+                st_chart_uzOba.setVisible(false);
+                st_chart_uzTran.setVisible(true);
+                st_chart_uzZam.setVisible(false);
+
+                break;
+            case "Zamówienia":
+
+                //utworzenie list do wypełniania odpowiednich typów
+                XYChart.Series seria3=new XYChart.Series<>();
+                seria3.setName("Zamówienia");
+                //wypełnienie danymi z BD
+
+                wynik= connection.uzyskajDane("Select id_uzytkownika, count(id) as ilosc from " +
+                        "(select uzytkownik.id_uzytkownika, id_zamowienia as id from uzytkownik join zamowienie on uzytkownik.id_uzytkownika=zamowienie.id_uzytkownika where status_odbioru!='oczekujace') " +
+                        "group by id_uzytkownika order by ilosc desc fetch first 5 rows only");
+
+
+                if(wynik.length<=1){
+                    //gdy zapytanie nie zwróciło żądnych wyników
+                    //todo alert
+                }else{
+                    for(int i=0;i<wynik.length;i+=2){
+                        //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
+                        seria3.getData().add(new XYChart.Data<>(wynik[i], Double.parseDouble(wynik[i + 1])));
+                    }
+                }
+
+                bar_user_zam.getData().clear();
+                bar_user_zam.getData().addAll(seria3);
+
+                st_chart_uzOba.setVisible(false);
+                st_chart_uzTran.setVisible(false);
+                st_chart_uzZam.setVisible(true);
+
+                break;
+        }
+    }
+    @FXML
+    void pokazStatystykiIII(){
+
+        String stp=choicebox_st_prod.getSelectionModel().getSelectedItem();
+
+        switch(stp){
+            case "Płyty główne":
+
+                //utworzenie list do wypełniania odpowiednich typów
+                XYChart.Series seria1=new XYChart.Series<>();
+                seria1.setName("Ilość wybrań");
+
+                //wypełnienie danymi z BD
+
+                String wynik[]= connection.uzyskajDane("Select id_plyty_glownej, count(id_produktu) as id from produkt " +
+                        "where id_plyty_glownej is not null and (id_zamowienia is not null or id_transakcji is not null) " +
+                        "group by id_plyty_glownej order by id desc fetch first 5 rows only");
+
+                if(wynik.length<=1){
+                    //gdy zapytanie nie zwróciło żądnych wyników
+                    //todo alert
+                }else{
+                    for(int i=0;i<wynik.length;i+=2){
+                        //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
+                        seria1.getData().add(new XYChart.Data<>(wynik[i], Double.parseDouble(wynik[i + 1])));
+                    }
+                }
+
+                bar_plyty.getData().clear();
+                bar_plyty.getData().addAll(seria1);
+
+                st_chart_plyty.setVisible(true);
+                st_chart_procesory.setVisible(false);
+                st_chart_karty.setVisible(false);
+                st_chart_pamiec.setVisible(false);
+                st_chart_dyski.setVisible(false);
+
+                break;
+            case "Procesory":
+
+                //utworzenie list do wypełniania odpowiednich typów
+                XYChart.Series seria2=new XYChart.Series<>();
+                seria2.setName("Ilość wybrań");
+
+                //wypełnienie danymi z BD
+
+                wynik= connection.uzyskajDane("Select id_procesora, count(id_produktu) as id from produkt " +
+                        "where id_procesora is not null and (id_zamowienia is not null or id_transakcji is not null) " +
+                        "group by id_procesora order by id desc fetch first 5 rows only");
+
+                if(wynik.length<=1){
+                    //gdy zapytanie nie zwróciło żądnych wyników
+                    //todo alert
+                }else{
+                    for(int i=0;i<wynik.length;i+=2){
+                        //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
+                        seria2.getData().add(new XYChart.Data<>(wynik[i], Double.parseDouble(wynik[i + 1])));
+                    }
+                }
+
+                bar_procesory.getData().clear();
+                bar_procesory.getData().addAll(seria2);
+
+                st_chart_plyty.setVisible(false);
+                st_chart_procesory.setVisible(true);
+                st_chart_karty.setVisible(false);
+                st_chart_pamiec.setVisible(false);
+                st_chart_dyski.setVisible(false);
+
+                break;
+            case "Karty graficzne":
+
+                //utworzenie list do wypełniania odpowiednich typów
+                XYChart.Series seria3=new XYChart.Series<>();
+                seria3.setName("Ilość wybrań");
+
+                //wypełnienie danymi z BD
+
+                wynik= connection.uzyskajDane("Select id_karty_graficznej, count(id_produktu) as id from produkt " +
+                        "where id_karty_graficznej is not null and (id_zamowienia is not null or id_transakcji is not null) " +
+                        "group by id_karty_graficznej order by id desc fetch first 5 rows only");
+
+                if(wynik.length<=1){
+                    //gdy zapytanie nie zwróciło żądnych wyników
+                    //todo alert
+                }else{
+                    for(int i=0;i<wynik.length;i+=2){
+                        //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
+                        seria3.getData().add(new XYChart.Data<>(wynik[i], Double.parseDouble(wynik[i + 1])));
+                    }
+                }
+
+                bar_karty.getData().clear();
+                bar_karty.getData().addAll(seria3);
+
+                st_chart_plyty.setVisible(false);
+                st_chart_procesory.setVisible(false);
+                st_chart_karty.setVisible(true);
+                st_chart_pamiec.setVisible(false);
+                st_chart_dyski.setVisible(false);
+
+                break;
+            case "Pamięci RAM":
+
+                //utworzenie list do wypełniania odpowiednich typów
+                XYChart.Series seria4=new XYChart.Series<>();
+                seria4.setName("Ilość wybrań");
+
+                //wypełnienie danymi z BD
+
+                wynik= connection.uzyskajDane("Select id_pamieci_ram, count(id_produktu) as id from produkt " +
+                        "where id_pamieci_ram is not null and (id_zamowienia is not null or id_transakcji is not null) " +
+                        "group by id_pamieci_ram order by id desc fetch first 5 rows only");
+
+                if(wynik.length<=1){
+                    //gdy zapytanie nie zwróciło żądnych wyników
+                    //todo alert
+                }else{
+                    for(int i=0;i<wynik.length;i+=2){
+                        //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
+                        seria4.getData().add(new XYChart.Data<>(wynik[i], Double.parseDouble(wynik[i + 1])));
+                    }
+                }
+
+                bar_pamiec.getData().clear();
+                bar_pamiec.getData().addAll(seria4);
+
+                st_chart_plyty.setVisible(false);
+                st_chart_procesory.setVisible(false);
+                st_chart_karty.setVisible(false);
+                st_chart_pamiec.setVisible(true);
+                st_chart_dyski.setVisible(false);
+
+                break;
+            case "Dyski":
+
+                //utworzenie list do wypełniania odpowiednich typów
+                XYChart.Series seria5=new XYChart.Series<>();
+                seria5.setName("Ilość wybrań");
+
+                //wypełnienie danymi z BD
+
+                wynik= connection.uzyskajDane("Select id_dysku, count(id_produktu) as id from produkt " +
+                        "where id_dysku is not null and (id_zamowienia is not null or id_transakcji is not null) " +
+                        "group by id_dysku order by id desc fetch first 5 rows only");
+
+                if(wynik.length<=1){
+                    //gdy zapytanie nie zwróciło żądnych wyników
+                    //todo alert
+                }else{
+                    for(int i=0;i<wynik.length;i+=2){
+                        //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
+                        seria5.getData().add(new XYChart.Data<>(wynik[i], Double.parseDouble(wynik[i + 1])));
+                    }
+                }
+
+                bar_dyski.getData().clear();
+                bar_dyski.getData().addAll(seria5);
+
+                st_chart_plyty.setVisible(false);
+                st_chart_procesory.setVisible(false);
+                st_chart_karty.setVisible(false);
+                st_chart_pamiec.setVisible(false);
+                st_chart_dyski.setVisible(true);
+
+                break;
+        }
 
     }
 
