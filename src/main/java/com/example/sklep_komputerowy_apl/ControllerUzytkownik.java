@@ -3,7 +3,11 @@ package com.example.sklep_komputerowy_apl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -12,16 +16,26 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.scene.control.*;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ControllerUzytkownik implements Initializable {
     ConnectionStorage connection=ConnectionStorage.getInstance();
     DataStorage dane=DataStorage.getInstance();
 
     //Wartosci przyjete roboczo
-    private String idZalogowanegoUzytkownika="43";
+    private String idZalogowanegoUzytkownika=dane.getIdZalogowanegoUzytkownika();
+
+    //Elementy do zmian scen
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
     //Elementy
     //Elementy poza zakladkami
@@ -66,7 +80,10 @@ public class ControllerUzytkownik implements Initializable {
     private AnchorPane profil;
 
     @FXML
-    private Button button_zmienHaslo;
+    private Button button_go_to_zmian_hasla;
+
+    @FXML
+    private Button button_panel_admina;
 
     @FXML
     private Button usun_konto;
@@ -142,6 +159,43 @@ public class ControllerUzytkownik implements Initializable {
 
     @FXML
     private TableColumn<TableZamowieniaUzytkownika, String> column_zamowienia_status;
+
+    //Elementy w zakładce zmiany hasła
+    @FXML
+    private AnchorPane zmiana_hasla;
+
+    @FXML
+    private Button button_wroc_h;
+
+    @FXML
+    private Button button_zmien_haslo;
+
+    @FXML
+    private CheckBox checkbox_nowe_haslo;
+
+    @FXML
+    private CheckBox checkbox_powtorz_haslo;
+
+    @FXML
+    private CheckBox checkbox_stare_haslo;
+
+    @FXML
+    private PasswordField passwordField_nowe_haslo;
+
+    @FXML
+    private PasswordField passwordField_powtorz_haslo;
+
+    @FXML
+    private PasswordField passwordField_stare_haslo;
+
+    @FXML
+    private TextField textField_nowe_haslo;
+
+    @FXML
+    private TextField textField_powtorz_haslo;
+
+    @FXML
+    private TextField textField_stare_haslo;
 
 
     //-------------------------------------
@@ -279,6 +333,13 @@ public class ControllerUzytkownik implements Initializable {
         wynik = connection.uzyskajDane("Select imie from Uzytkownik where id_uzytkownika = " + idZalogowanegoUzytkownika);
         button_value_of_name.setText(wynik[0]);
 
+        //Button_panel_admina
+        wynik = connection.uzyskajDane("Select czy_admin from Uzytkownik where id_uzytkownika = " + idZalogowanegoUzytkownika);
+        if(wynik[0].equals("1"))
+        {
+            button_panel_admina.setVisible(true);
+        }
+
         //Value_of_name
         wynik = connection.uzyskajDane("Select imie from Uzytkownik where id_uzytkownika = " + idZalogowanegoUzytkownika);
         value_of_imie.setText(wynik[0]);
@@ -295,19 +356,42 @@ public class ControllerUzytkownik implements Initializable {
 
 
     @FXML
-    void deleteAccount(MouseEvent event) {
-        //TODO
+    void deleteAccount(MouseEvent event) throws IOException {
+        connection.wprowadzDane("UPDATE Uzytkownik SET czy_aktywny = 0 WHERE id_uzytkownika = " + idZalogowanegoUzytkownika);
+
+        root = FXMLLoader.load(getClass().getResource("wyszukiwarka" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    void goHome(MouseEvent event) {
-        //TODO
+    void goHome(MouseEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("wyszukiwarka" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
 
     @FXML
-    void goToCart(MouseEvent event) {
-        //TODO
+    void goToCart(MouseEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("koszyk" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    void goToAdmin(MouseEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("admin" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     //funkcja wyświetlająca strone opinii uzytkownika
@@ -318,9 +402,7 @@ public class ControllerUzytkownik implements Initializable {
         zamowienia.setVisible(false);
         zatwierdzenie_usuniecia.setVisible(false);
         opinie.setVisible(true);
-
-        //uaktualnienie informacji o aktywnej stronie
-        dane.zapiszAktualnaStrone("opinie");
+        zmiana_hasla.setVisible(false);
     }
 
     //funkcja wyświetlająca strone profilu
@@ -331,9 +413,7 @@ public class ControllerUzytkownik implements Initializable {
         zamowienia.setVisible(false);
         zatwierdzenie_usuniecia.setVisible(false);
         opinie.setVisible(false);
-
-        //uaktualnienie informacji o aktywnej stronie
-        dane.zapiszAktualnaStrone("Profil");
+        zmiana_hasla.setVisible(false);
     }
 
     //funkcja wyświetlająca strone transakcji uzytkownika
@@ -344,9 +424,7 @@ public class ControllerUzytkownik implements Initializable {
         zamowienia.setVisible(false);
         zatwierdzenie_usuniecia.setVisible(false);
         opinie.setVisible(false);
-
-        //uaktualnienie informacji o aktywnej stronie
-        dane.zapiszAktualnaStrone("transakcje");
+        zmiana_hasla.setVisible(false);
     }
 
     //funkcja wyświetlająca strone zamowien uzytkownika
@@ -357,9 +435,7 @@ public class ControllerUzytkownik implements Initializable {
         zamowienia.setVisible(true);
         zatwierdzenie_usuniecia.setVisible(false);
         opinie.setVisible(false);
-
-        //uaktualnienie informacji o aktywnej stronie
-        dane.zapiszAktualnaStrone("zamowienia");
+        zmiana_hasla.setVisible(false);
     }
 
     //funkcja wyświetlająca strone zatwierdzenia usuniecia konta
@@ -370,19 +446,157 @@ public class ControllerUzytkownik implements Initializable {
         zamowienia.setVisible(false);
         zatwierdzenie_usuniecia.setVisible(true);
         opinie.setVisible(false);
-
-        //uaktualnienie informacji o aktywnej stronie
-        dane.zapiszAktualnaStrone("zatwierdzenie_usuniecia");
+        zmiana_hasla.setVisible(false);
     }
 
     @FXML
-    void wyloguj(MouseEvent event) {
-        //TODO
+    void showZmianaHasla(MouseEvent event) {
+        profil.setVisible(false);
+        transakcje.setVisible(false);
+        zamowienia.setVisible(false);
+        zatwierdzenie_usuniecia.setVisible(false);
+        opinie.setVisible(false);
+        zmiana_hasla.setVisible(true);
+
+        checkbox_powtorz_haslo.setSelected(false);
+        checkbox_nowe_haslo.setSelected(false);
+        checkbox_stare_haslo.setSelected(false);
+
+        passwordField_stare_haslo.setVisible(true);
+        passwordField_nowe_haslo.setVisible(true);
+        passwordField_powtorz_haslo.setVisible(true);
+
+        textField_stare_haslo.setVisible(false);
+        textField_nowe_haslo.setVisible(false);
+        textField_powtorz_haslo.setVisible(false);
+
+        passwordField_nowe_haslo.setText("");
+        passwordField_stare_haslo.setText("");
+        passwordField_powtorz_haslo.setText("");
+
+        textField_nowe_haslo.setText("");
+        textField_stare_haslo.setText("");
+        textField_powtorz_haslo.setText("");
+    }
+
+    @FXML
+    void wyloguj(MouseEvent event) throws IOException {
+        dane.getInstance().setIdZalogowanegoUzytkownika("0");
+
+        root = FXMLLoader.load(getClass().getResource("wyszukiwarka" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
     }
 
     @FXML
     void zmienHaslo(MouseEvent event) {
-        //TODO
+        String wynik[] = connection.uzyskajDane("Select haslo from uzytkownik where id_uzytkownika = " + idZalogowanegoUzytkownika);
+
+        if(checkbox_stare_haslo.isSelected())
+        {
+            passwordField_stare_haslo.setText(textField_stare_haslo.getText());
+        }
+        else {
+            textField_stare_haslo.setText(passwordField_stare_haslo.getText());
+        }
+        System.out.println("w: "+wynik[0]);
+        System.out.println("tf: "+textField_stare_haslo.getText());
+        if(textField_stare_haslo.getText().equals(wynik[0]))
+        {
+            if(checkbox_nowe_haslo.isSelected())
+            {
+                passwordField_nowe_haslo.setText(textField_nowe_haslo.getText());
+            }
+            else {
+                textField_nowe_haslo.setText(passwordField_nowe_haslo.getText());
+            }
+
+            if(checkbox_powtorz_haslo.isSelected())
+            {
+                passwordField_powtorz_haslo.setText(textField_powtorz_haslo.getText());
+            }
+            else {
+                textField_powtorz_haslo.setText(passwordField_powtorz_haslo.getText());
+            }
+
+            if(textField_nowe_haslo.getText().equals(textField_powtorz_haslo.getText())) {
+                try {
+                    Pattern pat_ha = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(){};:<>~?_=+-]).{6,20}$");
+                    Matcher matcher = pat_ha.matcher(textField_nowe_haslo.getText());
+
+                    if (textField_nowe_haslo.getText().length() < 6 || textField_nowe_haslo.getText().length() > 20 || !matcher.find()) {
+                        throw new BadPasswordException();
+                    }
+                    else
+                    {
+                        connection.wprowadzDane("UPDATE Uzytkownik SET haslo = '" + textField_nowe_haslo.getText()+"' WHERE id_uzytkownika = " + idZalogowanegoUzytkownika);
+                    }
+                } catch (BadPasswordException ex) {
+                    Alert alert=new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Błąd");
+                    alert.setContentText("Nowe hasło nie spełnia wymagań!");
+                    alert.showAndWait();
+                }
+            }
+            else
+            {
+                Alert alert=new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Błąd");
+                alert.setContentText("Nowe hasło i hasło powtórzone są różne!");
+                alert.showAndWait();
+            }
+        }
+        else
+        {
+            Alert alert=new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Błąd");
+            alert.setContentText("Wprowadzono niepoprawne stare hasło!");
+            alert.showAndWait();
+        }
     }
 
+    @FXML
+    void pokazNoweHaslo(MouseEvent event) {
+        if(!checkbox_nowe_haslo.isSelected())
+        {
+            passwordField_nowe_haslo.setText(textField_nowe_haslo.getText());
+            passwordField_nowe_haslo.setVisible(true);
+            textField_nowe_haslo.setVisible(false);
+            return;
+        }
+        textField_nowe_haslo.setText(passwordField_nowe_haslo.getText());
+        passwordField_nowe_haslo.setVisible(false);
+        textField_nowe_haslo.setVisible(true);
+    }
+
+    @FXML
+    void pokazPowtorzoneHaslo(MouseEvent event) {
+        if(!checkbox_powtorz_haslo.isSelected())
+        {
+            passwordField_powtorz_haslo.setText(textField_powtorz_haslo.getText());
+            passwordField_powtorz_haslo.setVisible(true);
+            textField_powtorz_haslo.setVisible(false);
+            return;
+        }
+        textField_powtorz_haslo.setText(passwordField_powtorz_haslo.getText());
+        passwordField_powtorz_haslo.setVisible(false);
+        textField_powtorz_haslo.setVisible(true);
+    }
+
+    @FXML
+    void pokazStareHaslo(MouseEvent event) {
+        if(!checkbox_stare_haslo.isSelected())
+        {
+            passwordField_stare_haslo.setText(textField_stare_haslo.getText());
+            passwordField_stare_haslo.setVisible(true);
+            textField_stare_haslo.setVisible(false);
+            return;
+        }
+        textField_stare_haslo.setText(passwordField_stare_haslo.getText());
+        passwordField_stare_haslo.setVisible(false);
+        textField_stare_haslo.setVisible(true);
+    }
 }

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -84,7 +87,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <Button fx:id="button_zmienHaslo" layoutX="521.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#zmienHaslo" text="Zmień hasło" />
+                  <Button fx:id="button_go_to_zmian_hasla" layoutX="521.0" layoutY="104.0" mnemonicParsing="false" onMouseClicked="#showZmianaHasla" text="Zmień hasło" />
                   <Text layoutX="23.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Komunikaty">
                      <font>
                         <Font size="24.0" />
@@ -110,6 +113,7 @@
                      </font>
                   </Text>
                   <Button fx:id="usun_konto" layoutX="523.0" layoutY="181.0" mnemonicParsing="false" onMouseClicked="#showZatwierdzenieUsuniecia" text="Usuń konto" />
+                  <Button fx:id="button_panel_admina" layoutX="495.0" layoutY="231.0" mnemonicParsing="false" onMouseClicked="#goToAdmin" text="Panel administratorski" visible="false" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="zamowienia" prefHeight="200.0" prefWidth="200.0" visible="false">
@@ -183,6 +187,41 @@
                         </AnchorPane>
                      </content>
                   </ScrollPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="zmiana_hasla" prefHeight="200.0" prefWidth="200.0" visible="false">
+               <children>
+                  <Text layoutX="40.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zmiana hasła">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="40.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stare hasło">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <PasswordField fx:id="passwordField_stare_haslo" layoutX="40.0" layoutY="120.0" />
+                  <CheckBox fx:id="checkbox_stare_haslo" layoutX="240.0" layoutY="120.0" mnemonicParsing="false" onMouseReleased="#pokazStareHaslo" text="Pokaż hasło" />
+                  <Text layoutX="40.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nowe hasło">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <PasswordField fx:id="passwordField_nowe_haslo" layoutX="40.0" layoutY="190.0" />
+                  <CheckBox fx:id="checkbox_nowe_haslo" layoutX="240.0" layoutY="190.0" mnemonicParsing="false" onMouseReleased="#pokazNoweHaslo" text="Pokaż hasło" />
+                  <Text layoutX="40.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Powtórz nowe hasło">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <PasswordField fx:id="passwordField_powtorz_haslo" layoutX="40.0" layoutY="260.0" />
+                  <CheckBox fx:id="checkbox_powtorz_haslo" layoutX="240.0" layoutY="260.0" mnemonicParsing="false" onMouseReleased="#pokazPowtorzoneHaslo" text="Pokaż hasło" />
+                  <Button fx:id="button_zmien_haslo" layoutX="377.0" layoutY="378.0" mnemonicParsing="false" onMouseClicked="#zmienHaslo" text="Zmień hasło" />
+                  <Button fx:id="button_wroc_h" layoutX="333.0" layoutY="378.0" mnemonicParsing="false" onMouseClicked="#showProfil" text="Wróć" />
+                  <TextField fx:id="textField_stare_haslo" layoutX="40.0" layoutY="120.0" visible="false" />
+                  <TextField fx:id="textField_nowe_haslo" layoutX="40.0" layoutY="190.0" visible="false" />
+                  <TextField fx:id="textField_powtorz_haslo" layoutX="40.0" layoutY="260.0" visible="false" />
                </children>
             </AnchorPane>
          </children>

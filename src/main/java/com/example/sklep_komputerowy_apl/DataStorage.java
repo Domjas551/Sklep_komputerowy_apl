@@ -1,6 +1,7 @@
 package com.example.sklep_komputerowy_apl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DataStorage {
     private static final DataStorage instance=new DataStorage();
@@ -22,6 +23,10 @@ public class DataStorage {
 
     //ostatnie zapyranie do tabeli użytkowników
     private String ostatnieZapytanieTableUzytkownicy="";
+
+    private String idZalogowanegoUzytkownika = "1";
+    private String idWybranegoUzytkownika = "43";
+    private ArrayList<String> idProduktowWKoszyku= new ArrayList<>(Arrays.asList("32", "1", "43"));
 
 
     public DataStorage(){
@@ -98,5 +103,29 @@ public class DataStorage {
 
     public void setOstatnieZapytanieTableUzytkownicy(String ostatnieZapytanieTableUzytkownicy) {
         this.ostatnieZapytanieTableUzytkownicy = ostatnieZapytanieTableUzytkownicy;
+    }
+
+    public String getIdZalogowanegoUzytkownika() {
+        return idZalogowanegoUzytkownika;
+    }
+
+    public void setIdZalogowanegoUzytkownika(String idZalogowanegoUzytkownika) {
+        this.idZalogowanegoUzytkownika = idZalogowanegoUzytkownika;
+    }
+
+    public String getIdWybranegoUzytkownika() {
+        return idWybranegoUzytkownika;
+    }
+
+    public void setIdWybranegoUzytkownika(String idWybranegoUzytkownika) {
+        this.idWybranegoUzytkownika = idWybranegoUzytkownika;
+    }
+
+    public ArrayList<String> getIdProduktowWKoszyku() {
+        return idProduktowWKoszyku;
+    }
+
+    public void setIdProduktowWKoszyku(ArrayList<String> idProduktowWKoszyku) {
+        this.idProduktowWKoszyku = idProduktowWKoszyku;
     }
 }
