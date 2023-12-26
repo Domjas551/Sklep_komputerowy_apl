@@ -358,9 +358,20 @@ public class ControllerWyszukiwarka  implements Initializable{
         if(dane.uzyskajPoprzednieZapytanie().equals("")){
             String wynik[]= connection.uzyskajDane("Select distinct nazwa_produktu,chipset,cena from produkt " +
                     "join plyta_glowna on produkt.id_plyty_glownej=plyta_glowna.id_plyty_glownej");
-            for(int i=0;i<wynik.length;i+=3){
-                tp_list.add(new TablePlyty(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
+
+            if(wynik.length<=1){
+                //gdy zapytanie nie zwróciło żądnych wyników
+
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+
+                tp_list.clear();
+            }else{
+                for(int i=0;i<wynik.length;i+=3){
+                    tp_list.add(new TablePlyty(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
+                }
             }
+
 
             table_plyty.setItems(tp_list);
         }else{
@@ -368,6 +379,10 @@ public class ControllerWyszukiwarka  implements Initializable{
             String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie());
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+
                 tpr_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
@@ -383,8 +398,18 @@ public class ControllerWyszukiwarka  implements Initializable{
         if(dane.uzyskajPoprzednieZapytanie().equals("")){
             String wynik[]= connection.uzyskajDane("Select distinct nazwa_produktu,rodzina,cena from produkt " +
                     "join procesor on produkt.id_procesora=procesor.id_procesora");
-            for(int i=0;i<wynik.length;i+=3){
-                tpr_list.add(new TableProcesory(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
+
+            if(wynik.length<=1){
+                //gdy zapytanie nie zwróciło żądnych wyników
+
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+
+                tpr_list.clear();
+            }else{
+                for(int i=0;i<wynik.length;i+=3){
+                    tpr_list.add(new TableProcesory(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
+                }
             }
 
             table_procesory.setItems(tpr_list);
@@ -393,6 +418,10 @@ public class ControllerWyszukiwarka  implements Initializable{
             String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie());
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+
                 tpr_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
@@ -408,8 +437,18 @@ public class ControllerWyszukiwarka  implements Initializable{
         if(dane.uzyskajPoprzednieZapytanie().equals("")){
             String wynik[]= connection.uzyskajDane("Select distinct nazwa_produktu,uklad_graficzny,cena from produkt " +
                     "join karta_graficzna on produkt.id_karty_graficznej=karta_graficzna.id_karty_graficznej");
-            for(int i=0;i<wynik.length;i+=3){
-                tk_list.add(new TableKarty(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
+
+            if(wynik.length<=1){
+                //gdy zapytanie nie zwróciło żądnych wyników
+
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+
+                tk_list.clear();
+            }else{
+                for(int i=0;i<wynik.length;i+=3){
+                    tk_list.add(new TableKarty(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
+                }
             }
 
             table_karty.setItems(tk_list);
@@ -418,6 +457,10 @@ public class ControllerWyszukiwarka  implements Initializable{
             String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie());
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+
                 tk_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
@@ -432,8 +475,18 @@ public class ControllerWyszukiwarka  implements Initializable{
         if(dane.uzyskajPoprzednieZapytanie().equals("")){
             String wynik[]= connection.uzyskajDane("Select distinct nazwa_produktu,rodzaj_pamieci,cena from produkt " +
                     "join pamiec_ram on produkt.id_pamieci_ram=pamiec_ram.id_pamieci_ram");
-            for(int i=0;i<wynik.length;i+=3){
-                tr_list.add(new TableRam(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
+
+            if(wynik.length<=1){
+                //gdy zapytanie nie zwróciło żądnych wyników
+
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+
+                tr_list.clear();
+            }else{
+                for(int i=0;i<wynik.length;i+=3){
+                    tr_list.add(new TableRam(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
+                }
             }
 
             table_ram.setItems(tr_list);
@@ -442,6 +495,10 @@ public class ControllerWyszukiwarka  implements Initializable{
             String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie());
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+
                 tr_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
@@ -457,8 +514,18 @@ public class ControllerWyszukiwarka  implements Initializable{
         if(dane.uzyskajPoprzednieZapytanie().equals("")){
             String wynik[]= connection.uzyskajDane("Select distinct nazwa_produktu,pojemnosc,cena from produkt " +
                     "join dysk on produkt.id_dysku=dysk.id_dysku");
-            for(int i=0;i<wynik.length;i+=3){
-                td_list.add(new TableDyski(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
+
+            if(wynik.length<=1){
+                //gdy zapytanie nie zwróciło żądnych wyników
+
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+
+                td_list.clear();
+            }else{
+                for(int i=0;i<wynik.length;i+=3){
+                    td_list.add(new TableDyski(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
+                }
             }
 
             table_dyski.setItems(td_list);
@@ -467,6 +534,10 @@ public class ControllerWyszukiwarka  implements Initializable{
             String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie());
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+
                 td_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
@@ -480,8 +551,18 @@ public class ControllerWyszukiwarka  implements Initializable{
         //domyślnymi danymi
         if(dane.uzyskajPoprzednieZapytanie().equals("")){
             String wynik[]= connection.uzyskajDane("Select distinct nazwa_zestawu,cena from zestaw");
-            for(int i=0;i<wynik.length;i+=2){
-                tz_list.add(new TableZestawy(wynik[i],Double.parseDouble(wynik[i+1])));
+
+            if(wynik.length<=1){
+                //gdy zapytanie nie zwróciło żądnych wyników
+
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+
+                tz_list.clear();
+            }else{
+                for(int i=0;i<wynik.length;i+=2){
+                    tz_list.add(new TableZestawy(wynik[i],Double.parseDouble(wynik[i+1])));
+                }
             }
 
             table_zestawy.setItems(tz_list);
@@ -490,6 +571,10 @@ public class ControllerWyszukiwarka  implements Initializable{
             String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie());
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+
                 tz_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
@@ -499,6 +584,15 @@ public class ControllerWyszukiwarka  implements Initializable{
 
             table_zestawy.setItems(tz_list);
         }
+    }
+
+    //wyświetlanie alertów
+    public void informationAlert(String m){
+        //utworzenie alertu typu information do wyświetlenia
+        Alert alert=new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Informacja");
+        alert.setContentText(m);
+        alert.showAndWait();
     }
 
     //funkcja wyświetlająca strone dysków w panelu wyszukiwarki
@@ -607,6 +701,10 @@ public class ControllerWyszukiwarka  implements Initializable{
 
                     if (wynik.length <= 1) {
                         //gdy zapytanie nie zwróciło żądnych wyników
+
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
+
                         tp_list.clear();
                     } else {
                         for (int i = 0; i < wynik.length; i += 3) {
@@ -628,6 +726,10 @@ public class ControllerWyszukiwarka  implements Initializable{
 
                     if (wynik.length <= 1) {
                         //gdy zapytanie nie zwróciło żądnych wyników
+
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
+
                         tp_list.clear();
                     } else {
                         for (int i = 0; i < wynik.length; i += 3) {
@@ -653,6 +755,10 @@ public class ControllerWyszukiwarka  implements Initializable{
 
                     if (wynik.length <= 1) {
                         //gdy zapytanie nie zwróciło żądnych wyników
+
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
+
                         tpr_list.clear();
                     } else {
                         for (int i = 0; i < wynik.length; i += 3) {
@@ -674,6 +780,10 @@ public class ControllerWyszukiwarka  implements Initializable{
 
                     if (wynik.length <= 1) {
                         //gdy zapytanie nie zwróciło żądnych wyników
+
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
+
                         tpr_list.clear();
                     } else {
                         for (int i = 0; i < wynik.length; i += 3) {
@@ -699,6 +809,10 @@ public class ControllerWyszukiwarka  implements Initializable{
 
                     if (wynik.length <= 1) {
                         //gdy zapytanie nie zwróciło żądnych wyników
+
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
+
                         tk_list.clear();
                     } else {
                         for (int i = 0; i < wynik.length; i += 3) {
@@ -720,6 +834,10 @@ public class ControllerWyszukiwarka  implements Initializable{
 
                     if (wynik.length <= 1) {
                         //gdy zapytanie nie zwróciło żądnych wyników
+
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
+
                         tk_list.clear();
                     } else {
                         for (int i = 0; i < wynik.length; i += 3) {
@@ -745,6 +863,10 @@ public class ControllerWyszukiwarka  implements Initializable{
 
                     if (wynik.length <= 1) {
                         //gdy zapytanie nie zwróciło żądnych wyników
+
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
+
                         tr_list.clear();
                     } else {
                         for (int i = 0; i < wynik.length; i += 3) {
@@ -766,6 +888,10 @@ public class ControllerWyszukiwarka  implements Initializable{
 
                     if (wynik.length <= 1) {
                         //gdy zapytanie nie zwróciło żądnych wyników
+
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
+
                         tr_list.clear();
                     } else {
                         for (int i = 0; i < wynik.length; i += 3) {
@@ -791,6 +917,10 @@ public class ControllerWyszukiwarka  implements Initializable{
 
                     if (wynik.length <= 1) {
                         //gdy zapytanie nie zwróciło żądnych wyników
+
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
+
                         td_list.clear();
                     } else {
                         for (int i = 0; i < wynik.length; i += 3) {
@@ -812,6 +942,10 @@ public class ControllerWyszukiwarka  implements Initializable{
 
                     if (wynik.length <= 1) {
                         //gdy zapytanie nie zwróciło żądnych wyników
+
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
+
                         td_list.clear();
                     } else {
                         for (int i = 0; i < wynik.length; i += 3) {
@@ -836,6 +970,10 @@ public class ControllerWyszukiwarka  implements Initializable{
 
                     if (wynik.length <= 1) {
                         //gdy zapytanie nie zwróciło żądnych wyników
+
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
+
                         tz_list.clear();
                     } else {
                         for (int i = 0; i < wynik.length; i += 2) {
@@ -856,6 +994,10 @@ public class ControllerWyszukiwarka  implements Initializable{
 
                     if (wynik.length <= 1) {
                         //gdy zapytanie nie zwróciło żądnych wyników
+
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
+
                         tz_list.clear();
                     } else {
                         for (int i = 0; i < wynik.length; i += 2) {
@@ -1173,6 +1315,10 @@ public class ControllerWyszukiwarka  implements Initializable{
 
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+
                 tp_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
@@ -1182,9 +1328,9 @@ public class ControllerWyszukiwarka  implements Initializable{
 
             table_plyty.setItems(tp_list);
         }catch(MaxCenaException m){
-            System.out.println(m);
+            m.alert();
         }catch(CenaTypeException c){
-            System.out.println(c);
+            c.alert();
         }
     }
 
@@ -1363,6 +1509,10 @@ public class ControllerWyszukiwarka  implements Initializable{
 
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+
                 tpr_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
@@ -1372,9 +1522,9 @@ public class ControllerWyszukiwarka  implements Initializable{
 
             table_procesory.setItems(tpr_list);
         }catch(MaxCenaException m){
-            System.out.println(m);
+            m.alert();
         }catch(CenaTypeException c){
-            System.out.println(c);
+            c.alert();
         }
 
     }
@@ -1569,6 +1719,10 @@ public class ControllerWyszukiwarka  implements Initializable{
 
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+
                 tk_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
@@ -1578,9 +1732,9 @@ public class ControllerWyszukiwarka  implements Initializable{
 
             table_karty.setItems(tk_list);
         }catch(MaxCenaException m){
-            System.out.println(m);
+            m.alert();
         }catch(CenaTypeException c){
-            System.out.println(c);
+            c.alert();
         }
 
     }
@@ -1748,6 +1902,10 @@ public class ControllerWyszukiwarka  implements Initializable{
 
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+
                 tr_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
@@ -1757,9 +1915,9 @@ public class ControllerWyszukiwarka  implements Initializable{
 
             table_ram.setItems(tr_list);
         }catch(MaxCenaException m){
-            System.out.println(m);
+            m.alert();
         }catch(CenaTypeException c){
-            System.out.println(c);
+            c.alert();
         }
     }
 
@@ -1919,6 +2077,10 @@ public class ControllerWyszukiwarka  implements Initializable{
 
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+
                 td_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
@@ -1928,9 +2090,9 @@ public class ControllerWyszukiwarka  implements Initializable{
 
             table_dyski.setItems(td_list);
         }catch(MaxCenaException m){
-            System.out.println(m);
+            m.alert();
         }catch(CenaTypeException c){
-            System.out.println(c);
+            c.alert();
         }
 
     }
@@ -2002,6 +2164,10 @@ public class ControllerWyszukiwarka  implements Initializable{
 
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+
                 tz_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=2){
@@ -2011,9 +2177,9 @@ public class ControllerWyszukiwarka  implements Initializable{
 
             table_zestawy.setItems(tz_list);
         }catch(MaxCenaException m){
-            System.out.println(m);
+            m.alert();
         }catch(CenaTypeException c){
-            System.out.println(c);
+            c.alert();
         }
 
     }

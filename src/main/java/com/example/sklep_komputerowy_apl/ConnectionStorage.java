@@ -1,5 +1,7 @@
 package com.example.sklep_komputerowy_apl;
 
+import javafx.scene.control.Alert;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -41,23 +43,10 @@ public class ConnectionStorage {
         String[] wynik={};
 
         try{
-            //utworzenie socketu
-            //Socket socket=new Socket("127.0.0.1",port);
-            //reader do odczytania danych od serwera
-            //InputStreamReader isr = new InputStreamReader(socket.getInputStream());
-            //BufferedReader br = new BufferedReader(isr);
-            //writer do wysyłania danych do serwera
-            //PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
-
             //wysłanie zapytania do serwera
             pw.println(zapytanie);
             //odczytanie danych od serwera
             wynik= br.readLine().split(";");
-
-            //zamknięcie writera i readera
-            //pw.close();
-            //br.close();
-            //socket.close();
 
             return wynik;
         }catch(SocketException s){
@@ -78,11 +67,48 @@ public class ConnectionStorage {
 
         pw.println(zapytanie);
         try{
-            return br.readLine();
+            String s=br.readLine();
+            if(s.equals("Wprowadzenie/modyfikacja danych nieudana")){
+
+                //utworzenie alertu typu error do wyświetlenia
+                Alert alert=new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setContentText(s);
+                alert.showAndWait();
+                return "0";
+            }else{
+
+                //utworzenie alertu typu information do wyświetlenia
+                Alert alert=new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Informacja");
+                alert.setContentText(s);
+                alert.showAndWait();
+                return "1";
+            }
         }catch(IOException i){
             i.printStackTrace();
         }
 
-        return "";
+        return "0";
+    }
+
+    //funkcja do wprowadzenia/zmiany danych w BD bez alertów
+    public String wprowadzDaneBezAlert(String zapytanie){
+
+        pw.println(zapytanie);
+        try{
+            String s=br.readLine();
+            if(s.equals("Wprowadzenie/modyfikacja danych nieudana")){
+
+                return "0";
+            }else{
+
+                return "1";
+            }
+        }catch(IOException i){
+            i.printStackTrace();
+        }
+
+        return "0";
     }
 }

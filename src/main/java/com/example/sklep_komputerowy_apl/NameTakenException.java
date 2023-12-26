@@ -1,5 +1,7 @@
 package com.example.sklep_komputerowy_apl;
 
+import javafx.scene.control.Alert;
+
 public class NameTakenException extends Exception{
 
     private String message;
@@ -8,7 +10,11 @@ public class NameTakenException extends Exception{
         this.message = "Produkt o danej nazwie już istnieje";
     }
 
-    public String toString(){
-        return message;
+    public void alert(){
+        //wyświetlenie alertu informacyjnego
+        Alert alert=new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Informacja");
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
