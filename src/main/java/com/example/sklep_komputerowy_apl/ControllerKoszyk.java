@@ -24,7 +24,7 @@ public class ControllerKoszyk implements Initializable {
     int kategoria=-1;
 
     //Wartosci przyjete roboczo
-    private ArrayList<String> id_produktow_w_koszyku= new ArrayList<>(Arrays.asList("32", "102", "459"));
+    private ArrayList<String> id_produktow_w_koszyku= new ArrayList<>(Arrays.asList("32", "1", "43"));
     private String idZalogowanegoUzytkownika="43";
 
 
@@ -91,6 +91,8 @@ public class ControllerKoszyk implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         if(!id_produktow_w_koszyku.isEmpty()) {
+            String wynik[];
+            Double sumCen=0.0;
             //ustawienie tabel
             //OpinieUzytkownika
             column_koszyk_nazwa_produktu.setCellValueFactory(new PropertyValueFactory<TableProduktWKoszyku, String>("nazwa_produktu"));
@@ -102,12 +104,12 @@ public class ControllerKoszyk implements Initializable {
             //utworzenie list do wypełniania odpowiednich typów
             ObservableList<TableProduktWKoszyku> tpk_list = FXCollections.observableArrayList();
 
-            for (int i = 0; i <= id_produktow_w_koszyku.size(); i++) {
+            for (int i = 0; i < id_produktow_w_koszyku.size(); i++) {
                 //Ustalenie kategorii wybranego produkt
-                String wynik[] = connection.uzyskajDane("Select id_pamieci_ram, id_plyty_glownej, id_karty_graficznej, id_procesora, id_dysku from produkt where id_produktu = " + id_produktow_w_koszyku.get(i));
+                wynik = connection.uzyskajDane("Select id_pamieci_ram, id_plyty_glownej, id_karty_graficznej, id_procesora, id_dysku from produkt where id_produktu = " + id_produktow_w_koszyku.get(i));
                 for (int j = 0; j < wynik.length; j++) {
                     if (!wynik[j].equals("null")) {
-                        kategoria = i;
+                        kategoria = j;
                         break;
                     }
                 }
@@ -130,14 +132,54 @@ public class ControllerKoszyk implements Initializable {
                         break;
                 }
 
-                wynik = connection.uzyskajDane("" + id_produktow_w_koszyku.get(i));
-                    for (int j = 0; j < wynik.length; j += 3) {
-                        tpk_list.get(i).setNazwa_produktu(wynik[j]);
-                        tpk_list.get(i).setProducent(wynik[j+1]);
-                        tpk_list.get(i).setCena(Double.parseDouble(wynik[j+2]));
-                    }
-                    table_koszyk.setItems(tpk_list);
+                wynik = connection.uzyskajDane("Select" +
+                        " CASE" +
+                        " WHEN ppr.id_pamieci_ram IS NOT NULL THEN ppr.nazwa_produktu" +
+                        " WHEN ppg.id_plyty_glownej IS NOT NULL THEN ppg.nazwa_produktu" +
+                        " WHEN pkg.id_karty_graficznej IS NOT NULL THEN pkg.nazwa_produktu" +
+                        " WHEN pproc.id_procesora IS NOT NULL THEN pproc.nazwa_produktu" +
+                        " WHEN pd.id_dysku IS NOT NULL THEN pd.nazwa_produktu" +
+                        " ELSE NULL" +
+                        " END AS nazwa_produktu," +
+                        " CASE" +
+                        " WHEN ppr.id_pamieci_ram IS NOT NULL THEN ppr.producent" +
+                        " WHEN ppg.id_plyty_glownej IS NOT NULL THEN ppg.producent" +
+                        " WHEN pkg.id_karty_graficznej IS NOT NULL THEN pkg.producent" +
+                        " WHEN pproc.id_procesora IS NOT NULL THEN pproc.producent" +
+                        " WHEN pd.id_dysku IS NOT NULL THEN pd.producent" +
+                        " ELSE NULL" +
+                        " END AS producent," +
+                        " CASE" +
+                        " WHEN ppr.id_pamieci_ram IS NOT NULL THEN ppr.cena" +
+                        " WHEN ppg.id_plyty_glownej IS NOT NULL THEN ppg.cena" +
+                        " WHEN pkg.id_karty_graficznej IS NOT NULL THEN pkg.cena" +
+                        " WHEN pproc.id_procesora IS NOT NULL THEN pproc.cena" +
+                        " WHEN pd.id_dysku IS NOT NULL THEN pd.cena" +
+                        " ELSE NULL" +
+                        " END AS cena" +
+                        " FROM Produkt p" +
+                        " LEFT JOIN Pamiec_RAM ppr ON p.id_pamieci_ram = ppr.id_pamieci_ram" +
+                        " LEFT JOIN Plyta_glowna ppg ON p.id_plyty_glownej = ppg.id_plyty_glownej" +
+                        " LEFT JOIN Karta_graficzna pkg ON p.id_karty_graficznej = pkg.id_karty_graficznej" +
+                        " LEFT JOIN Procesor pproc ON p.id_procesora = pproc.id_procesora" +
+                        " LEFT JOIN Dysk pd ON p.id_dysku = pd.id_dysku" +
+                        " WHERE p.id_produktu = " + id_produktow_w_koszyku.get(i));
+
+                    tpk_list.get(i).setNazwa_produktu(wynik[0]);
+                    tpk_list.get(i).setProducent(wynik[1]);
+                    tpk_list.get(i).setCena(Double.parseDouble(wynik[2]));
             }
+            table_koszyk.setItems(tpk_list);
+
+            //value_of_cena_calkowita
+            for (int j = 0; j < tpk_list.size(); j++) {
+                sumCen=sumCen+tpk_list.get(j).getCena();
+            }
+            value_of_cena_calkowita.setText(sumCen+ " zł");
+
+            //Button_value_of_name
+            wynik = connection.uzyskajDane("Select imie from Uzytkownik where id_uzytkownika = " + idZalogowanegoUzytkownika);
+            button_value_of_name.setText(wynik[0]);
         }
     }
 
