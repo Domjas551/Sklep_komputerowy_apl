@@ -1,65 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep_komputerowy_apl.ControllerAdminUzytkownik">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep_komputerowy_apl.ControllerAdminUzytkownik">
    <children>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: gray;">
+      <StackPane layoutX="14.0" layoutY="106.0" prefHeight="466.0" prefWidth="754.0" style="-fx-background-color: gainsboro;">
          <children>
-            <Text fx:id="button_home" fill="#d3d3d3" layoutX="15.0" layoutY="60.0" onMouseClicked="#goHome" strokeType="OUTSIDE" strokeWidth="0.0" text="KompPol@nd">
-               <font>
-                  <Font name="System Bold Italic" size="48.0" />
-               </font>
-            </Text>
-            <AnchorPane fx:id="transakcje" layoutX="14.0" layoutY="110.0" prefHeight="450.0" prefWidth="729.0" style="-fx-background-color: gainsboro;">
+            <AnchorPane fx:id="menu" prefHeight="466.0" prefWidth="729.0" visible="false">
                <children>
-                  <Text layoutX="40.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zarządzanie kontem użytkownika">
+                  <Text layoutX="93.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Imię">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="40.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zarządzanie użytkownikiem">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Text>
-                  <Button fx:id="button_zmien_haslo" layoutX="285.0" layoutY="375.0" mnemonicParsing="false" onMouseClicked="#ChangePassword" text="Zmień hasło" />
-                  <Button fx:id="button_usun_konto" layoutX="366.0" layoutY="375.0" mnemonicParsing="false" onMouseClicked="#DeleteAccount" text="Usuń konto" />
-                  <Button fx:id="button_wroc" layoutX="606.0" layoutY="375.0" mnemonicParsing="false" onMouseClicked="#goBack" text="Wróć" />
-                  <Text layoutX="135.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Imię">
+                  <Text fx:id="value_of_imie" layoutX="151.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_imie">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_imie" layoutX="193.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_imie">
+                  <Line endX="-70.0" endY="-90.0" layoutX="206.0" layoutY="182.0" startX="-70.0" startY="20.0" />
+                  <Text layoutX="51.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nazwisko">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Line endX="-70.0" endY="-90.0" layoutX="248.0" layoutY="204.0" startX="-70.0" startY="20.0" />
-                  <Text layoutX="93.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nazwisko">
+                  <Text layoutX="83.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text layoutX="125.0" layoutY="214.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email">
+                  <Text fx:id="value_of_nazwisko" layoutX="151.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_nazwisko">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_nazwisko" layoutX="193.0" layoutY="174.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_nazwisko">
+                  <Text fx:id="value_of_email" layoutX="151.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_email">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <Text fx:id="value_of_email" layoutX="193.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_email">
+                  <Button fx:id="button_show_zmiana_hasla" layoutX="377.0" layoutY="406.0" mnemonicParsing="false" onMouseClicked="#showZmianaHasla" text="Zmień hasło" />
+                  <Button fx:id="usun_konto" layoutX="299.0" layoutY="406.0" mnemonicParsing="false" onMouseClicked="#showZatwierdzenieUsuniecia" text="Usuń konto" />
+                  <Button fx:id="button_back_to_admin" layoutX="628.0" layoutY="406.0" mnemonicParsing="false" onMouseClicked="#goToAdmin" text="Wróć" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="zatwierdzenie_usuniecia" prefHeight="200.0" prefWidth="200.0" visible="false">
+               <children>
+                  <Text layoutX="27.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zatwierdzenie tej akcji spowoduje bezpowrotne usunięcie wybranego konta." textAlignment="CENTER" wrappingWidth="700.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="27.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Czy jesteś pewien, że tego chcesz?" textAlignment="CENTER" wrappingWidth="700.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="button_anuluj_usuniecie" layoutX="27.0" layoutY="325.0" mnemonicParsing="false" onMouseClicked="#showMenu" text="Nie, wróć do zarządzania">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="button_zatwierdz_usuniecie" layoutX="480.0" layoutY="325.0" mnemonicParsing="false" onMouseClicked="#deleteAccount" text="Tak, usuń wybrane konto">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="zmiana_hasla" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Text layoutX="40.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zmiana hasła">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="40.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stare hasło">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
+                  <PasswordField fx:id="passwordField_stare_haslo" layoutX="40.0" layoutY="120.0" />
+                  <CheckBox fx:id="checkbox_stare_haslo" layoutX="240.0" layoutY="120.0" mnemonicParsing="false" onMouseReleased="#pokazStareHaslo" text="Pokaż hasło" />
+                  <Text layoutX="40.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nowe hasło">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <PasswordField fx:id="passwordField_nowe_haslo" layoutX="40.0" layoutY="190.0" />
+                  <CheckBox fx:id="checkbox_nowe_haslo" layoutX="240.0" layoutY="190.0" mnemonicParsing="false" onMouseReleased="#pokazNoweHaslo" text="Pokaż hasło" />
+                  <Text layoutX="40.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Powtórz nowe hasło">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <PasswordField fx:id="passwordField_powtorz_haslo" layoutX="40.0" layoutY="260.0" />
+                  <CheckBox fx:id="checkbox_powtorz_haslo" layoutX="240.0" layoutY="260.0" mnemonicParsing="false" onMouseReleased="#pokazPowtorzoneHaslo" text="Pokaż hasło" />
+                  <Button fx:id="button_zmien_haslo" layoutX="377.0" layoutY="378.0" mnemonicParsing="false" onMouseClicked="#zmienHaslo" text="Zmień hasło" />
+                  <Button fx:id="button_wroc_do_menu" layoutX="333.0" layoutY="378.0" mnemonicParsing="false" onMouseClicked="#showMenu" text="Wróć" />
+                  <TextField fx:id="textField_stare_haslo" layoutX="40.0" layoutY="120.0" visible="false" />
+                  <TextField fx:id="textField_nowe_haslo" layoutX="40.0" layoutY="190.0" visible="false" />
+                  <TextField fx:id="textField_powtorz_haslo" layoutX="40.0" layoutY="260.0" visible="false" />
                </children>
             </AnchorPane>
          </children>
-      </AnchorPane>
+      </StackPane>
+      <Text fx:id="button_home" fill="#d3d3d3" layoutX="15.0" layoutY="60.0" onMouseClicked="#goHome" strokeType="OUTSIDE" strokeWidth="0.0" text="KompPol@nd">
+         <font>
+            <Font name="System Bold Italic" size="48.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

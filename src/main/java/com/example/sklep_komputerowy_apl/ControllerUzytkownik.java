@@ -69,6 +69,7 @@ public class ControllerUzytkownik implements Initializable {
     //Elementy w zakladce potwierdzenia usuniecia konta
     @FXML
     private AnchorPane zatwierdzenie_usuniecia;
+
     @FXML
     private Button button_anuluj_usuniecie;
 
