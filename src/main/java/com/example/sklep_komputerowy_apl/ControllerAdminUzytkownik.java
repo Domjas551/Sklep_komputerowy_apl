@@ -213,8 +213,6 @@ public class ControllerAdminUzytkownik implements Initializable {
         else {
             textField_stare_haslo.setText(passwordField_stare_haslo.getText());
         }
-        System.out.println("w: "+wynik[0]);
-        System.out.println("tf: "+textField_stare_haslo.getText());
         if(textField_stare_haslo.getText().equals(wynik[0]))
         {
             if(checkbox_nowe_haslo.isSelected())

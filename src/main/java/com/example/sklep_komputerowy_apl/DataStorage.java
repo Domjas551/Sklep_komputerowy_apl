@@ -4,79 +4,79 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DataStorage {
-    private static final DataStorage instance=new DataStorage();
+    private static final DataStorage instance = new DataStorage();
 
     //zmienna informująca jaka strona jest aktywna
     //Wartośći: plyty, procesory, karty, ram, dyski, zestawy
     private String wyszukiwarka_activePage;
-    private String ostatnieZapytaniePlyty="";
-    private String ostatnieZapytanieProcesory="";
-    private String ostatnieZapytanieKarty="";
-    private String ostatnieZapytanieRam="";
-    private String ostatnieZapytanieDyski="";
-    private String ostatnieZapytanieZestawy="";
+    private String ostatnieZapytaniePlyty = "";
+    private String ostatnieZapytanieProcesory = "";
+    private String ostatnieZapytanieKarty = "";
+    private String ostatnieZapytanieRam = "";
+    private String ostatnieZapytanieDyski = "";
+    private String ostatnieZapytanieZestawy = "";
     //ostatnie zapytanie do tabeli uzupełnień komponentów
-    private String ostatnieZapytanieUzupelnijTable="";
+    private String ostatnieZapytanieUzupelnijTable = "";
 
     //ostatnie zapytanie do tabeli transakcji-zamówień
-    private String ostatnieZapytanieTableTrazam="";
+    private String ostatnieZapytanieTableTrazam = "";
 
     //ostatnie zapyranie do tabeli użytkowników
-    private String ostatnieZapytanieTableUzytkownicy="";
+    private String ostatnieZapytanieTableUzytkownicy = "";
 
     private String idZalogowanegoUzytkownika = "1";
     private String idWybranegoUzytkownika = "43";
-    private ArrayList<String> idProduktowWKoszyku= new ArrayList<>(Arrays.asList("32", "1", "43"));
-    private String idWybranegoProduktu="0";
-    private String idWybranegoZestawu="0";
+    private String idWybranegoProduktu = "420";
+    private ArrayList<String> idProduktowWKoszyku = new ArrayList<>(Arrays.asList("32", "1", "43"));
+    private String idWybranegoZestawu = "0";
 
 
-    public DataStorage(){
-        this.wyszukiwarka_activePage ="plyty";
+    public DataStorage() {
+        this.wyszukiwarka_activePage = "plyty";
     }
 
-    public static DataStorage getInstance(){
+    public static DataStorage getInstance() {
         return instance;
     }
 
     //zwraca ostatnie zapisane zapytanie
-    public String uzyskajPoprzednieZapytanie(){
-        if(wyszukiwarka_activePage.equals("plyty")){
+    public String uzyskajPoprzednieZapytanie() {
+        if (wyszukiwarka_activePage.equals("plyty")) {
             return ostatnieZapytaniePlyty;
-        }else if(wyszukiwarka_activePage.equals("procesory")){
+        } else if (wyszukiwarka_activePage.equals("procesory")) {
             return ostatnieZapytanieProcesory;
-        }else if(wyszukiwarka_activePage.equals("karty")){
+        } else if (wyszukiwarka_activePage.equals("karty")) {
             return ostatnieZapytanieKarty;
-        }else if(wyszukiwarka_activePage.equals("ram")){
+        } else if (wyszukiwarka_activePage.equals("ram")) {
             return ostatnieZapytanieRam;
-        }else if(wyszukiwarka_activePage.equals("dyski")){
+        } else if (wyszukiwarka_activePage.equals("dyski")) {
             return ostatnieZapytanieDyski;
-        }else if(wyszukiwarka_activePage.equals("zestawy")){
+        } else if (wyszukiwarka_activePage.equals("zestawy")) {
             return ostatnieZapytanieZestawy;
         }
         return "";
     }
 
     //zapisuje ostatnie wykonane zapytanie
-    public void zapiszZapytanie(String zapytanie){
-        if(wyszukiwarka_activePage.equals("plyty")){
-            ostatnieZapytaniePlyty=zapytanie;
-        }else if(wyszukiwarka_activePage.equals("procesory")){
-            ostatnieZapytanieProcesory=zapytanie;
-        }else if(wyszukiwarka_activePage.equals("karty")){
-            ostatnieZapytanieKarty=zapytanie;
-        }else if(wyszukiwarka_activePage.equals("ram")){
-            ostatnieZapytanieRam=zapytanie;
-        }else if(wyszukiwarka_activePage.equals("dyski")){
-            ostatnieZapytanieDyski=zapytanie;
-        }else if(wyszukiwarka_activePage.equals("zestawy")){
-            ostatnieZapytanieZestawy=zapytanie;
+    public void zapiszZapytanie(String zapytanie) {
+        if (wyszukiwarka_activePage.equals("plyty")) {
+            ostatnieZapytaniePlyty = zapytanie;
+        } else if (wyszukiwarka_activePage.equals("procesory")) {
+            ostatnieZapytanieProcesory = zapytanie;
+        } else if (wyszukiwarka_activePage.equals("karty")) {
+            ostatnieZapytanieKarty = zapytanie;
+        } else if (wyszukiwarka_activePage.equals("ram")) {
+            ostatnieZapytanieRam = zapytanie;
+        } else if (wyszukiwarka_activePage.equals("dyski")) {
+            ostatnieZapytanieDyski = zapytanie;
+        } else if (wyszukiwarka_activePage.equals("zestawy")) {
+            ostatnieZapytanieZestawy = zapytanie;
         }
     }
 
     //funkcja do zapisu aktualnie aktywnej strony
-    public void zapiszAktualnaStrone(String s){
-        this.wyszukiwarka_activePage =s;
+    public void zapiszAktualnaStrone(String s) {
+        this.wyszukiwarka_activePage = s;
     }
 
     public String getWyszukiwarka_activePage() {

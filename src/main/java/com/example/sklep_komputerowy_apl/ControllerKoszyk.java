@@ -24,8 +24,8 @@ public class ControllerKoszyk implements Initializable {
     int kategoria=-1;
 
     //Wartosci przyjete roboczo
-    private ArrayList<String> id_produktow_w_koszyku= new ArrayList<>(Arrays.asList("32", "1", "43"));
-    private String idZalogowanegoUzytkownika="43";
+    private ArrayList<String> id_produktow_w_koszyku= dane.getIdProduktowWKoszyku();
+    private String idZalogowanegoUzytkownika=dane.getIdZalogowanegoUzytkownika();
 
 
     //Elementy

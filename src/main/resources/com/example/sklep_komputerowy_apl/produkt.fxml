@@ -4,6 +4,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -21,7 +22,7 @@
       </Text>
       <StackPane layoutX="14.0" layoutY="106.0" prefHeight="450.0" prefWidth="754.0" style="-fx-background-color: gainsboro;">
          <children>
-            <AnchorPane fx:id="karta_graficzna" prefHeight="200.0" prefWidth="200.0" visible="false">
+            <AnchorPane fx:id="karta_graficzna" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Text fx:id="value_of_nazwa_produktu_kg" layoutX="40.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_nazwa_produktu" wrappingWidth="272.53675842285156">
                      <font>
@@ -377,9 +378,9 @@
                         <Font size="24.0" />
                      </font>
                   </Text>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="40.0" layoutY="71.0" prefHeight="350.0" prefWidth="680.0">
+                  <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="40.0" layoutY="71.0" prefHeight="310.0" prefWidth="680.0">
                      <content>
-                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="335.0" prefWidth="670.0">
+                        <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="305.0" prefWidth="670.0">
                            <children>
                               <TableView fx:id="table_produkt_opinia" prefHeight="350.0" prefWidth="680.0" style="-fx-background-color: lightgrey;">
                                  <columns>
@@ -392,6 +393,7 @@
                         </AnchorPane>
                      </content>
                   </ScrollPane>
+                  <Button fx:id="button_dodaj_opinie" layoutX="636.0" layoutY="411.0" mnemonicParsing="false" onMouseClicked="#showDodajOpinie" text="Dodaj opinię" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="procesor" prefHeight="200.0" prefWidth="200.0" visible="false">
@@ -504,7 +506,7 @@
                   </Text>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="dysk" prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane fx:id="dysk" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
                   <Text fx:id="value_of_nazwa_produktu_dy" layoutX="40.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_nazwa_produktu" wrappingWidth="272.53675842285156">
                      <font>
@@ -602,6 +604,34 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="dodawanie_opinii" prefHeight="200.0" prefWidth="200.0" visible="false">
+               <children>
+                  <Text layoutX="40.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dododwanie opinii" wrappingWidth="272.53675842285156">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="value_of_name_dodawanie_opinii" layoutX="40.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="value_of_name">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="40.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ocena">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="text_field_ocena" layoutX="40.0" layoutY="140.0" />
+                  <TextField fx:id="text_field_komentarz" alignment="TOP_LEFT" layoutX="40.0" layoutY="230.0" prefHeight="180.0" prefWidth="680.0" />
+                  <Text layoutX="40.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Komentarz">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="button_zatwierdz" layoutX="650.0" layoutY="415.0" mnemonicParsing="false" onMouseClicked="#zatwierdzOpinie" text="Zatwierdź" />
+                  <Button fx:id="button_anuluj_dodawanie_opinii" layoutX="600.0" layoutY="415.0" mnemonicParsing="false" onMouseClicked="#showOpinie" text="Anuluj" />
                </children>
             </AnchorPane>
          </children>
