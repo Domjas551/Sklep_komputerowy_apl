@@ -321,30 +321,75 @@ public class ControllerAdmin implements Initializable {
 
         //wypełnienie danymi z BD
         if(dane.getOstatnieZapytanieUzupelnijTable().equals("")){
-            //todo spr co dla 0
-            //select nazwa, count(*) as ilosc from TEST where status=0 group by nazwa
-            //        union
-            //select nazwa, 0 as ilosc from TEST where status=1 and nazwa not in (select nazwa from TEST where status=0 group by nazwa) group by nazwa;
 
             String wynik[]= connection.uzyskajDane("Select nazwa_produktu, typ, ilosc from (Select plyta_glowna.nazwa_produktu, 'Płyta główna' as typ, count(*) as ilosc from produkt " +
                     "join plyta_glowna on produkt.id_plyty_glownej=plyta_glowna.id_plyty_glownej " +
-                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu" +
+                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu " +
+                    "union "+
+                    "Select plyta_glowna.nazwa_produktu, 'Płyta główna' as typ, 0 as ilosc from produkt "+
+                    "join plyta_glowna on produkt.id_plyty_glownej=plyta_glowna.id_plyty_glownej " +
+                    "where (id_transakcji is not null or id_zamowienia is not null) " +
+                    "and plyta_glowna.nazwa_produktu not in (" +
+                    "Select nazwa_produktu from (Select plyta_glowna.nazwa_produktu, 'Płyta główna' as typ, count(*) as ilosc from produkt " +
+                    "join plyta_glowna on produkt.id_plyty_glownej=plyta_glowna.id_plyty_glownej " +
+                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu))" +
+                    " group by nazwa_produktu" +
                     " union " +
                     "select procesor.nazwa_produktu, 'Procesor' as typ, count(*) as ilosc from produkt " +
                     "join procesor on produkt.id_procesora=procesor.id_procesora " +
                     "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu " +
+                    "union "+
+                    "select procesor.nazwa_produktu, 'Procesor' as typ, 0 as ilosc from produkt " +
+                    "join procesor on produkt.id_procesora=procesor.id_procesora " +
+                    "where (id_transakcji is  not null or id_zamowienia is null) " +
+                    "and procesor.nazwa_produktu not in ("+
+                    "select nazwa_produktu from (select procesor.nazwa_produktu, 'Procesor' as typ, count(*) as ilosc from produkt " +
+                    "join procesor on produkt.id_procesora=procesor.id_procesora " +
+                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu)) "+
+                    "group by nazwa_produktu " +
                     "union " +
                     "select karta_graficzna.nazwa_produktu, 'Karta graficzna' as typ, count(*) as ilosc from produkt " +
                     "join karta_graficzna on produkt.id_karty_graficznej=karta_graficzna.id_karty_graficznej " +
                     "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu " +
+                    "union "+
+                    "select karta_graficzna.nazwa_produktu, 'Karta graficzna' as typ, 0 as ilosc from produkt " +
+                    "join karta_graficzna on produkt.id_karty_graficznej=karta_graficzna.id_karty_graficznej " +
+                    "where (id_transakcji is not null or id_zamowienia is not null)" +
+                    "and karta_graficzna.nazwa_produktu not in (" +
+                    "select nazwa_produktu from (" +
+                    "select karta_graficzna.nazwa_produktu, 'Karta graficzna' as typ, count(*) as ilosc from produkt " +
+                    "join karta_graficzna on produkt.id_karty_graficznej=karta_graficzna.id_karty_graficznej " +
+                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu ))"+
+                    "group by nazwa_produktu " +
                     "union " +
                     "select pamiec_ram.nazwa_produktu, 'Pamięć RAM' as typ, count(*) as ilosc from produkt " +
                     "join pamiec_ram on produkt.id_pamieci_ram=pamiec_ram.id_pamieci_ram " +
                     "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu " +
+                    "union "+
+                    "select pamiec_ram.nazwa_produktu, 'Pamięć RAM' as typ, 0 as ilosc from produkt " +
+                    "join pamiec_ram on produkt.id_pamieci_ram=pamiec_ram.id_pamieci_ram " +
+                    "where (id_transakcji is not null or id_zamowienia is not null)" +
+                    "and pamiec_ram.nazwa_produktu not in (" +
+                    "select nazwa_produktu from ("+
+                    "select pamiec_ram.nazwa_produktu, 'Pamięć RAM' as typ, count(*) as ilosc from produkt " +
+                    "join pamiec_ram on produkt.id_pamieci_ram=pamiec_ram.id_pamieci_ram " +
+                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu ))"+
+                    "group by nazwa_produktu "+
                     "union " +
                     "select dysk.nazwa_produktu, 'Dysk' as typ, count(*) as ilosc from produkt " +
                     "join dysk on produkt.id_dysku=dysk.id_dysku " +
-                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu) order by ilosc asc");
+                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu " +
+                    "union "+
+                    "select dysk.nazwa_produktu, 'Dysk' as typ, 0 as ilosc from produkt " +
+                    "join dysk on produkt.id_dysku=dysk.id_dysku " +
+                    "where (id_transakcji is not null or id_zamowienia is not null) " +
+                    "and dysk.nazwa_produktu not in (" +
+                    "select nazwa_produktu from ("+
+                    "select dysk.nazwa_produktu, 'Dysk' as typ, count(*) as ilosc from produkt " +
+                    "join dysk on produkt.id_dysku=dysk.id_dysku " +
+                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu)) "+
+                    "group by nazwa_produktu"+
+                    ") order by ilosc asc");
 
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
@@ -969,7 +1014,17 @@ public class ControllerAdmin implements Initializable {
 
                 //próba wprowadzenia danych do DB z oczekiwaniem na odpowiedź ze statusem zapytania błąd/sukces
                 String wynik=connection.wprowadzDane(zapytanie);
-//todo dodanie 5 szt produktu
+
+                //dodanie 5 sztuk nowego produktu do magazynu
+                for(int i=0;i<5;i++){
+
+                    wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
+                            "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
+                            " null, null, null, " +
+                            "(select id_plyty_glownej from plyta_glowna where nazwa_produktu='"+fp_nazwa.getText()+"'), " +
+                            "null,null,null,null)");
+                }
+
                 if(wynik.equals("1")){
                     nazwy_plyty=connection.uzyskajDane("Select nazwa_produktu from PLYTA_GLOWNA");
                 }
@@ -1067,6 +1122,18 @@ public class ControllerAdmin implements Initializable {
 
                 //próba wprowadzenia danych do DB z oczekiwaniem na odpowiedź ze statusem zapytania błąd/sukces
                 String wynik=connection.wprowadzDane(zapytanie);
+
+                //dodanie 5 sztuk nowego produktu do magazynu
+                for(int i=0;i<5;i++){
+
+                    wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
+                            "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
+                            " null, null, null, " +
+                            "null, " +
+                            "null," +
+                            "(select id_procesora from procesor where nazwa_produktu='"+fpr_nazwa.getText()+"')," +
+                            "null,null)");
+                }
 
                 if(wynik.equals("1")){
                     nazwy_procesory=connection.uzyskajDane("Select nazwa_produktu from PROCESOR");
@@ -1195,6 +1262,19 @@ public class ControllerAdmin implements Initializable {
                 //próba wprowadzenia danych do DB z oczekiwaniem na odpowiedź ze statusem zapytania błąd/sukces
                 String wynik=connection.wprowadzDane(zapytanie);
 
+                //dodanie 5 sztuk nowego produktu do magazynu
+                for(int i=0;i<5;i++){
+
+                    wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
+                            "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
+                            " null, null," +
+                            " null, " +
+                            "null, " +
+                            "(select id_karty_graficznej from karta_graficzna where nazwa_produktu='"+fk_nazwa.getText()+"')," +
+                            "null," +
+                            "null,null)");
+                }
+
                 if(wynik.equals("1")){
                     nazwy_karty=connection.uzyskajDane("Select nazwa_produktu from KARTA_GRAFICZNA");
                 }
@@ -1289,6 +1369,19 @@ public class ControllerAdmin implements Initializable {
 
                 //próba wprowadzenia danych do DB z oczekiwaniem na odpowiedź ze statusem zapytania błąd/sukces
                 String wynik=connection.wprowadzDane(zapytanie);
+
+                //dodanie 5 sztuk nowego produktu do magazynu
+                for(int i=0;i<5;i++){
+
+                    wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
+                            "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
+                            " null, null," +
+                            " (select id_pamieci_ram from pamiec_ram where nazwa_produktu='"+fr_nazwa.getText()+"'), " +
+                            "null, " +
+                            "null," +
+                            "null," +
+                            "null,null)");
+                }
 
                 if(wynik.equals("1")){
                     nazwy_pamiec=connection.uzyskajDane("Select nazwa_produktu from PAMIEC_RAM");
@@ -1385,6 +1478,19 @@ public class ControllerAdmin implements Initializable {
 
                 //próba wprowadzenia danych do DB z oczekiwaniem na odpowiedź ze statusem zapytania błąd/sukces
                 String wynik=connection.wprowadzDane(zapytanie);
+
+                //dodanie 5 sztuk nowego produktu do magazynu
+                for(int i=0;i<5;i++){
+
+                    wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
+                            "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
+                            " null, null," +
+                            " null, " +
+                            "null, " +
+                            "null," +
+                            "null," +
+                            "(select id_dysku from dysk where nazwa_produktu='"+fd_nazwa.getText()+"'),null)");
+                }
 
                 if(wynik.equals("1")){
                     nazwy_dyski=connection.uzyskajDane("Select nazwa_produktu from DYSK");
