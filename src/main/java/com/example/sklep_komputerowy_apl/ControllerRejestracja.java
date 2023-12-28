@@ -17,12 +17,16 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.util.Arrays;
 import java.util.regex.*;
+import java.security.MessageDigest;
 
-public class ControllerRejestracja {  // TODO SZYFROWANIE + POŁĄCZENIE DB
+public class ControllerRejestracja {  // TODO POŁĄCZENIE DB
 
     private Stage stage;
     private Scene scene;
@@ -116,7 +120,7 @@ public class ControllerRejestracja {  // TODO SZYFROWANIE + POŁĄCZENIE DB
     }
 
     @FXML
-    void rejestracja(MouseEvent event) {
+    void rejestracja(MouseEvent event) throws NoSuchAlgorithmException {
 
         //Do dodawania danych do DB
         int err = 0;
@@ -138,7 +142,7 @@ public class ControllerRejestracja {  // TODO SZYFROWANIE + POŁĄCZENIE DB
         //int emailIstnieje = Integer.getInteger(Arrays.toString(connection.uzyskajDane("SELECT count(*) from Uzytkownik where email = \"" + email + "\"")));
 
         //Nadawanie nowego id użytkownikowi na zasadzie następnego dostępnego id
-        //int id = Integer.getInteger(Arrays.toString(connection.uzyskajDane("Select max(id) from Uzytkownik")))+1;
+        int id = Integer.getInteger(Arrays.toString(connection.uzyskajDane("Select max(id) from Uzytkownik")))+1;
 
         //Email + imie + nazwisko + powtórz hasło wyrzucają ten sam typ błedu (BadDataException), łapany tylko 1 na raz
         try {
@@ -223,9 +227,14 @@ public class ControllerRejestracja {  // TODO SZYFROWANIE + POŁĄCZENIE DB
 
 
         /*if (err == 0) {
-            //SUPER EFEKTYWNY ALGORYTM SZYFROWANIA *IN PROGRESS*
-            connection.wprowadzDane("INSERT INTO uzytkownik values ("+id+", "+email+","+imie+","+nazwisko+","+haslo+",0,0)");
-            dane.setIdZalogowanegoUzytkownika(id);
+            //Szyfrowanie używając MessageDigest
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(haslo.toString().getBytes(StandardCharsets.UTF_8));
+            String dig_pass = Arrays.toString(md.digest());
+
+            //Wprowadzanie do bazy
+            connection.wprowadzDane("INSERT INTO uzytkownik values ("+ id +", "+ email +","+imie+","+nazwisko+","+ dig_pass +",0,0)");
+            dane.setIdZalogowanegoUzytkownika(String.valueOf(id));
         }*/
 
     }
