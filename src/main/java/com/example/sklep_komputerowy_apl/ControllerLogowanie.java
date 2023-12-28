@@ -81,15 +81,23 @@ public class ControllerLogowanie {
         String hasloDB = Arrays.toString(connection.uzyskajDane("SELECT haslo from Uzytkownicy where email = \"" + email + "\""));
 
         if (hasloDB.equals("")){
+            //Konto nie istnieje
             logowanie_text_error.setText("Niepoprawne dane logowania!");
         }
+        //Konto istnieje - sprawdzamy hasło
         else{
-            //Konto istnieje - sprawdzamy hasło
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(haslo.toString().getBytes(StandardCharsets.UTF_8));
-            String dig_pass = Arrays.toString(md.digest());
+            //Funkcja Hashująca na podanym haśle
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(haslo.toString().getBytes());
+            byte[] dig_pass = md.digest();
+            StringBuilder hexString = new StringBuilder();
 
-            if (dig_pass.equals(hasloDB)){ //Hasło poprawne
+            //Konwersja na HEX
+            for (byte digPass : dig_pass) {
+                hexString.append(Integer.toHexString(0xFF & digPass));
+            }
+
+            if (hexString.toString().equals(hasloDB)){ //Hasło poprawne
                 String id = Arrays.toString(connection.uzyskajDane("SELECT id from Uzytkownicy where email = \"" + email + "\""));
                 dane.setIdZalogowanegoUzytkownika(id);
             }

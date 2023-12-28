@@ -228,12 +228,18 @@ public class ControllerRejestracja {  // TODO POŁĄCZENIE DB
 
         /*if (err == 0) {
             //Szyfrowanie używając MessageDigest
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(haslo.toString().getBytes(StandardCharsets.UTF_8));
-            String dig_pass = Arrays.toString(md.digest());
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(haslo.toString().getBytes());
+            byte[] dig_pass = md.digest();
+
+            //Konwersja na HEX
+            StringBuilder hexString = new StringBuilder();
+            for (byte digPass : dig_pass) {
+                hexString.append(Integer.toHexString(0xFF & digPass));
+            }
 
             //Wprowadzanie do bazy
-            connection.wprowadzDane("INSERT INTO uzytkownik values ("+ id +", "+ email +","+imie+","+nazwisko+","+ dig_pass +",0,0)");
+            connection.wprowadzDane("INSERT INTO uzytkownik values ("+ id +", "+ email +","+imie+","+nazwisko+","+ hexString +",0,0)");
             dane.setIdZalogowanegoUzytkownika(String.valueOf(id));
         }*/
 
