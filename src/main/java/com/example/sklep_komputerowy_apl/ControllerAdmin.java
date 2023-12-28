@@ -321,6 +321,11 @@ public class ControllerAdmin implements Initializable {
 
         //wypełnienie danymi z BD
         if(dane.getOstatnieZapytanieUzupelnijTable().equals("")){
+            //todo spr co dla 0
+            //select nazwa, count(*) as ilosc from TEST where status=0 group by nazwa
+            //        union
+            //select nazwa, 0 as ilosc from TEST where status=1 and nazwa not in (select nazwa from TEST where status=0 group by nazwa) group by nazwa;
+
             String wynik[]= connection.uzyskajDane("Select nazwa_produktu, typ, ilosc from (Select plyta_glowna.nazwa_produktu, 'Płyta główna' as typ, count(*) as ilosc from produkt " +
                     "join plyta_glowna on produkt.id_plyty_glownej=plyta_glowna.id_plyty_glownej " +
                     "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu" +
@@ -964,7 +969,7 @@ public class ControllerAdmin implements Initializable {
 
                 //próba wprowadzenia danych do DB z oczekiwaniem na odpowiedź ze statusem zapytania błąd/sukces
                 String wynik=connection.wprowadzDane(zapytanie);
-
+//todo dodanie 5 szt produktu
                 if(wynik.equals("1")){
                     nazwy_plyty=connection.uzyskajDane("Select nazwa_produktu from PLYTA_GLOWNA");
                 }

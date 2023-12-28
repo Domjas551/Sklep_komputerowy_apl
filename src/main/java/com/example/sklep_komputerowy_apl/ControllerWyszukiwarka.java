@@ -584,6 +584,58 @@ public class ControllerWyszukiwarka  implements Initializable{
 
             table_zestawy.setItems(tz_list);
         }
+
+        //wyświetlenie aktualnej strony wyszukiwarki
+        switch(dane.getWyszukiwarka_activePage()){
+            case "plyty":
+                plytyGl.setVisible(true);
+                procesory.setVisible(false);
+                kartyGraficzne.setVisible(false);
+                pamiecRam.setVisible(false);
+                dyski.setVisible(false);
+                zestawy.setVisible(false);
+                break;
+            case "procesory":
+                plytyGl.setVisible(false);
+                procesory.setVisible(true);
+                kartyGraficzne.setVisible(false);
+                pamiecRam.setVisible(false);
+                dyski.setVisible(false);
+                zestawy.setVisible(false);
+                break;
+            case "karty":
+                plytyGl.setVisible(false);
+                procesory.setVisible(false);
+                kartyGraficzne.setVisible(true);
+                pamiecRam.setVisible(false);
+                dyski.setVisible(false);
+                zestawy.setVisible(false);
+                break;
+            case "ram":
+                plytyGl.setVisible(false);
+                procesory.setVisible(false);
+                kartyGraficzne.setVisible(false);
+                pamiecRam.setVisible(true);
+                dyski.setVisible(false);
+                zestawy.setVisible(false);
+                break;
+            case "dyski":
+                plytyGl.setVisible(false);
+                procesory.setVisible(false);
+                kartyGraficzne.setVisible(false);
+                pamiecRam.setVisible(false);
+                dyski.setVisible(true);
+                zestawy.setVisible(false);
+                break;
+            case "zestawy":
+                plytyGl.setVisible(false);
+                procesory.setVisible(false);
+                kartyGraficzne.setVisible(false);
+                pamiecRam.setVisible(false);
+                dyski.setVisible(false);
+                zestawy.setVisible(true);
+                break;
+        }
     }
 
     //wyświetlanie alertów
@@ -2192,5 +2244,120 @@ public class ControllerWyszukiwarka  implements Initializable{
         System.out.println(tp_nazwa.getCellData(index));
         System.out.println(tp_chipset.getCellData(index));
         System.out.println(tp_cena.getCellData(index));
+
+        //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
+        String wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
+                "id_plyty_glownej=(select id_plyty_glownej from plyta_glowna where nazwa_produktu='"+tp_nazwa.getCellData(index)+"') " +
+                "and id_transakcji is null and id_zamowienia is null fetch first 1 row only")[0];
+
+        //pozyskanie id produktu na bazie jego nazwy, instancji do zmówienia
+        if(wynik.equals("")){
+            wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
+                    "id_plyty_glownej=(select id_plyty_glownej from plyta_glowna where nazwa_produktu='"+tp_nazwa.getCellData(index)+"') " +
+                    "fetch first 1 row only")[0];
+        }
+        dane.setIdWybranegoProduktu(wynik);
+
+        //todo przejście na strone produktu
+    }
+
+    @FXML
+    void showProduktProcesory(MouseEvent event) {
+        Integer index=table_procesory.getSelectionModel().getSelectedIndex();
+
+        //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
+        String wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
+                "id_procesora=(select id_procesora from procesor where nazwa_produktu='"+tpr_nazwa.getCellData(index)+"') " +
+                "and id_transakcji is null and id_zamowienia is null fetch first 1 row only")[0];
+
+        //pozyskanie id produktu na bazie jego nazwy, instancji do zmówienia
+        if(wynik.equals("")){
+            wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
+                    "id_procesora=(select id_procesora from procesor where nazwa_produktu='"+tpr_nazwa.getCellData(index)+"') " +
+                    "fetch first 1 row only")[0];
+        }
+        dane.setIdWybranegoProduktu(wynik);
+
+        //todo przejście na strone produktu
+    }
+
+    @FXML
+    void showProduktKarty(MouseEvent event) {
+        Integer index=table_karty.getSelectionModel().getSelectedIndex();
+
+        //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
+        String wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
+                "id_karty_graficznej=(select id_karty_graficznej from karta_graficzna where nazwa_produktu='"+tk_nazwa.getCellData(index)+"') " +
+                "and id_transakcji is null and id_zamowienia is null fetch first 1 row only")[0];
+
+        //pozyskanie id produktu na bazie jego nazwy, instancji do zmówienia
+        if(wynik.equals("")){
+            wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
+                    "id_karty_graficznej=(select id_karty_graficznej from karta_graficzna where nazwa_produktu='"+tk_nazwa.getCellData(index)+"') " +
+                    "fetch first 1 row only")[0];
+        }
+        dane.setIdWybranegoProduktu(wynik);
+
+        //todo przejście na strone produktu
+    }
+
+    @FXML
+    void showProduktPamiec(MouseEvent event) {
+        Integer index=table_ram.getSelectionModel().getSelectedIndex();
+
+        //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
+        String wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
+                "id_pamieci_ram=(select id_pamieci_ram from pamiec_ram where nazwa_produktu='"+tr_nazwa.getCellData(index)+"') " +
+                "and id_transakcji is null and id_zamowienia is null fetch first 1 row only")[0];
+
+        //pozyskanie id produktu na bazie jego nazwy, instancji do zmówienia
+        if(wynik.equals("")){
+            wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
+                    "id_pamieci_ram=(select id_pamieci_ram from pamiec_ram where nazwa_produktu='"+tr_nazwa.getCellData(index)+"') " +
+                    "fetch first 1 row only")[0];
+        }
+        dane.setIdWybranegoProduktu(wynik);
+
+        //todo przejście na strone produktu
+    }
+
+    @FXML
+    void showProduktDyski(MouseEvent event) {
+        Integer index=table_dyski.getSelectionModel().getSelectedIndex();
+
+        //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
+        String wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
+                "id_dysku=(select id_dysku from dysk where nazwa_produktu='"+td_nazwa.getCellData(index)+"') " +
+                "and id_transakcji is null and id_zamowienia is null fetch first 1 row only")[0];
+
+        //pozyskanie id produktu na bazie jego nazwy, instancji do zmówienia
+        if(wynik.equals("")){
+            wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
+                    "id_dysku=(select id_dysku from dysk where nazwa_produktu='"+td_nazwa.getCellData(index)+"') " +
+                    "fetch first 1 row only")[0];
+        }
+        dane.setIdWybranegoProduktu(wynik);
+
+        //todo przejście na strone produktu
+    }
+
+    @FXML
+    void showProduktZestawy(MouseEvent event) {
+        Integer index=table_zestawy.getSelectionModel().getSelectedIndex();
+
+        //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
+        String wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
+                "id_zestawu=(select id_zestawu from zestaw where nazwa_zestawu='"+tz_nazwa.getCellData(index)+"') " +
+                "and id_transakcji is null and id_zamowienia is null fetch first 1 row only")[0];
+
+        //pozyskanie id produktu na bazie jego nazwy, instancji do zmówienia
+        if(wynik.equals("")){
+            wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
+                    "id_zestawu=(select id_zestawu from zestaw where nazwa_zestawu='"+tz_nazwa.getCellData(index)+"') " +
+                    "fetch first 1 row only")[0];
+        }
+        dane.setIdWybranegoZestawu(wynik);
+        System.out.println(wynik);
+        //todo przejście na strone produktu
     }
 }

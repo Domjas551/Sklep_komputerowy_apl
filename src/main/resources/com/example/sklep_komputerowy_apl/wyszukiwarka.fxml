@@ -176,7 +176,7 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="442.0" prefWidth="526.0">
                            <children>
-                              <TableView fx:id="table_procesory" prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
+                              <TableView fx:id="table_procesory" onMouseClicked="#showProduktProcesory" prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
                                  <columns>
                                     <TableColumn fx:id="tpr_nazwa" prefWidth="296.80003052949905" text="Nazwa" />
                                     <TableColumn fx:id="tpr_seria" prefWidth="122.39990234375" text="Rodzina" />
@@ -260,7 +260,7 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="442.0" prefWidth="526.0">
                            <children>
-                              <TableView fx:id="table_karty" prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
+                              <TableView fx:id="table_karty" onMouseClicked="#showProduktKarty" prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
                                  <columns>
                                     <TableColumn fx:id="tk_nazwa" prefWidth="296.80003052949905" text="Nazwa" />
                                     <TableColumn fx:id="tk_uklad" prefWidth="122.39990234375" text="Układ graficzny" />
@@ -336,7 +336,7 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="442.0" prefWidth="526.0">
                            <children>
-                              <TableView fx:id="table_ram" prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
+                              <TableView fx:id="table_ram" onMouseClicked="#showProduktPamiec" prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
                                  <columns>
                                     <TableColumn fx:id="tr_nazwa" prefWidth="296.80003052949905" text="Nazwa" />
                                     <TableColumn fx:id="tr_pamiec" prefWidth="122.39990234375" text="Rodzaj pamięci" />
@@ -410,7 +410,7 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="442.0" prefWidth="526.0">
                            <children>
-                              <TableView fx:id="table_dyski" prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
+                              <TableView fx:id="table_dyski" onMouseClicked="#showProduktDyski" prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
                                  <columns>
                                     <TableColumn fx:id="td_nazwa" prefWidth="296.80003052949905" text="Nazwa" />
                                     <TableColumn fx:id="td_pojemnosc" prefWidth="122.39990234375" text="Pojemność" />
@@ -452,7 +452,7 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="442.0" prefWidth="526.0">
                            <children>
-                              <TableView fx:id="table_zestawy" prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
+                              <TableView fx:id="table_zestawy" onMouseClicked="#showProduktZestawy" prefHeight="459.0" prefWidth="531.0" style="-fx-background-color: lightgray;">
                                  <columns>
                                     <TableColumn fx:id="tz_nazwa" prefWidth="296.80003052949905" text="Nazwa" />
                                     <TableColumn fx:id="tz_cena" prefWidth="229.60003662109375" text="Cena" />
@@ -477,7 +477,7 @@
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Button fx:id="button_zaloguj" layoutX="144.0" layoutY="69.0" mnemonicParsing="false" text="Zaloguj" />
-                  <Button fx:id="button_cart1" layoutY="21.0" mnemonicParsing="false"  prefHeight="26.0" prefWidth="45.0">
+                  <Button fx:id="button_cart1" layoutY="21.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="45.0">
                      <graphic>
                         <ImageView fx:id="image_cart1" fitHeight="27.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -491,7 +491,7 @@
             <AnchorPane prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
                   <Button layoutX="140.0" layoutY="69.0" mnemonicParsing="false" text="Wyloguj" />
-                  <Button fx:id="button_value_of_name" layoutX="64.0" layoutY="14.0" mnemonicParsing="false"  text="value_of_name">
+                  <Button fx:id="button_value_of_name" layoutX="64.0" layoutY="14.0" mnemonicParsing="false" text="value_of_name">
                      <graphic>
                         <ImageView fx:id="image_user" fitHeight="37.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -500,7 +500,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="button_cart" layoutY="19.0" mnemonicParsing="false"  prefHeight="26.0" prefWidth="45.0">
+                  <Button fx:id="button_cart" layoutY="19.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="45.0">
                      <graphic>
                         <ImageView fx:id="image_cart" fitHeight="27.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -513,7 +513,7 @@
             </AnchorPane>
          </children>
       </StackPane>
-      <Text fx:id="button_home" fill="#d3d3d3" layoutX="21.0" layoutY="61.0"  strokeType="OUTSIDE" strokeWidth="0.0" text="KompPol@nd">
+      <Text fx:id="button_home" fill="#d3d3d3" layoutX="21.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="KompPol@nd">
          <font>
             <Font name="System Bold Italic" size="27.0" />
          </font>
