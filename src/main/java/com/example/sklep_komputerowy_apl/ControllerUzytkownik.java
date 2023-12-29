@@ -141,6 +141,9 @@ public class ControllerUzytkownik implements Initializable {
     private TableView<TableTransakcjeUzytkownika> table_transakcje;
 
     @FXML
+    private TableColumn<TableTransakcjeUzytkownika, String> column_transakcje_id_transakcji;
+
+    @FXML
     private TableColumn<TableTransakcjeUzytkownika, Double> column_transakcje_cena;
 
     @FXML
@@ -155,6 +158,9 @@ public class ControllerUzytkownik implements Initializable {
 
     @FXML
     private TableView<TableZamowieniaUzytkownika> table_zamowienia;
+
+    @FXML
+    private TableColumn<TableZamowieniaUzytkownika, String> column_zamowienia_id_zamowienia;
 
     @FXML
     private TableColumn<TableZamowieniaUzytkownika, String> column_zamowienia_data_odbioru;
@@ -259,10 +265,12 @@ public class ControllerUzytkownik implements Initializable {
         column_opinie_tresc.setCellValueFactory(new PropertyValueFactory<TableOpinie, String>("komentarz"));
         column_opinie_nazwa_produktu.setCellValueFactory(new PropertyValueFactory<TableOpinie, String>("nazwa"));
         //TransakcjeUzytkownika
+        column_transakcje_id_transakcji.setCellValueFactory(new PropertyValueFactory<TableTransakcjeUzytkownika, String>("id_transakcji"));
         column_transakcje_cena.setCellValueFactory(new PropertyValueFactory<TableTransakcjeUzytkownika, Double>("cena"));
         column_transakcje_data.setCellValueFactory(new PropertyValueFactory<TableTransakcjeUzytkownika, String>("data"));
         column_transakcje_nazwy_produktow.setCellValueFactory(new PropertyValueFactory<TableTransakcjeUzytkownika, String>("nazwy"));
         //ZamowieniaUzytkownika
+        column_zamowienia_id_zamowienia.setCellValueFactory(new PropertyValueFactory<TableZamowieniaUzytkownika, String>("id_zamowienia"));
         column_zamowienia_data_zlozenia.setCellValueFactory(new PropertyValueFactory<TableZamowieniaUzytkownika, String>("data_zlo"));
         column_zamowienia_data_odbioru.setCellValueFactory(new PropertyValueFactory<TableZamowieniaUzytkownika, String>("data_odb"));
         column_zamowienia_status.setCellValueFactory(new PropertyValueFactory<TableZamowieniaUzytkownika, String>("status"));
@@ -320,6 +328,7 @@ public class ControllerUzytkownik implements Initializable {
 
         //TableTransakcjeUzytkownika
         wynik = connection.uzyskajDane("Select " +
+                "t.id_transakcji, " +
                 "t.data_t, " +
                 "t.cena_calkowita, " +
                 "LISTAGG( " +
@@ -341,16 +350,17 @@ public class ControllerUzytkownik implements Initializable {
                 "LEFT JOIN Procesor pproc ON p.id_procesora = pproc.id_procesora " +
                 "LEFT JOIN Dysk pd ON p.id_dysku = pd.id_dysku " +
                 "WHERE t.id_uzytkownika = " + idZalogowanegoUzytkownika +
-                " GROUP BY t.data_t, t.cena_calkowita");
+                " GROUP BY t.id_transakcji, t.data_t, t.cena_calkowita");
         if(wynik.length!=1) {
-            for (int i = 0; i < wynik.length; i += 3) {
-                ttu_list.add(new TableTransakcjeUzytkownika(wynik[i], wynik[i + 2], Double.parseDouble(wynik[i + 1])));
+            for (int i = 0; i < wynik.length; i += 4) {
+                ttu_list.add(new TableTransakcjeUzytkownika(wynik[i], wynik[i + 1], "- "+wynik[i+3].replace(", ","\n- "), Double.parseDouble(wynik[i + 2])));
             }
             table_transakcje.setItems(ttu_list);
         }
 
         //TableZamowieniaUzytkownika
         wynik = connection.uzyskajDane("Select " +
+                "z.id_zamowienia, " +
                 "z.data_zlozenia, " +
                 "z.data_odbioru, " +
                 "z.status_odbioru, " +
@@ -373,10 +383,10 @@ public class ControllerUzytkownik implements Initializable {
                 "LEFT JOIN Procesor pproc ON p.id_procesora = pproc.id_procesora " +
                 "LEFT JOIN Dysk pd ON p.id_dysku = pd.id_dysku " +
                 "WHERE z.id_uzytkownika = " + idZalogowanegoUzytkownika +
-                " GROUP BY z.data_zlozenia, z.data_odbioru, z.status_odbioru");
+                " GROUP BY z.id_zamowienia, z.data_zlozenia, z.data_odbioru, z.status_odbioru");
         if(wynik.length!=1) {
-            for (int i = 0; i < wynik.length; i += 4) {
-                tzu_list.add(new TableZamowieniaUzytkownika(wynik[i], wynik[i + 1], wynik[i + 3], wynik[i + 2]));
+            for (int i = 0; i < wynik.length; i += 5) {
+                tzu_list.add(new TableZamowieniaUzytkownika(wynik[i], wynik[i+1], wynik[i + 2], "- "+wynik[i+4].replace(", ","\n- "), wynik[i + 3]));
             }
             table_zamowienia.setItems(tzu_list);
         }

@@ -1,11 +1,13 @@
 package com.example.sklep_komputerowy_apl;
 public class TableTransakcjeUzytkownika {
+    private String id_transakcji;
     private String data;
     private Double cena;
     private String nazwy;
 
 
-    public TableTransakcjeUzytkownika(String data, String nazwyProduktow, Double cena) {
+    public TableTransakcjeUzytkownika(String idTransakcji, String data, String nazwyProduktow, Double cena) {
+        this.id_transakcji=idTransakcji;
         this.data = data;
         this.nazwy=nazwyProduktow;
         this.cena=cena;
@@ -33,5 +35,13 @@ public class TableTransakcjeUzytkownika {
 
     public void setNazwy(String nazwyProduktow) {
         this.nazwy = nazwyProduktow;
+    }
+
+    public String getId_transakcji() {
+        return id_transakcji;
+    }
+
+    public void setId_transakcji(String id_transakcji) {
+        this.id_transakcji = id_transakcji;
     }
 }
