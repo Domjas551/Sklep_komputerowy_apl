@@ -2,10 +2,12 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -44,7 +46,7 @@
                   </ScrollPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="profil" prefHeight="466.0" prefWidth="729.0">
+            <AnchorPane fx:id="profil" prefHeight="466.0" prefWidth="729.0" visible="false">
                <children>
                   <Text layoutX="93.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Imię">
                      <font>
@@ -224,6 +226,59 @@
                   <TextField fx:id="textField_powtorz_haslo" layoutX="40.0" layoutY="260.0" visible="false" />
                </children>
             </AnchorPane>
+            <AnchorPane fx:id="reklamacje" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <StackPane layoutX="7.0" layoutY="99.0" prefHeight="150.0" prefWidth="200.0">
+                     <children>
+                        <AnchorPane fx:id="rek_tran" prefHeight="200.0" prefWidth="200.0" visible="false">
+                           <children>
+                              <Text layoutX="37.5" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wybierz id transakcji">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <ChoiceBox fx:id="rek_choicebox_id_trans" layoutX="25.0" layoutY="40.0" prefWidth="150.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="rek_zam" prefHeight="200.0" prefWidth="200.0" visible="false">
+                           <children>
+                              <Text layoutX="30.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wybierz id zamówienia">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                              <ChoiceBox fx:id="rek_choicebox_id_zam" layoutX="26.0" layoutY="41.0" prefWidth="150.0" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </StackPane>
+                  <StackPane layoutX="207.0" layoutY="38.0" prefHeight="246.0" prefWidth="523.0">
+                     <children>
+                        <TableView fx:id="table_rek_tran" onMouseClicked="#wybierzProduktRekl" prefHeight="200.0" prefWidth="200.0" visible="false">
+                           <columns>
+                              <TableColumn fx:id="trt_nazwa" prefWidth="432.79998779296875" text="Nazwa produktu" />
+                              <TableColumn fx:id="trt_reklamowano" prefWidth="100.0" text="Reklamowano?" />
+                           </columns>
+                        </TableView>
+                        <TableView fx:id="table_rek_zam" onMouseClicked="#wybierzProduktRekl" prefHeight="200.0" prefWidth="200.0" visible="false">
+                          <columns>
+                            <TableColumn fx:id="trz_nazwa" prefWidth="422.4000244140625" text="Nazwa produktu" />
+                              <TableColumn fx:id="trz_reklamowano" prefWidth="100.0" text="Reklamowano?" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </StackPane>
+                  <Text layoutX="45.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wybierz typ zakupu">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <ChoiceBox fx:id="rek_typ" layoutX="30.0" layoutY="73.0" prefWidth="150.0" />
+                  <TextArea fx:id="rek_powod" layoutX="207.0" layoutY="309.0" prefHeight="150.0" prefWidth="523.0" />
+                  <Text layoutX="422.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Powód reklamacji" />
+                  <Button layoutX="73.0" layoutY="371.0" mnemonicParsing="false" onMouseClicked="#reklamuj" text="Reklamuj" />
+               </children>
+            </AnchorPane>
          </children>
       </StackPane>
       <Button fx:id="button_profil" layoutX="14.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showProfil" text="Profil" />
@@ -253,5 +308,6 @@
             </ImageView>
          </graphic>
       </Button>
+      <Button fx:id="button_reklamacje" layoutX="350.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showReklamacje" text="Reklamacje" />
    </children>
 </AnchorPane>
