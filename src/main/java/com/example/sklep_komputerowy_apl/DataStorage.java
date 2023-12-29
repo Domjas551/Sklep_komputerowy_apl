@@ -28,8 +28,10 @@ public class DataStorage {
     private String idWybranegoUzytkownika = "43";
     private String idWybranegoProduktu = "420";
     private ArrayList<String> idProduktowWKoszyku = new ArrayList<>(Arrays.asList("32", "1", "43"));
-    private String idWybranegoZestawu = "0";
 
+
+    //strona zestawów
+    private String idWybranegoZestawu = "1"; //todo do zmiany
 
     public DataStorage() {
         this.wyszukiwarka_activePage = "plyty";
