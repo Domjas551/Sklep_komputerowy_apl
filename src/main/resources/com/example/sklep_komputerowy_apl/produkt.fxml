@@ -659,7 +659,7 @@
             </AnchorPane>
          </children>
       </StackPane>
-      <Button fx:id="button_dodaj_do_koszyka" layoutX="658.0" layoutY="561.0" mnemonicParsing="false" onMouseClicked="#addToCart" text="Dodaj do koszyka" />
+      <Button fx:id="button_dodaj_do_koszyka" layoutX="628.0" layoutY="561.0" mnemonicParsing="false" onMouseClicked="#addToCart" text="Dodaj do koszyka" />
       <Button fx:id="button_cart" layoutX="531.0" layoutY="19.0" mnemonicParsing="false" onMouseClicked="#goToCart">
          <graphic>
             <ImageView fx:id="image_cart" fitHeight="37.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
@@ -671,5 +671,6 @@
       </Button>
       <Button fx:id="button_specyfikacja" layoutX="14.0" layoutY="80.0" mnemonicParsing="false" onMouseClicked="#showSpecyfikacja" text="Specyfikacja produktu" />
       <Button fx:id="button_opinie" layoutX="147.0" layoutY="80.0" mnemonicParsing="false" onMouseClicked="#showOpinie" text="Opinie" />
+      <TextField fx:id="textField_liczba_egzemplarzy" layoutX="738.0" layoutY="561.0" prefHeight="25.0" prefWidth="30.0" text="1" />
    </children>
 </AnchorPane>

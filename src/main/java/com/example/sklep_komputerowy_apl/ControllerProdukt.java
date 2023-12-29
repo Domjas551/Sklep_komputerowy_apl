@@ -47,6 +47,9 @@ public class ControllerProdukt implements Initializable {
     private Button button_dodaj_do_koszyka;
 
     @FXML
+    private TextField textField_liczba_egzemplarzy;
+
+    @FXML
     private Text button_home;
 
     @FXML
@@ -450,6 +453,17 @@ public class ControllerProdukt implements Initializable {
     @FXML
     void addToCart(MouseEvent event) {
         boolean s = true;
+
+        try {
+            Double.parseDouble(textField_liczba_egzemplarzy.getText());
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Błąd");
+            alert.setContentText("Wprowadzona wartość nie jest liczbą");
+            alert.showAndWait();
+            return;
+        }
+
         for(int i=0; i<dane.getIdProduktowWKoszyku().size(); i++)
         {
             if(dane.getIdProduktowWKoszyku().get(i).equals(idWybranegoProduktu))
@@ -459,7 +473,9 @@ public class ControllerProdukt implements Initializable {
             }
         }
         if(s) {
-            dane.getIdProduktowWKoszyku().add(idWybranegoProduktu);
+            dane.getIdProduktowWKoszyku().add(String.valueOf(kategoria));
+            dane.getIdProduktowWKoszyku().add(idtypu);
+            dane.getIdProduktowWKoszyku().add(textField_liczba_egzemplarzy.getText());
             Alert alert=new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Sukces");
             alert.setContentText("Dodano do koszyka!");
@@ -664,7 +680,6 @@ public class ControllerProdukt implements Initializable {
             if (text_field_komentarz.getLength() != 0) {
                 if (text_field_komentarz.getLength() <= 300) {
                     String wynik[];
-                    String wynik2[];
                     wynik=connection.uzyskajDane("Select count(*) from opinia");
 
                     switch(kategoria) {
