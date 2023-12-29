@@ -24,10 +24,10 @@ public class DataStorage {
     //ostatnie zapyranie do tabeli użytkowników
     private String ostatnieZapytanieTableUzytkownicy = "";
 
-    private String idZalogowanegoUzytkownika = "1";
-    private String idWybranegoUzytkownika = "43";
+    private String idZalogowanegoUzytkownika = "21";
+    private String idWybranegoUzytkownika = "0";
     private String idWybranegoProduktu = "420";
-    private ArrayList<String> idProduktowWKoszyku = new ArrayList<>(Arrays.asList("1", "1", "1"));
+    private ArrayList<String> idProduktowWKoszyku = new ArrayList<>(Arrays.asList("1", "1", "6"));
     private ArrayList<String> idZestawowWKoszyku = new ArrayList<>(Arrays.asList("1"));
 
 

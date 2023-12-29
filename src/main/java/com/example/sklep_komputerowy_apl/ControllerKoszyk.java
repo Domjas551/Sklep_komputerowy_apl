@@ -3,7 +3,11 @@ package com.example.sklep_komputerowy_apl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -12,8 +16,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -21,11 +28,17 @@ import java.util.ResourceBundle;
 public class ControllerKoszyk implements Initializable {
     ConnectionStorage connection=ConnectionStorage.getInstance();
     DataStorage dane=DataStorage.getInstance();
-    int kategoria=-1;
 
-    //Wartosci przyjete roboczo
+    private static final DecimalFormat decfor = new DecimalFormat("0.00");
+
     private ArrayList<String> id_produktow_w_koszyku= dane.getIdProduktowWKoszyku();
+    private ArrayList<String> id_zestawow_w_koszyku= dane.getIdZestawowWKoszyku();
     private String idZalogowanegoUzytkownika=dane.getIdZalogowanegoUzytkownika();
+
+    //Elementy do zmian scen
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
 
     //Elementy
@@ -33,7 +46,7 @@ public class ControllerKoszyk implements Initializable {
     private AnchorPane background;
 
     @FXML
-    private Button button_anuluj;
+    private Button button_oproznij;
 
     @FXML
     private Text button_home;
@@ -91,7 +104,7 @@ public class ControllerKoszyk implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         if(!id_produktow_w_koszyku.isEmpty()) {
-            String wynik[];
+            String wynik[]=null;
             Double sumCen=0.0;
             //ustawienie tabel
             //OpinieUzytkownika
@@ -104,118 +117,140 @@ public class ControllerKoszyk implements Initializable {
             //utworzenie list do wypełniania odpowiednich typów
             ObservableList<TableProduktWKoszyku> tpk_list = FXCollections.observableArrayList();
 
-            for (int i = 0; i < id_produktow_w_koszyku.size(); i++) {
-                //Ustalenie kategorii wybranego produkt
-                wynik = connection.uzyskajDane("Select id_pamieci_ram, id_plyty_glownej, id_karty_graficznej, id_procesora, id_dysku from produkt where id_produktu = " + id_produktow_w_koszyku.get(i));
-                for (int j = 0; j < wynik.length; j++) {
-                    if (!wynik[j].equals("null")) {
-                        kategoria = j;
+            for (int i = 0; i < id_produktow_w_koszyku.size(); i=i+3) {
+                switch (id_produktow_w_koszyku.get(i)) {
+                    case "1":
+                        wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena from pamiec_ram where id_pamieci_ram = "+id_produktow_w_koszyku.get(i+1));
+                        break;
+                    case "2":
+                        wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena from plyta_glowna where id_plyty_glownej = "+id_produktow_w_koszyku.get(i+1));
+                        break;
+                    case "3":
+                        wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena from karta_graficzna where id_karty_graficznej = "+id_produktow_w_koszyku.get(i+1));
+                        break;
+                    case "4":
+                        wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena from procesor where id_procesora = "+id_produktow_w_koszyku.get(i+1));
+                        break;
+                    case "5":
+                        wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena from dysk where id_dysku = "+id_produktow_w_koszyku.get(i+1));
                         break;
                     }
+                for (int j = 0; j < Double.parseDouble(id_produktow_w_koszyku.get(i + 2)); j++)
+                {
+                    switch (id_produktow_w_koszyku.get(i)) {
+                        case "1":
+                            tpk_list.add(new TableProduktWKoszyku(wynik[0], "Pamięć RAM", wynik[1], Double.parseDouble(wynik[2])));
+                            break;
+                        case "2":
+                            tpk_list.add(new TableProduktWKoszyku(wynik[0], "Płyta główna", wynik[1], Double.parseDouble(wynik[2])));
+                            break;
+                        case "3":
+                            tpk_list.add(new TableProduktWKoszyku(wynik[0], "Karta graficzna", wynik[1], Double.parseDouble(wynik[2])));
+                            break;
+                        case "4":
+                            tpk_list.add(new TableProduktWKoszyku(wynik[0], "Procesor", wynik[1], Double.parseDouble(wynik[2])));
+                            break;
+                        case "5":
+                            tpk_list.add(new TableProduktWKoszyku(wynik[0], "Dysk", wynik[1], Double.parseDouble(wynik[2])));
+                            break;
+                    }
                 }
-
-                switch(kategoria) {
-                    case 0:
-                        tpk_list.add(new TableProduktWKoszyku(null, "Pamięć RAM", null, null));
-                        break;
-                    case 1:
-                        tpk_list.add(new TableProduktWKoszyku(null, "Płyta główna", null, null));
-                        break;
-                    case 2:
-                        tpk_list.add(new TableProduktWKoszyku(null, "Karta graficzna", null, null));
-                        break;
-                    case 3:
-                        tpk_list.add(new TableProduktWKoszyku(null, "Procesor", null, null));
-                        break;
-                    case 4:
-                        tpk_list.add(new TableProduktWKoszyku(null, "Dysk", null, null));
-                        break;
-                }
-
-                wynik = connection.uzyskajDane("Select" +
-                        " CASE" +
-                        " WHEN ppr.id_pamieci_ram IS NOT NULL THEN ppr.nazwa_produktu" +
-                        " WHEN ppg.id_plyty_glownej IS NOT NULL THEN ppg.nazwa_produktu" +
-                        " WHEN pkg.id_karty_graficznej IS NOT NULL THEN pkg.nazwa_produktu" +
-                        " WHEN pproc.id_procesora IS NOT NULL THEN pproc.nazwa_produktu" +
-                        " WHEN pd.id_dysku IS NOT NULL THEN pd.nazwa_produktu" +
-                        " ELSE NULL" +
-                        " END AS nazwa_produktu," +
-                        " CASE" +
-                        " WHEN ppr.id_pamieci_ram IS NOT NULL THEN ppr.producent" +
-                        " WHEN ppg.id_plyty_glownej IS NOT NULL THEN ppg.producent" +
-                        " WHEN pkg.id_karty_graficznej IS NOT NULL THEN pkg.producent" +
-                        " WHEN pproc.id_procesora IS NOT NULL THEN pproc.producent" +
-                        " WHEN pd.id_dysku IS NOT NULL THEN pd.producent" +
-                        " ELSE NULL" +
-                        " END AS producent," +
-                        " CASE" +
-                        " WHEN ppr.id_pamieci_ram IS NOT NULL THEN ppr.cena" +
-                        " WHEN ppg.id_plyty_glownej IS NOT NULL THEN ppg.cena" +
-                        " WHEN pkg.id_karty_graficznej IS NOT NULL THEN pkg.cena" +
-                        " WHEN pproc.id_procesora IS NOT NULL THEN pproc.cena" +
-                        " WHEN pd.id_dysku IS NOT NULL THEN pd.cena" +
-                        " ELSE NULL" +
-                        " END AS cena" +
-                        " FROM Produkt p" +
-                        " LEFT JOIN Pamiec_RAM ppr ON p.id_pamieci_ram = ppr.id_pamieci_ram" +
-                        " LEFT JOIN Plyta_glowna ppg ON p.id_plyty_glownej = ppg.id_plyty_glownej" +
-                        " LEFT JOIN Karta_graficzna pkg ON p.id_karty_graficznej = pkg.id_karty_graficznej" +
-                        " LEFT JOIN Procesor pproc ON p.id_procesora = pproc.id_procesora" +
-                        " LEFT JOIN Dysk pd ON p.id_dysku = pd.id_dysku" +
-                        " WHERE p.id_produktu = " + id_produktow_w_koszyku.get(i));
-
-                    tpk_list.get(i).setNazwa_produktu(wynik[0]);
-                    tpk_list.get(i).setProducent(wynik[1]);
-                    tpk_list.get(i).setCena(Double.parseDouble(wynik[2]));
             }
+
+            for (int i = 0; i < id_zestawow_w_koszyku.size(); i++)
+            {
+                String wynik2[] = connection.uzyskajDane("Select id_pamiec_ram, id_plyta_glowna, id_karta_graficzna, id_procesor, id_dysk from zestaw where id_zestawu = "+id_zestawow_w_koszyku.get(i));
+
+                wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena from pamiec_ram where id_pamieci_ram = "+id_produktow_w_koszyku.get(Integer.parseInt(wynik2[0])));
+                tpk_list.add(new TableProduktWKoszyku(wynik[0], "Pamięć RAM", wynik[1], Double.parseDouble(wynik[2])));
+                wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena from plyta_glowna where id_plyty_glownej = "+id_produktow_w_koszyku.get(Integer.parseInt(wynik2[1])));
+                tpk_list.add(new TableProduktWKoszyku(wynik[0], "Płyta główna", wynik[1], Double.parseDouble(wynik[2])));
+                wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena from karta_graficzna where id_karty_graficznej = "+id_produktow_w_koszyku.get(Integer.parseInt(wynik2[2])));
+                tpk_list.add(new TableProduktWKoszyku(wynik[0], "Karta graficzna", wynik[1], Double.parseDouble(wynik[2])));
+                wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena from procesor where id_procesora = "+id_produktow_w_koszyku.get(Integer.parseInt(wynik2[3])));
+                tpk_list.add(new TableProduktWKoszyku(wynik[0], "Procesor", wynik[1], Double.parseDouble(wynik[2])));
+                wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena from dysk where id_dysku = "+id_produktow_w_koszyku.get(Integer.parseInt(wynik2[4])));
+                tpk_list.add(new TableProduktWKoszyku(wynik[0], "Dysk", wynik[1], Double.parseDouble(wynik[2])));
+            }
+
             table_koszyk.setItems(tpk_list);
 
             //value_of_cena_calkowita
             for (int j = 0; j < tpk_list.size(); j++) {
                 sumCen=sumCen+tpk_list.get(j).getCena();
             }
-            value_of_cena_calkowita.setText(sumCen+ " zł");
+            value_of_cena_calkowita.setText(decfor.format(sumCen)+ " zł");
 
-            //Button_value_of_name
-            wynik = connection.uzyskajDane("Select imie from Uzytkownik where id_uzytkownika = " + idZalogowanegoUzytkownika);
-            button_value_of_name.setText(wynik[0]);
+            if(!idZalogowanegoUzytkownika.equals("0")) {
+                zaloguj.setVisible(false);
+                wyloguj.setVisible(true);
+                wynik = connection.uzyskajDane("Select imie from uzytkownik where id_uzytkownika = " + idZalogowanegoUzytkownika);
+                button_value_of_name.setText(wynik[0]);
+            }
+            else
+            {
+                wyloguj.setVisible(false);
+                zaloguj.setVisible(true);
+            }
         }
     }
 
     @FXML
-    void buy(MouseEvent event) {
-
-    }
-
-    @FXML
-    void cancel(MouseEvent event) {
-
-    }
-
-    @FXML
-    void goHome(MouseEvent event) {
-
-    }
-
-    @FXML
-    void goToUzytkownik(MouseEvent event) {
-
-    }
-
-    @FXML
     void order(MouseEvent event) {
-
+        //TODO
     }
 
     @FXML
-    void wyloguj(MouseEvent event) {
-
+    void buy(MouseEvent event) {
+        //TODO
     }
 
     @FXML
-    void zaloguj(MouseEvent event) {
+    void clear(MouseEvent event) throws IOException {
+        dane.getIdProduktowWKoszyku().clear();
+        dane.getIdZestawowWKoszyku().clear();
+        root = FXMLLoader.load(getClass().getResource("koszyk" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 
+    @FXML
+    void goHome(MouseEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("wyszukiwarka" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    void goToUzytkownik(MouseEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("uzytkownik" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    void wyloguj(MouseEvent event) throws IOException {
+        dane.setIdZalogowanegoUzytkownika("0");
+        root = FXMLLoader.load(getClass().getResource("koszyk" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    void zaloguj(MouseEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("logowanie" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
 }

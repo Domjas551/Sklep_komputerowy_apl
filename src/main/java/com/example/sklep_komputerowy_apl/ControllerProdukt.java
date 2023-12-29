@@ -464,30 +464,13 @@ public class ControllerProdukt implements Initializable {
             return;
         }
 
-        for(int i=0; i<dane.getIdProduktowWKoszyku().size(); i++)
-        {
-            if(dane.getIdProduktowWKoszyku().get(i).equals(idWybranegoProduktu))
-            {
-                s=false;
-                break;
-            }
-        }
-        if(s) {
-            dane.getIdProduktowWKoszyku().add(String.valueOf(kategoria));
-            dane.getIdProduktowWKoszyku().add(idtypu);
-            dane.getIdProduktowWKoszyku().add(textField_liczba_egzemplarzy.getText());
-            Alert alert=new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Sukces");
-            alert.setContentText("Dodano do koszyka!");
-            alert.showAndWait();
-        }
-        else
-        {
-            Alert alert=new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Błąd");
-            alert.setContentText("Produkt znajduje się już w koszyku!");
-            alert.showAndWait();
-        }
+        dane.getIdProduktowWKoszyku().add(String.valueOf(kategoria+1));
+        dane.getIdProduktowWKoszyku().add(idtypu);
+        dane.getIdProduktowWKoszyku().add(textField_liczba_egzemplarzy.getText());
+        Alert alert=new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Sukces");
+        alert.setContentText("Dodano do koszyka!");
+        alert.showAndWait();
     }
 
     @FXML
