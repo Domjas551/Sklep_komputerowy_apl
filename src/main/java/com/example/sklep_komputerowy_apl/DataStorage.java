@@ -27,7 +27,8 @@ public class DataStorage {
     private String idZalogowanegoUzytkownika = "1";
     private String idWybranegoUzytkownika = "43";
     private String idWybranegoProduktu = "420";
-    private ArrayList<String> idProduktowWKoszyku = new ArrayList<>(Arrays.asList("32", "1", "43"));
+    private ArrayList<String> idProduktowWKoszyku = new ArrayList<>(Arrays.asList("1", "1", "1"));
+    private ArrayList<String> idZestawowWKoszyku = new ArrayList<>(Arrays.asList("1"));
 
 
     //strona zestawów
@@ -147,5 +148,13 @@ public class DataStorage {
 
     public void setIdWybranegoZestawu(String idWybranegoZestawu) {
         this.idWybranegoZestawu = idWybranegoZestawu;
+    }
+
+    public ArrayList<String> getIdZestawowWKoszyku() {
+        return idZestawowWKoszyku;
+    }
+
+    public void setIdZestawowWKoszyku(ArrayList<String> idZestawowWKoszyku) {
+        this.idZestawowWKoszyku = idZestawowWKoszyku;
     }
 }

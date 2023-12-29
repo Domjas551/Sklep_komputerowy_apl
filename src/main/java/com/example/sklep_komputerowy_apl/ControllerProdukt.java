@@ -25,7 +25,8 @@ public class ControllerProdukt implements Initializable {
     DataStorage dane=DataStorage.getInstance();
     int kategoria=-1;
     String idtypu="";
-    //Wartosci przyjete roboczo
+
+
     private String idWybranegoProduktu=dane.getIdWybranegoProduktu();
     private String idZalogowanegoUzytkownika=dane.getIdZalogowanegoUzytkownika();
 

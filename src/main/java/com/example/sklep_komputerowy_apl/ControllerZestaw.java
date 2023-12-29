@@ -1,14 +1,20 @@
 package com.example.sklep_komputerowy_apl;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -17,6 +23,14 @@ public class ControllerZestaw implements Initializable {
     //utworzenie połączenia do data oraz connection storage
     ConnectionStorage connection=ConnectionStorage.getInstance();
     DataStorage dane=DataStorage.getInstance();
+
+    private String idWybranegoZestawu=dane.getIdWybranegoZestawu();
+    private String idZalogowanegoUzytkownika=dane.getIdZalogowanegoUzytkownika();
+
+    //Elementy do zmian scen
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
     @FXML
     private AnchorPane background;
@@ -100,6 +114,18 @@ public class ControllerZestaw implements Initializable {
             value_of_pamiec.setText(wynik[5]);
             value_of_dysk.setText(wynik[6]);
         }
+
+        if(!idZalogowanegoUzytkownika.equals("0")) {
+            zaloguj.setVisible(false);
+            wyloguj.setVisible(true);
+            wynik = connection.uzyskajDane("Select imie from uzytkownik where id_uzytkownika = " + idZalogowanegoUzytkownika);
+            button_value_of_name.setText(wynik[0]);
+        }
+        else
+        {
+            wyloguj.setVisible(false);
+            zaloguj.setVisible(true);
+        }
     }
 
     public void errorAlert(String m){
@@ -112,32 +138,57 @@ public class ControllerZestaw implements Initializable {
 
     @FXML
     void addToCart(MouseEvent event) {
-
+            dane.getIdZestawowWKoszyku().add(idWybranegoZestawu);
+            Alert alert=new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sukces");
+            alert.setContentText("Dodano Zestaw do koszyka!");
+            alert.showAndWait();
     }
 
     @FXML
-    void goHome(MouseEvent event) {
-
+    void goHome(MouseEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("wyszukiwarka" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    void goToCart(MouseEvent event) {
-
+    void goToCart(MouseEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("koszyk" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    void goToUzytkownik(MouseEvent event) {
-
+    void goToUzytkownik(MouseEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("uzytkownik" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    void wyloguj(MouseEvent event) {
-
+    void wyloguj(MouseEvent event) throws IOException {
+        dane.setIdZalogowanegoUzytkownika("0");
+        root = FXMLLoader.load(getClass().getResource("zestaw" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    void zaloguj(MouseEvent event) {
-
+    void zaloguj(MouseEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("logowanie" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
 }
