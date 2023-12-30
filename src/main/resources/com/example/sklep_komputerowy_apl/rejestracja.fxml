@@ -4,8 +4,6 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
@@ -46,17 +44,9 @@
                   <CheckBox fx:id="rejestracja_pokaz_haslo_CB" layoutX="178.0" layoutY="282.0" mnemonicParsing="false" onAction="#pokazHaslo" text="Pokaż hasło" />
                   <TextField fx:id="rejestracja_haslo_plain" layoutX="177.0" layoutY="199.0" promptText="Hasło" visible="false" />
                   <TextField fx:id="rejestracja_powtorz_plain" layoutX="177.0" layoutY="246.0" promptText="Powtórz hasło" visible="false" />
+                  <Text layoutX="174.0" layoutY="411.0" onMouseClicked="#doLogowania" strokeType="OUTSIDE" strokeWidth="0.0" text="Posiadasz już konto? Zaloguj się!" />
                </children></AnchorPane>
          </children>
       </StackPane>
-      <Button fx:id="button_cart" layoutX="531.0" layoutY="19.0" mnemonicParsing="false" onMouseClicked="#goToCart">
-         <graphic>
-            <ImageView fx:id="image_cart" fitHeight="37.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../images/shopping_cart.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
    </children>
 </AnchorPane>
