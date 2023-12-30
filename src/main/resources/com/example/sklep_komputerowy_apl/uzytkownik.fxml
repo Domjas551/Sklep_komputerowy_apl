@@ -242,7 +242,7 @@
                               <ChoiceBox fx:id="rek_choicebox_id_trans" layoutX="25.0" layoutY="40.0" prefWidth="150.0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="rek_zam" prefHeight="200.0" prefWidth="200.0" visible="false">
+                        <AnchorPane fx:id="rek_zam" prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <Text layoutX="30.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wybierz id zamówienia">
                                  <font>
@@ -270,15 +270,19 @@
                         </TableView>
                      </children>
                   </StackPane>
-                  <Text layoutX="45.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wybierz typ zakupu">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Text>
-                  <ChoiceBox fx:id="rek_typ" layoutX="30.0" layoutY="73.0" prefWidth="150.0" />
                   <TextArea fx:id="rek_powod" layoutX="207.0" layoutY="309.0" prefHeight="150.0" prefWidth="523.0" />
                   <Text layoutX="422.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Powód reklamacji" />
                   <Button layoutX="73.0" layoutY="371.0" mnemonicParsing="false" onMouseClicked="#reklamuj" text="Reklamuj" />
+                  <AnchorPane fx:id="anchor_typ" layoutX="7.0" layoutY="-1.0" prefHeight="111.0" prefWidth="200.0">
+                     <children>
+                        <Text layoutX="39.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wybierz typ zakupu">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <ChoiceBox fx:id="rek_typ" layoutX="25.0" layoutY="71.0" prefWidth="150.0" />
+                     </children>
+                  </AnchorPane>
                </children>
             </AnchorPane>
          </children>

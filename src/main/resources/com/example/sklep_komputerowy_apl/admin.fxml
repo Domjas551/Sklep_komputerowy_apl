@@ -408,7 +408,7 @@
                   </ScrollPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="uzytkownicy" prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane fx:id="uzytkownicy" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
                   <ScrollPane hbarPolicy="NEVER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="460.0" prefWidth="200.0" style="-fx-background-color: lightgray;" vbarPolicy="NEVER">
                      <content>

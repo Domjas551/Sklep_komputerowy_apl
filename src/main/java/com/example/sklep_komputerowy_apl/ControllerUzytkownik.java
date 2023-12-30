@@ -43,6 +43,10 @@ public class ControllerUzytkownik implements Initializable {
     private Scene scene;
     private Parent root;
 
+    //tablice na tra/zam w reklamacje
+    String s1[];
+    String s2[];
+
     //Elementy
     //Elementy poza zakladkami
     @FXML
@@ -251,6 +255,8 @@ public class ControllerUzytkownik implements Initializable {
 
     @FXML
     private ChoiceBox<String> rek_typ;
+    @FXML
+    private AnchorPane anchor_typ;
 
     //-------------------------------------
     //Funkcje
@@ -418,21 +424,32 @@ public class ControllerUzytkownik implements Initializable {
         //inicializacja waertośći w choiceboxach
         rek_typ.getItems().setAll("Zamówienia","Transakcje");
 
-        String s1[];
-
         //wyświetlane są tylko zatwierdzone transakcje/zamówienia
         s1=connection.uzyskajDane("Select id_zamowienia from zamowienie where id_uzytkownika="+idZalogowanegoUzytkownika+" " +
                 "and status_odbioru='zrealizowane'");
         rek_choicebox_id_zam.getItems().setAll(s1);
 
-        s1=connection.uzyskajDane("Select id_transakcji from transakcja where id_uzytkownika="+idZalogowanegoUzytkownika+"" +
+        s2=connection.uzyskajDane("Select id_transakcji from transakcja where id_uzytkownika="+idZalogowanegoUzytkownika+"" +
                 "and status='zatwierdzona'");
-        rek_choicebox_id_trans.getItems().setAll(s1);
+        rek_choicebox_id_trans.getItems().setAll(s2);
 
         //przypisanie funkcji wykonywanych przy zmianie wartości w choiceboxach
         rek_typ.setOnAction(actionEvent -> rekZmienBox());
         rek_choicebox_id_zam.setOnAction(actionEvent -> rekPokazTabele());
         rek_choicebox_id_trans.setOnAction(actionEvent -> rekPokazTabele());
+
+        anchor_typ.setVisible(true);
+
+        //wypadek gdyby użytkownik nie miał transakcji/reklamacji
+        if(s1[0].equals("")){
+            anchor_typ.setVisible(false);
+            rek_zam.setVisible(false);
+            rek_tran.setVisible(true);
+        }else if(s2[0].equals("")){
+            anchor_typ.setVisible(false);
+            rek_zam.setVisible(true);
+            rek_tran.setVisible(false);
+        }
     }
 
     //wyświetlanie alertów
@@ -576,13 +593,17 @@ public class ControllerUzytkownik implements Initializable {
     //funkcja do wyświetlenia strony reklamacji
     @FXML
     void showReklamacje(MouseEvent event){
-        profil.setVisible(false);
-        transakcje.setVisible(false);
-        zamowienia.setVisible(false);
-        zatwierdzenie_usuniecia.setVisible(false);
-        opinie.setVisible(false);
-        zmiana_hasla.setVisible(false);
-        reklamacje.setVisible(true);
+        if(s1[0].equals("") && s2[0].equals("")){
+            informationAlert("Brak produktów do reklamacji");
+        }else{
+            profil.setVisible(false);
+            transakcje.setVisible(false);
+            zamowienia.setVisible(false);
+            zatwierdzenie_usuniecia.setVisible(false);
+            opinie.setVisible(false);
+            zmiana_hasla.setVisible(false);
+            reklamacje.setVisible(true);
+        }
     }
 
     //funkcja do zmiany widocznego choiceboxa transakcje/zamówienia
@@ -612,6 +633,13 @@ public class ControllerUzytkownik implements Initializable {
     void rekPokazTabele(){
 
         String strona=rek_typ.getSelectionModel().getSelectedItem();
+
+        if(s1[0].equals("")){
+            strona="Transakcje";
+        }else if(s2[0].equals("")){
+            strona="Zamówienia";
+        }
+
         String id="";
 
         //utworzenie list do wypełniania odpowiednich typów
@@ -721,6 +749,12 @@ public class ControllerUzytkownik implements Initializable {
 
         String strona=rek_typ.getSelectionModel().getSelectedItem();
 
+        if(s1[0].equals("")){
+            strona="Transakcje";
+        }else if(s2[0].equals("")){
+            strona="Zamówienia";
+        }
+
         if(strona.equals("Zamówienia")){
 
             Integer index=table_rek_zam.getSelectionModel().getSelectedIndex();
@@ -743,6 +777,13 @@ public class ControllerUzytkownik implements Initializable {
     @FXML
     void reklamuj(){
         String strona=rek_typ.getSelectionModel().getSelectedItem();
+
+        if(s1[0].equals("")){
+            strona="Transakcje";
+        }else if(s2[0].equals("")){
+            strona="Zamówienia";
+        }
+
         String id="";
         String id_produktu="";
 
