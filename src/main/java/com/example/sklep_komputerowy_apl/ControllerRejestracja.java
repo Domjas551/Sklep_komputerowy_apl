@@ -111,8 +111,8 @@ public class ControllerRejestracja {  // TODO POŁĄCZENIE DB
     }
 
     @FXML
-    void goToCart(MouseEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("koszyk" + ".fxml"));
+    void doLogowania(MouseEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("logowanie" + ".fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
