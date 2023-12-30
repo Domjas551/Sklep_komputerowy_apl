@@ -182,18 +182,19 @@ public class ControllerKoszyk implements Initializable {
                 sumCen=sumCen+tpk_list.get(j).getCena();
             }
             value_of_cena_calkowita.setText(decfor.format(sumCen)+ " zł");
+        }
 
-            if(!idZalogowanegoUzytkownika.equals("0")) {
-                zaloguj.setVisible(false);
-                wyloguj.setVisible(true);
-                wynik = connection.uzyskajDane("Select imie from uzytkownik where id_uzytkownika = " + idZalogowanegoUzytkownika);
-                button_value_of_name.setText(wynik[0]);
-            }
-            else
-            {
-                wyloguj.setVisible(false);
-                zaloguj.setVisible(true);
-            }
+        String wynik[]=null;
+        if(!idZalogowanegoUzytkownika.equals("0")) {
+            zaloguj.setVisible(false);
+            wyloguj.setVisible(true);
+            wynik = connection.uzyskajDane("Select imie from uzytkownik where id_uzytkownika = " + idZalogowanegoUzytkownika);
+            button_value_of_name.setText(wynik[0]);
+        }
+        else
+        {
+            wyloguj.setVisible(false);
+            zaloguj.setVisible(true);
         }
     }
 

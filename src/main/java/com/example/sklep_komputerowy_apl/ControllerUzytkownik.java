@@ -734,7 +734,7 @@ public class ControllerUzytkownik implements Initializable {
             Integer index=table_rek_tran.getSelectionModel().getSelectedIndex();
 
             nazwaWybranegoProduktuDoReklamacji=trt_nazwa.getCellData(index);
-            czyReklamowano=trz_reklamowano.getCellData(index);
+            czyReklamowano=trt_reklamowano.getCellData(index);
 
         }
     }
