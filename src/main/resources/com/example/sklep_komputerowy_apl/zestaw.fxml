@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -119,7 +120,7 @@
             </AnchorPane>
          </children>
       </StackPane>
-      <Button fx:id="button_dodaj_do_koszyka" layoutX="658.0" layoutY="561.0" mnemonicParsing="false" onMouseClicked="#addToCart" text="Dodaj do koszyka" />
+      <Button fx:id="button_dodaj_do_koszyka" layoutX="630.0" layoutY="561.0" mnemonicParsing="false" onMouseClicked="#addToCart" text="Dodaj do koszyka" />
       <Button fx:id="button_cart" layoutX="531.0" layoutY="19.0" mnemonicParsing="false" onMouseClicked="#goToCart">
          <graphic>
             <ImageView fx:id="image_cart" fitHeight="37.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
@@ -129,5 +130,6 @@
             </ImageView>
          </graphic>
       </Button>
+      <TextField fx:id="textField_liczba_egzemplarzy" layoutX="740.0" layoutY="561.0" prefHeight="25.0" prefWidth="30.0" text="1" />
    </children>
 </AnchorPane>

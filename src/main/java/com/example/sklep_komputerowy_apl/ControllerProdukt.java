@@ -452,7 +452,7 @@ public class ControllerProdukt implements Initializable {
 
     @FXML
     void addToCart(MouseEvent event) {
-        boolean s = true;
+        int pom;
 
         try {
             Double.parseDouble(textField_liczba_egzemplarzy.getText());
@@ -462,6 +462,20 @@ public class ControllerProdukt implements Initializable {
             alert.setContentText("Wprowadzona wartość nie jest liczbą");
             alert.showAndWait();
             return;
+        }
+
+        for(int i=0; i<dane.getIdProduktowWKoszyku().size();i=i+3)
+        {
+            if(dane.getIdProduktowWKoszyku().get(i).equals(String.valueOf(kategoria+1))&&dane.getIdProduktowWKoszyku().get(i+1).equals(idtypu)) {
+                pom = Integer.parseInt(dane.getIdProduktowWKoszyku().get(i + 2));
+                pom = pom + Integer.parseInt(textField_liczba_egzemplarzy.getText());
+                dane.getIdProduktowWKoszyku().set(i + 2, String.valueOf(pom));
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Sukces");
+                alert.setContentText("Dodano do koszyka!");
+                alert.showAndWait();
+                return;
+            }
         }
 
         dane.getIdProduktowWKoszyku().add(String.valueOf(kategoria+1));

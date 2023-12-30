@@ -157,20 +157,22 @@ public class ControllerKoszyk implements Initializable {
                 }
             }
 
-            for (int i = 0; i < id_zestawow_w_koszyku.size(); i++)
+            for (int i = 0; i < id_zestawow_w_koszyku.size(); i=i+2)
             {
                 String wynik2[] = connection.uzyskajDane("Select id_pamiec_ram, id_plyta_glowna, id_karta_graficzna, id_procesor, id_dysk from zestaw where id_zestawu = "+id_zestawow_w_koszyku.get(i));
 
-                wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena from pamiec_ram where id_pamieci_ram = "+id_produktow_w_koszyku.get(Integer.parseInt(wynik2[0])));
-                tpk_list.add(new TableProduktWKoszyku(wynik[0], "Pamięć RAM", wynik[1], Double.parseDouble(wynik[2])));
-                wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena from plyta_glowna where id_plyty_glownej = "+id_produktow_w_koszyku.get(Integer.parseInt(wynik2[1])));
-                tpk_list.add(new TableProduktWKoszyku(wynik[0], "Płyta główna", wynik[1], Double.parseDouble(wynik[2])));
-                wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena from karta_graficzna where id_karty_graficznej = "+id_produktow_w_koszyku.get(Integer.parseInt(wynik2[2])));
-                tpk_list.add(new TableProduktWKoszyku(wynik[0], "Karta graficzna", wynik[1], Double.parseDouble(wynik[2])));
-                wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena from procesor where id_procesora = "+id_produktow_w_koszyku.get(Integer.parseInt(wynik2[3])));
-                tpk_list.add(new TableProduktWKoszyku(wynik[0], "Procesor", wynik[1], Double.parseDouble(wynik[2])));
-                wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena from dysk where id_dysku = "+id_produktow_w_koszyku.get(Integer.parseInt(wynik2[4])));
-                tpk_list.add(new TableProduktWKoszyku(wynik[0], "Dysk", wynik[1], Double.parseDouble(wynik[2])));
+                for(int j=0; j<Integer.parseInt(dane.getIdZestawowWKoszyku().get(i+1));j++) {
+                    wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena from pamiec_ram where id_pamieci_ram = " + id_produktow_w_koszyku.get(Integer.parseInt(wynik2[0])));
+                    tpk_list.add(new TableProduktWKoszyku(wynik[0], "Pamięć RAM", wynik[1], Double.parseDouble(wynik[2])));
+                    wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena from plyta_glowna where id_plyty_glownej = " + id_produktow_w_koszyku.get(Integer.parseInt(wynik2[1])));
+                    tpk_list.add(new TableProduktWKoszyku(wynik[0], "Płyta główna", wynik[1], Double.parseDouble(wynik[2])));
+                    wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena from karta_graficzna where id_karty_graficznej = " + id_produktow_w_koszyku.get(Integer.parseInt(wynik2[2])));
+                    tpk_list.add(new TableProduktWKoszyku(wynik[0], "Karta graficzna", wynik[1], Double.parseDouble(wynik[2])));
+                    wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena from procesor where id_procesora = " + id_produktow_w_koszyku.get(Integer.parseInt(wynik2[3])));
+                    tpk_list.add(new TableProduktWKoszyku(wynik[0], "Procesor", wynik[1], Double.parseDouble(wynik[2])));
+                    wynik = connection.uzyskajDane("Select nazwa_produktu, producent, cena from dysk where id_dysku = " + id_produktow_w_koszyku.get(Integer.parseInt(wynik2[4])));
+                    tpk_list.add(new TableProduktWKoszyku(wynik[0], "Dysk", wynik[1], Double.parseDouble(wynik[2])));
+                }
             }
 
             table_koszyk.setItems(tpk_list);

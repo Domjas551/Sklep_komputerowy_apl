@@ -573,8 +573,6 @@ public class ControllerUzytkownik implements Initializable {
         textField_stare_haslo.setText("");
         textField_powtorz_haslo.setText("");
     }
-
-    //todo do sprawdzenia
     //funkcja do wyświetlenia strony reklamacji
     @FXML
     void showReklamacje(MouseEvent event){

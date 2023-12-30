@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -34,6 +35,9 @@ public class ControllerZestaw implements Initializable {
 
     @FXML
     private AnchorPane background;
+
+    @FXML
+    private TextField textField_liczba_egzemplarzy;
 
     @FXML
     private Button button_cart;
@@ -138,11 +142,38 @@ public class ControllerZestaw implements Initializable {
 
     @FXML
     void addToCart(MouseEvent event) {
-            dane.getIdZestawowWKoszyku().add(idWybranegoZestawu);
-            Alert alert=new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Sukces");
-            alert.setContentText("Dodano Zestaw do koszyka!");
+        int pom;
+
+        try {
+            Double.parseDouble(textField_liczba_egzemplarzy.getText());
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Błąd");
+            alert.setContentText("Wprowadzona wartość nie jest liczbą");
             alert.showAndWait();
+            return;
+        }
+
+        for(int i=0; i<dane.getIdZestawowWKoszyku().size();i=i+2)
+        {
+            if(dane.getIdZestawowWKoszyku().get(i).equals(idWybranegoZestawu)) {
+                pom = Integer.parseInt(dane.getIdZestawowWKoszyku().get(i + 1));
+                pom = pom + Integer.parseInt(textField_liczba_egzemplarzy.getText());
+                dane.getIdZestawowWKoszyku().set(i + 1, String.valueOf(pom));
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Sukces");
+                alert.setContentText("Dodano do koszyka!");
+                alert.showAndWait();
+                return;
+            }
+        }
+
+        dane.getIdZestawowWKoszyku().add(idWybranegoZestawu);
+        dane.getIdZestawowWKoszyku().add(textField_liczba_egzemplarzy.getText());
+        Alert alert=new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Sukces");
+        alert.setContentText("Dodano Zestaw do koszyka!");
+        alert.showAndWait();
     }
 
     @FXML
