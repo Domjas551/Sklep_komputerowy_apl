@@ -11,14 +11,14 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="613.0" prefWidth="800.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep_komputerowy_apl.ControllerAdmin">
    <children>
-      <Text layoutX="740.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nazwa" />
-      <Button layoutX="728.0" layoutY="31.0" mnemonicParsing="false" text="Wyloguj" />
       <StackPane layoutX="14.0" layoutY="126.0" prefHeight="508.0" prefWidth="774.0">
          <children>
             <AnchorPane fx:id="statystyki" prefHeight="515.0" prefWidth="774.0">
@@ -408,14 +408,14 @@
                   </ScrollPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="uzytkownicy" prefHeight="200.0" prefWidth="200.0" visible="false">
+            <AnchorPane fx:id="uzytkownicy" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <ScrollPane hbarPolicy="NEVER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="460.0" prefWidth="200.0" style="-fx-background-color: lightgray;" vbarPolicy="NEVER">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="461.0" prefWidth="200.0" style="-fx-background-color: gray;">
                            <children>
                               <Text layoutX="20.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Usuwanie konta / Reset hasła" />
-                              <Button layoutX="65.0" layoutY="50.0" mnemonicParsing="false" text="Zarządzaj" />
+                              <Button layoutX="65.0" layoutY="50.0" mnemonicParsing="false" onMouseClicked="#zarzadzaj" text="Zarządzaj" />
                               <Text layoutX="40.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Przyznawanie rabatów" />
                               <Text layoutX="90.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Typ" />
                               <ChoiceBox fx:id="scrollbar_typ_rabatu" layoutX="20.0" layoutY="170.0" prefWidth="150.0" />
@@ -450,5 +450,24 @@
       <Button layoutX="80.0" layoutY="101.0" mnemonicParsing="false" onMouseClicked="#showUzytkownicy" text="Użytkownicy" />
       <Button layoutX="162.0" layoutY="101.0" mnemonicParsing="false" onMouseClicked="#showZamtrans" text="Zamówienia/Transakcje" />
       <Button layoutX="302.0" layoutY="101.0" mnemonicParsing="false" onMouseClicked="#showMagazyn" text="Magazyn" />
+      <StackPane layoutX="590.0" layoutY="13.0" prefHeight="102.0" prefWidth="200.0">
+         <children>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Button layoutX="140.0" layoutY="69.0" mnemonicParsing="false" onMouseClicked="#wyloguj" text="Wyloguj" />
+                  <Button fx:id="button_value_of_name" layoutX="64.0" layoutY="14.0" mnemonicParsing="false" text="value_of_name">
+                     <graphic>
+                        <ImageView fx:id="image_user" fitHeight="37.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../images/user_icon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
+      <Text layoutX="280.0" layoutY="615.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Created by: Piotr Jakubas and Dominik Jasiński" />
    </children>
 </AnchorPane>

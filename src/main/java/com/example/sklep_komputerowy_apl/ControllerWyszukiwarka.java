@@ -3,12 +3,18 @@ package com.example.sklep_komputerowy_apl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -20,6 +26,11 @@ public class ControllerWyszukiwarka  implements Initializable{
     //podłączenie do klas z danymi oraz komunikacją z BD
     ConnectionStorage connection=ConnectionStorage.getInstance();
     DataStorage dane=DataStorage.getInstance();
+
+    //Elementy do zmian scen
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
     //komponenty
     @FXML
@@ -304,8 +315,12 @@ public class ControllerWyszukiwarka  implements Initializable{
     private AnchorPane procesory;
     @FXML
     private AnchorPane zestawy;
-
-
+    @FXML
+    private AnchorPane anchor_zaloguj;
+    @FXML
+    private AnchorPane anchor_wyloguj;
+    @FXML
+    private Button button_value_of_name;
 
     //funkcje
 
@@ -355,7 +370,7 @@ public class ControllerWyszukiwarka  implements Initializable{
         ObservableList<TableZestawy> tz_list= FXCollections.observableArrayList();
         //plyty główne
         //domyślnymi danymi
-        if(dane.uzyskajPoprzednieZapytanie().equals("")){
+        if(dane.uzyskajPoprzednieZapytanie("plyty").equals("")){
             String wynik[]= connection.uzyskajDane("Select distinct nazwa_produktu,chipset,cena from produkt " +
                     "join plyta_glowna on produkt.id_plyty_glownej=plyta_glowna.id_plyty_glownej");
 
@@ -376,7 +391,7 @@ public class ControllerWyszukiwarka  implements Initializable{
             table_plyty.setItems(tp_list);
         }else{
             //danymi z uprzednio wykonanego zapytania
-            String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie());
+            String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie("plyty"));
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
 
@@ -395,7 +410,7 @@ public class ControllerWyszukiwarka  implements Initializable{
 
         //procesory
         //domyślnymi danymi
-        if(dane.uzyskajPoprzednieZapytanie().equals("")){
+        if(dane.uzyskajPoprzednieZapytanie("procesory").equals("")){
             String wynik[]= connection.uzyskajDane("Select distinct nazwa_produktu,rodzina,cena from produkt " +
                     "join procesor on produkt.id_procesora=procesor.id_procesora");
 
@@ -415,7 +430,7 @@ public class ControllerWyszukiwarka  implements Initializable{
             table_procesory.setItems(tpr_list);
         }else{
             //danymi z uprzednio wykonanego zapytania
-            String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie());
+            String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie("procesory"));
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
 
@@ -434,7 +449,7 @@ public class ControllerWyszukiwarka  implements Initializable{
 
         //karty graficzne
         //domyślnymi danymi
-        if(dane.uzyskajPoprzednieZapytanie().equals("")){
+        if(dane.uzyskajPoprzednieZapytanie("karty").equals("")){
             String wynik[]= connection.uzyskajDane("Select distinct nazwa_produktu,uklad_graficzny,cena from produkt " +
                     "join karta_graficzna on produkt.id_karty_graficznej=karta_graficzna.id_karty_graficznej");
 
@@ -454,7 +469,7 @@ public class ControllerWyszukiwarka  implements Initializable{
             table_karty.setItems(tk_list);
         }else{
             //danymi z uprzednio wykonanego zapytania
-            String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie());
+            String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie("karty"));
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
 
@@ -472,7 +487,7 @@ public class ControllerWyszukiwarka  implements Initializable{
         }
         //pamięć ram
         //domyślnymi danymi
-        if(dane.uzyskajPoprzednieZapytanie().equals("")){
+        if(dane.uzyskajPoprzednieZapytanie("ram").equals("")){
             String wynik[]= connection.uzyskajDane("Select distinct nazwa_produktu,rodzaj_pamieci,cena from produkt " +
                     "join pamiec_ram on produkt.id_pamieci_ram=pamiec_ram.id_pamieci_ram");
 
@@ -492,7 +507,7 @@ public class ControllerWyszukiwarka  implements Initializable{
             table_ram.setItems(tr_list);
         }else{
             //danymi z uprzednio wykonanego zapytania
-            String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie());
+            String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie("ram"));
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
 
@@ -511,7 +526,7 @@ public class ControllerWyszukiwarka  implements Initializable{
 
         //dyski
         //domyślnymi danymi
-        if(dane.uzyskajPoprzednieZapytanie().equals("")){
+        if(dane.uzyskajPoprzednieZapytanie("dyski").equals("")){
             String wynik[]= connection.uzyskajDane("Select distinct nazwa_produktu,pojemnosc,cena from produkt " +
                     "join dysk on produkt.id_dysku=dysk.id_dysku");
 
@@ -531,7 +546,7 @@ public class ControllerWyszukiwarka  implements Initializable{
             table_dyski.setItems(td_list);
         }else{
             //danymi z uprzednio wykonanego zapytania
-            String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie());
+            String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie("dyski"));
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
 
@@ -549,7 +564,7 @@ public class ControllerWyszukiwarka  implements Initializable{
         }
         //zestawy
         //domyślnymi danymi
-        if(dane.uzyskajPoprzednieZapytanie().equals("")){
+        if(dane.uzyskajPoprzednieZapytanie("zestawy").equals("")){
             String wynik[]= connection.uzyskajDane("Select distinct nazwa_zestawu,cena from zestaw");
 
             if(wynik.length<=1){
@@ -568,7 +583,7 @@ public class ControllerWyszukiwarka  implements Initializable{
             table_zestawy.setItems(tz_list);
         }else{
             //danymi z uprzednio wykonanego zapytania
-            String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie());
+            String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie("zestawy"));
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
 
@@ -577,7 +592,7 @@ public class ControllerWyszukiwarka  implements Initializable{
 
                 tz_list.clear();
             }else{
-                for(int i=0;i<wynik.length;i+=3){
+                for(int i=0;i<wynik.length;i+=2){
                     tz_list.add(new TableZestawy(wynik[i],Double.parseDouble(wynik[i+1])));
                 }
             }
@@ -636,6 +651,21 @@ public class ControllerWyszukiwarka  implements Initializable{
                 zestawy.setVisible(true);
                 break;
         }
+
+        //wyświetlenie odpowiedniej przystawki zaloguj/wyloguj
+        if(dane.getIdZalogowanegoUzytkownika().equals("0")){
+            anchor_wyloguj.setVisible(false);
+            anchor_zaloguj.setVisible(true);
+        }else{
+            anchor_wyloguj.setVisible(true);
+            anchor_zaloguj.setVisible(false);
+        }
+
+        //todo rozmiar button_value_of_name
+
+        //wyświetlenie nazwy użytkownika
+        String wynik = connection.uzyskajDane("Select imie from Uzytkownik where id_uzytkownika = " + dane.getIdZalogowanegoUzytkownika())[0];
+        button_value_of_name.setText(wynik);
     }
 
     //wyświetlanie alertów
@@ -2238,7 +2268,7 @@ public class ControllerWyszukiwarka  implements Initializable{
 
     //otworzenie strony konkretnego produktu
     @FXML
-    void showProduktPlyty(MouseEvent event) {
+    void showProduktPlyty(MouseEvent event) throws IOException{
         Integer index=table_plyty.getSelectionModel().getSelectedIndex();
 
         System.out.println(tp_nazwa.getCellData(index));
@@ -2258,11 +2288,16 @@ public class ControllerWyszukiwarka  implements Initializable{
         }
         dane.setIdWybranegoProduktu(wynik);
 
-        //todo przejście na strone produktu
+        //przejście na strone produktu
+        root = FXMLLoader.load(getClass().getResource("produkt" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    void showProduktProcesory(MouseEvent event) {
+    void showProduktProcesory(MouseEvent event) throws IOException{
         Integer index=table_procesory.getSelectionModel().getSelectedIndex();
 
         //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
@@ -2278,11 +2313,16 @@ public class ControllerWyszukiwarka  implements Initializable{
         }
         dane.setIdWybranegoProduktu(wynik);
 
-        //todo przejście na strone produktu
+        //przejście na strone produktu
+        root = FXMLLoader.load(getClass().getResource("produkt" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    void showProduktKarty(MouseEvent event) {
+    void showProduktKarty(MouseEvent event) throws IOException{
         Integer index=table_karty.getSelectionModel().getSelectedIndex();
 
         //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
@@ -2298,11 +2338,16 @@ public class ControllerWyszukiwarka  implements Initializable{
         }
         dane.setIdWybranegoProduktu(wynik);
 
-        //todo przejście na strone produktu
+        //przejście na strone produktu
+        root = FXMLLoader.load(getClass().getResource("produkt" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    void showProduktPamiec(MouseEvent event) {
+    void showProduktPamiec(MouseEvent event) throws IOException{
         Integer index=table_ram.getSelectionModel().getSelectedIndex();
 
         //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
@@ -2318,11 +2363,16 @@ public class ControllerWyszukiwarka  implements Initializable{
         }
         dane.setIdWybranegoProduktu(wynik);
 
-        //todo przejście na strone produktu
+        //przejście na strone produktu
+        root = FXMLLoader.load(getClass().getResource("produkt" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    void showProduktDyski(MouseEvent event) {
+    void showProduktDyski(MouseEvent event) throws IOException{
         Integer index=table_dyski.getSelectionModel().getSelectedIndex();
 
         //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
@@ -2338,17 +2388,21 @@ public class ControllerWyszukiwarka  implements Initializable{
         }
         dane.setIdWybranegoProduktu(wynik);
 
-        //todo przejście na strone produktu
+        //przejście na strone produktu
+        root = FXMLLoader.load(getClass().getResource("produkt" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    void showProduktZestawy(MouseEvent event) {
+    void showProduktZestawy(MouseEvent event) throws IOException{
         Integer index=table_zestawy.getSelectionModel().getSelectedIndex();
 
         //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
-        String wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
-                "id_zestawu=(select id_zestawu from zestaw where nazwa_zestawu='"+tz_nazwa.getCellData(index)+"') " +
-                "and id_transakcji is null and id_zamowienia is null fetch first 1 row only")[0];
+        String wynik=connection.uzyskajDane("Select id_zestawu from zestaw " +
+                "where nazwa_zestawu='"+tz_nazwa.getCellData(index)+"'")[0];
 
         //pozyskanie id produktu na bazie jego nazwy, instancji do zmówienia
         if(wynik.equals("")){
@@ -2357,7 +2411,53 @@ public class ControllerWyszukiwarka  implements Initializable{
                     "fetch first 1 row only")[0];
         }
         dane.setIdWybranegoZestawu(wynik);
-        System.out.println(wynik);
-        //todo przejście na strone produktu
+
+        //przejście na strone produktu
+        root = FXMLLoader.load(getClass().getResource("zestaw" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
     }
+
+    //funkcje do wylogowania/zalogowania
+    @FXML
+    void wyloguj(){
+
+        dane.setIdZalogowanegoUzytkownika("0");
+
+        anchor_wyloguj.setVisible(false);
+        anchor_zaloguj.setVisible(true);
+    }
+
+    @FXML
+    void zaloguj(MouseEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("logowanie" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    //funkcja do przejścia na profil użytkownika
+    @FXML
+    void goProfil(MouseEvent event) throws IOException{
+        root = FXMLLoader.load(getClass().getResource("uzytkownik" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    //funkcja do przejścia do koszyka
+    @FXML
+    void goKoszyk(MouseEvent event) throws IOException{
+        root = FXMLLoader.load(getClass().getResource("koszyk" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
 }

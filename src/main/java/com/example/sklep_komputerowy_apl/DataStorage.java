@@ -43,18 +43,18 @@ public class DataStorage {
     }
 
     //zwraca ostatnie zapisane zapytanie
-    public String uzyskajPoprzednieZapytanie() {
-        if (wyszukiwarka_activePage.equals("plyty")) {
+    public String uzyskajPoprzednieZapytanie(String s) {
+        if (s.equals("plyty")) {
             return ostatnieZapytaniePlyty;
-        } else if (wyszukiwarka_activePage.equals("procesory")) {
+        } else if (s.equals("procesory")) {
             return ostatnieZapytanieProcesory;
-        } else if (wyszukiwarka_activePage.equals("karty")) {
+        } else if (s.equals("karty")) {
             return ostatnieZapytanieKarty;
-        } else if (wyszukiwarka_activePage.equals("ram")) {
+        } else if (s.equals("ram")) {
             return ostatnieZapytanieRam;
-        } else if (wyszukiwarka_activePage.equals("dyski")) {
+        } else if (s.equals("dyski")) {
             return ostatnieZapytanieDyski;
-        } else if (wyszukiwarka_activePage.equals("zestawy")) {
+        } else if (s.equals("zestawy")) {
             return ostatnieZapytanieZestawy;
         }
         return "";

@@ -28,6 +28,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ControllerUzytkownik implements Initializable {
+
     ConnectionStorage connection=ConnectionStorage.getInstance();
     DataStorage dane=DataStorage.getInstance();
 

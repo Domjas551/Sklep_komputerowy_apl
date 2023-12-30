@@ -4,7 +4,11 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
@@ -13,7 +17,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -27,6 +33,11 @@ public class ControllerAdmin implements Initializable {
     //podłączenie do klas z danymi oraz komunikacją z BD
     ConnectionStorage connection=ConnectionStorage.getInstance();
     DataStorage dane=DataStorage.getInstance();
+
+    //Elementy do zmian scen
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
 
     //komponenty
     @FXML
@@ -287,6 +298,8 @@ public class ControllerAdmin implements Initializable {
     private BarChart<String,Double> bar_pamiec;
     @FXML
     private BarChart<String,Double> bar_dyski;
+    @FXML
+    private Button button_value_of_name;
 
     //dane
     private String nazwy_plyty[];
@@ -487,7 +500,8 @@ public class ControllerAdmin implements Initializable {
                     "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=1) then 'P' else 'N' end as \"0.05\", " +
                 "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=2) then 'P' else 'N' end as \"0.1\", " +
                 "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=3) then 'P' else 'N' end as \"0.15\", " +
-                "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=4) then 'P' else 'N' end as \"0.25\" from uzytkownik u");
+                "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=4) then 'P' else 'N' end as \"0.25\" from uzytkownik u " +
+                    "where czy_aktywny=1");
 
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
@@ -630,6 +644,7 @@ public class ControllerAdmin implements Initializable {
         fz_dysk.getItems().addAll(nazwy_dyski);
 
         //ustawienie tabel
+
         //tabela uzupełniania
         tuz_nazwa.setCellValueFactory(new PropertyValueFactory<TableUzupelnianie,String>("nazwa_produktu"));
         tuz_typ.setCellValueFactory(new PropertyValueFactory<TableUzupelnianie,String>("typ"));
@@ -761,6 +776,10 @@ public class ControllerAdmin implements Initializable {
 
         bar_plyty.getData().addAll(seria2);
 
+        //wyświetlenie nazwy użytkownika
+        wynik = connection.uzyskajDane("Select imie from Uzytkownik where id_uzytkownika = " + dane.getIdZalogowanegoUzytkownika());
+        button_value_of_name.setText(wynik[0]);
+
     };
 
     //wyświetlanie alertów
@@ -783,6 +802,7 @@ public class ControllerAdmin implements Initializable {
     //funkcja do wyświetlenia strony statystyk
     @FXML
     void showStatystyki(MouseEvent event) {
+
         statystyki.setVisible(true);
         uzytkownicy.setVisible(false);
         zamawianie_transakcje.setVisible(false);
@@ -2061,6 +2081,21 @@ public class ControllerAdmin implements Initializable {
         r25=tu_r25.getCellData(index);
     }
 
+    //funkcja do zarządzania użytkownikiem
+    @FXML
+    void zarzadzaj(MouseEvent event) throws IOException {
+        String wynik=connection.uzyskajDane(
+                "Select id_uzytkownika from uzytkownik where email='"+email+"'")[0];
+
+        dane.setIdWybranegoUzytkownika(wynik);
+
+        root = FXMLLoader.load(getClass().getResource("admin_uzytkownik" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     //funkcja do przyznawania rabatów
     @FXML
     void przyznajRabat(){
@@ -2551,6 +2586,30 @@ public class ControllerAdmin implements Initializable {
                 break;
         }
 
+    }
+
+    //funkcje do wylogowania
+    @FXML
+    void wyloguj(MouseEvent event) throws IOException{
+
+        dane.setIdZalogowanegoUzytkownika("0");
+
+        root = FXMLLoader.load(getClass().getResource("logowanie" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
+    //funkcja do przejścia na profil użytkownika
+    @FXML
+    void goProfil(MouseEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("uzytkownik" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
 }
