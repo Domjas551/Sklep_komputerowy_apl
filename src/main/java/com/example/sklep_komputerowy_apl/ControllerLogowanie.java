@@ -2,6 +2,7 @@ package com.example.sklep_komputerowy_apl;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,19 +15,27 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.security.MessageDigest;
+import java.util.ResourceBundle;
 
-public class ControllerLogowanie {
+public class ControllerLogowanie implements Initializable {
+
+    ConnectionStorage connection = ConnectionStorage.getInstance();
+    DataStorage dane = DataStorage.getInstance();
 
     private Stage stage;
     private Scene scene;
     private Parent root;
 
-    ConnectionStorage connection=ConnectionStorage.getInstance();
-    DataStorage dane=DataStorage.getInstance();
+    //Inicjalizacja
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
 
     @FXML
     private AnchorPane background;
@@ -62,8 +71,8 @@ public class ControllerLogowanie {
     }
 
     @FXML
-    void goToCart(MouseEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("koszyk" + ".fxml"));
+    void doRejestracji(MouseEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("rejestracja" + ".fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -107,5 +116,4 @@ public class ControllerLogowanie {
         }
 
     }
-
 }
