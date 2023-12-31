@@ -464,27 +464,28 @@ public class ControllerProdukt implements Initializable {
             return;
         }
 
-        for(int i=0; i<dane.getIdProduktowWKoszyku().size();i=i+3)
-        {
-            if(dane.getIdProduktowWKoszyku().get(i).equals(String.valueOf(kategoria+1))&&dane.getIdProduktowWKoszyku().get(i+1).equals(idtypu)) {
-                pom = Integer.parseInt(dane.getIdProduktowWKoszyku().get(i + 2));
-                pom = pom + Integer.parseInt(textField_liczba_egzemplarzy.getText());
-                dane.getIdProduktowWKoszyku().set(i + 2, String.valueOf(pom));
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Sukces");
-                alert.setContentText("Dodano do koszyka!");
-                alert.showAndWait();
-                return;
+        if(!(Integer.parseInt(textField_liczba_egzemplarzy.getText())==0)) {
+            for (int i = 0; i < dane.getIdProduktowWKoszyku().size(); i = i + 3) {
+                if (dane.getIdProduktowWKoszyku().get(i).equals(String.valueOf(kategoria + 1)) && dane.getIdProduktowWKoszyku().get(i + 1).equals(idtypu)) {
+                    pom = Integer.parseInt(dane.getIdProduktowWKoszyku().get(i + 2));
+                    pom = pom + Integer.parseInt(textField_liczba_egzemplarzy.getText());
+                    dane.getIdProduktowWKoszyku().set(i + 2, String.valueOf(pom));
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Sukces");
+                    alert.setContentText("Dodano do koszyka!");
+                    alert.showAndWait();
+                    return;
+                }
             }
-        }
 
-        dane.getIdProduktowWKoszyku().add(String.valueOf(kategoria+1));
-        dane.getIdProduktowWKoszyku().add(idtypu);
-        dane.getIdProduktowWKoszyku().add(textField_liczba_egzemplarzy.getText());
-        Alert alert=new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Sukces");
-        alert.setContentText("Dodano do koszyka!");
-        alert.showAndWait();
+            dane.getIdProduktowWKoszyku().add(String.valueOf(kategoria + 1));
+            dane.getIdProduktowWKoszyku().add(idtypu);
+            dane.getIdProduktowWKoszyku().add(textField_liczba_egzemplarzy.getText());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sukces");
+            alert.setContentText("Dodano do koszyka!");
+            alert.showAndWait();
+        }
     }
 
     @FXML

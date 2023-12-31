@@ -47,7 +47,7 @@
                   </ScrollPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="profil" prefHeight="466.0" prefWidth="729.0">
+            <AnchorPane fx:id="profil" prefHeight="466.0" prefWidth="729.0" visible="false">
                <children>
                   <Text layoutX="93.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Imię">
                      <font>
@@ -228,7 +228,7 @@
                   <TextField fx:id="textField_powtorz_haslo" layoutX="40.0" layoutY="260.0" visible="false" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="reklamacje" prefHeight="200.0" prefWidth="200.0" visible="false">
+            <AnchorPane fx:id="reklamacje" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <StackPane layoutX="7.0" layoutY="99.0" prefHeight="150.0" prefWidth="200.0">
                      <children>
