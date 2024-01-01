@@ -24,12 +24,12 @@ public class DataStorage {
     //ostatnie zapyranie do tabeli użytkowników
     private String ostatnieZapytanieTableUzytkownicy = "";
 
-    private String idZalogowanegoUzytkownika = "0";
+    private String idZalogowanegoUzytkownika = "21";
     private String idWybranegoUzytkownika = "0";
     private String idWybranegoProduktu = "150";
-    //private ArrayList<String> idProduktowWKoszyku = new ArrayList<>(Arrays.asList("1", "1", "1"));
+    //private ArrayList<String> idProduktowWKoszyku = new ArrayList<>(Arrays.asList("1", "1", "1")); //kategoria, typ_produktu, liczba egzemplarzy
     private ArrayList<String> idProduktowWKoszyku = new ArrayList<>();
-    //private ArrayList<String> idZestawowWKoszyku = new ArrayList<>(Arrays.asList("1", "1"));
+    //private ArrayList<String> idZestawowWKoszyku = new ArrayList<>(Arrays.asList("1", "1")); // Typ zestawu, liczba egzemplarzy
     private ArrayList<String> idZestawowWKoszyku = new ArrayList<>();
 
 

@@ -37,7 +37,8 @@ public class ControllerKoszyk implements Initializable {
     private boolean czyZamowienie;
     private double cenaFinalna;
     private String idGosc;
-    Double sumCen=0.0;
+    private Double sumCen=0.0;
+    private Double znizka=0.0;
 
     //Elementy do zmian scen
     private Stage stage;
@@ -326,12 +327,13 @@ public class ControllerKoszyk implements Initializable {
         String formattedDate = date.format(formatowanie);
 
         //Dodanie transakcji do bazy danych
-        connection.wprowadzDaneBezAlert("INSERT INTO transakcja (id_transakcji, id_uzytkownika, data_t, cena_calkowita, status) " +
+        connection.wprowadzDaneBezAlert("INSERT INTO transakcja (id_transakcji, id_uzytkownika, data_t, cena_calkowita, status, znizka) " +
                 "VALUES ((SELECT MAX(id_transakcji) + 1 FROM transakcja), " +
                 id_uzytkownika+", '" +
                 formattedDate+"', " +
                 cenaFinalna+", " +
-                "'oczekująca')");
+                "'oczekująca', " +
+                +znizka+")");
 
         id_transakcji=connection.uzyskajDane("Select max(id_transakcji) from transakcja");
 
@@ -443,12 +445,13 @@ public class ControllerKoszyk implements Initializable {
         String formattedDate = date.format(formatowanie);
 
         //Dodanie zamowienia do bazy danych
-        connection.wprowadzDaneBezAlert("INSERT INTO zamowienie (id_zamowienia, id_uzytkownika, data_zlozenia, status_odbioru, cena_calkowita)" +
+        connection.wprowadzDaneBezAlert("INSERT INTO zamowienie (id_zamowienia, id_uzytkownika, data_zlozenia, status_odbioru, cena_calkowita, znizka) " +
                 "VALUES ((SELECT MAX(id_zamowienia) + 1 FROM zamowienie)," +
                 idZalogowanegoUzytkownika+", '" +
                 formattedDate+"', " +
                 "'oczekujace', " +
-                cenaFinalna+")");
+                cenaFinalna+", " +
+                +znizka+")");
         id_zamowienia=connection.uzyskajDane("Select max(id_zamowienia) from zamowienie");
 
 
