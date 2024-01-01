@@ -87,7 +87,7 @@
                      </font>
                   </Text>
                   <ChoiceBox fx:id="choiceBox_typ_rabatu" layoutX="40.0" layoutY="70.0" prefWidth="150.0" />
-                  <Button fx:id="button_rabat_finalizuj" layoutX="640.0" layoutY="400.0" mnemonicParsing="false" onMouseClicked="#rabatDalej" text="Dalej" />
+                  <Button fx:id="button_rabat_finalizuj" layoutX="640.0" layoutY="400.0" mnemonicParsing="false" onMouseClicked="#rabatDalej" text="Potwierdź" />
                   <Text fx:id="value_of_cena_bez_rabatu" layoutX="400.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0 zl">
                      <font>
                         <Font size="14.0" />
@@ -135,10 +135,19 @@
                   <TextField fx:id="textField_imie" layoutX="150.0" layoutY="130.0" />
                   <TextField fx:id="textField_nazwisko" layoutX="150.0" layoutY="180.0" />
                   <TextField fx:id="textField_email" layoutX="150.0" layoutY="230.0" />
-                  <Button fx:id="button_gosc_dalej" layoutX="664.0" layoutY="411.0" mnemonicParsing="false" onMouseClicked="#goscDalej" text="Dalej" />
+                  <Button fx:id="button_gosc_dalej" layoutX="664.0" layoutY="411.0" mnemonicParsing="false" onMouseClicked="#goscDalej" text="Potwierdź" />
                </children>
             </AnchorPane>
          </children>
       </StackPane>
+      <Button fx:id="button_cart" layoutX="531.0" layoutY="19.0" mnemonicParsing="false" onMouseClicked="#goToCart">
+         <graphic>
+            <ImageView fx:id="image_cart" fitHeight="37.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/shopping_cart.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

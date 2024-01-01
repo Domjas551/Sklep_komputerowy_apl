@@ -24,15 +24,17 @@ public class DataStorage {
     //ostatnie zapyranie do tabeli użytkowników
     private String ostatnieZapytanieTableUzytkownicy = "";
 
-    private String idZalogowanegoUzytkownika = "21";
+    private String idZalogowanegoUzytkownika = "0";
     private String idWybranegoUzytkownika = "0";
     private String idWybranegoProduktu = "150";
-    private ArrayList<String> idProduktowWKoszyku = new ArrayList<>(Arrays.asList("1", "1", "1"));
-    private ArrayList<String> idZestawowWKoszyku = new ArrayList<>(Arrays.asList("1", "1"));
+    //private ArrayList<String> idProduktowWKoszyku = new ArrayList<>(Arrays.asList("1", "1", "1"));
+    private ArrayList<String> idProduktowWKoszyku = new ArrayList<>();
+    //private ArrayList<String> idZestawowWKoszyku = new ArrayList<>(Arrays.asList("1", "1"));
+    private ArrayList<String> idZestawowWKoszyku = new ArrayList<>();
 
 
     //strona zestawów
-    private String idWybranegoZestawu = "1"; //todo do zmiany
+    private String idWybranegoZestawu = "1";
 
     public DataStorage() {
         this.wyszukiwarka_activePage = "plyty";

@@ -746,7 +746,6 @@ public class ControllerUzytkownik implements Initializable {
     //funkcja do wybierania produktu do reklamacji
     @FXML
     void wybierzProduktRekl(){
-
         String strona=rek_typ.getSelectionModel().getSelectedItem();
 
         if(s1[0].equals("")){
