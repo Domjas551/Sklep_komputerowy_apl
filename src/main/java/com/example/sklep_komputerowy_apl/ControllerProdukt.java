@@ -655,6 +655,7 @@ public class ControllerProdukt implements Initializable {
 
     @FXML
     void zaloguj(MouseEvent event) throws IOException {
+        dane.setDestynacjaPowrotuZeStronyLogowania("produkt");
         root = FXMLLoader.load(getClass().getResource("logowanie" + ".fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);

@@ -123,5 +123,6 @@
             <Font name="System Bold Italic" size="48.0" />
          </font>
       </Text>
+      <Text layoutX="277.0" layoutY="590.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Created by: Piotr Jakubas and Dominik Jasiński" />
    </children>
 </AnchorPane>

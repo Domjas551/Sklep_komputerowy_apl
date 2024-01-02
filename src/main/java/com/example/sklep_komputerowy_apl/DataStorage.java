@@ -27,6 +27,7 @@ public class DataStorage {
     private String idZalogowanegoUzytkownika = "21";
     private String idWybranegoUzytkownika = "0";
     private String idWybranegoProduktu = "150";
+    private String destynacjaPowrotuZeStronyLogowania;
     //private ArrayList<String> idProduktowWKoszyku = new ArrayList<>(Arrays.asList("1", "1", "1")); //kategoria, typ_produktu, liczba egzemplarzy
     private ArrayList<String> idProduktowWKoszyku = new ArrayList<>();
     //private ArrayList<String> idZestawowWKoszyku = new ArrayList<>(Arrays.asList("1", "1")); // Typ zestawu, liczba egzemplarzy
@@ -158,5 +159,13 @@ public class DataStorage {
 
     public void setIdZestawowWKoszyku(ArrayList<String> idZestawowWKoszyku) {
         this.idZestawowWKoszyku = idZestawowWKoszyku;
+    }
+
+    public String getDestynacjaPowrotuZeStronyLogowania() {
+        return destynacjaPowrotuZeStronyLogowania;
+    }
+
+    public void setDestynacjaPowrotuZeStronyLogowania(String destynacjaPowrotuZeStronyLogowania) {
+        this.destynacjaPowrotuZeStronyLogowania = destynacjaPowrotuZeStronyLogowania;
     }
 }

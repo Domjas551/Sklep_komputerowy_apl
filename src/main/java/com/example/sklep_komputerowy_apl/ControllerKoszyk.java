@@ -84,7 +84,7 @@ public class ControllerKoszyk implements Initializable {
     private Button button_zamow;
 
     @FXML
-    private ChoiceBox<?> choiceBox_typ_rabatu;
+    private ChoiceBox<String> choiceBox_typ_rabatu;
 
     @FXML
     private TableColumn<TableProduktWKoszyku, Double> column_koszyk_cena;
@@ -558,24 +558,52 @@ public class ControllerKoszyk implements Initializable {
                 alert.setTitle("Uwaga!");
                 alert.setContentText("Funkcja zamawiania jest dostępna tylko i wyłącznie dla zalogowanych klientów.\nProsimy się zalogować. ");
                 alert.showAndWait();
-            } else {
-                cenaFinalna=sumCen;
-                finalizujZamowienie();
-                dane.getIdProduktowWKoszyku().clear();
-                dane.getIdZestawowWKoszyku().clear();
-                root = FXMLLoader.load(getClass().getResource("koszyk" + ".fxml"));
-                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-                scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
+            }
+            else
+            {
+                String wynik[]=connection.uzyskajDane("Select count(*) from uzytkownik_rabat where czy_wazny = 1 and id_uzytkownika = "+idZalogowanegoUzytkownika);
+                if(!wynik[0].equals("0"))
+                {
+                    wynik=connection.uzyskajDane("Select kwota from uzytkownik_rabat join typ_rabatu on uzytkownik_rabat.id_rabatu = typ_rabatu.id_rabatu where czy_wazny = 1 and id_uzytkownika = "+idZalogowanegoUzytkownika);
+                    ObservableList<String> rab_list = FXCollections.observableArrayList();
+                    rab_list.add("0%");
+                    for(int i =0; i<wynik.length; i++)
+                    {
+                        if(wynik[i].length()<4)
+                        {
+                            wynik[i]=wynik[i]+"0";
+                        }
+                        wynik[i]=wynik[i].replace("0.0","");
+                        wynik[i]=wynik[i].replace("0.","");
+                        wynik[i]=wynik[i]+"%";
+                        rab_list.add(wynik[i]);
+                    }
+                    choiceBox_typ_rabatu.setItems(rab_list);
+                    choiceBox_typ_rabatu.setValue("0%");
+                    value_of_cena_bez_rabatu.setText(decfor.format(sumCen)+ " zł");
+                    value_of_cena_z_rabatem.setText(decfor.format(sumCen)+ " zł");
+                    choiceBox_typ_rabatu.setOnAction(actionEvent -> aktualizujRabat());
 
-                /*
-                button_oproznij.setVisible(false);
-                button_zamow.setVisible(false);
-                button_kup.setVisible(false);
-                produkty.setVisible(false);
-                rabat.setVisible(true);
-                 */
+                    button_oproznij.setVisible(false);
+                    button_zamow.setVisible(false);
+                    button_kup.setVisible(false);
+                    produkty.setVisible(false);
+                    rabat.setVisible(true);
+                    gosc.setVisible(false);
+                    czyZamowienie=true;
+                }
+                else
+                {
+                    cenaFinalna=sumCen;
+                    finalizujZamowienie();
+                    dane.getIdProduktowWKoszyku().clear();
+                    dane.getIdZestawowWKoszyku().clear();
+                    root = FXMLLoader.load(getClass().getResource("koszyk" + ".fxml"));
+                    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                    scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+                }
             }
         }
     }
@@ -598,22 +626,56 @@ public class ControllerKoszyk implements Initializable {
                 }
                 else
                 {
-                    cenaFinalna = sumCen;
-                    finalizujTransakcje();
-                    dane.getIdProduktowWKoszyku().clear();
-                    dane.getIdZestawowWKoszyku().clear();
-                    root = FXMLLoader.load(getClass().getResource("koszyk" + ".fxml"));
-                    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.show();
+                    String wynik[]=connection.uzyskajDane("Select count(*)from uzytkownik_rabat where czy_wazny = 1 and id_uzytkownika = "+idZalogowanegoUzytkownika);
+                    if(!wynik[0].equals("0"))
+                    {
+                        wynik=connection.uzyskajDane("Select kwota from uzytkownik_rabat join typ_rabatu on uzytkownik_rabat.id_rabatu = typ_rabatu.id_rabatu where czy_wazny = 1 and id_uzytkownika = "+idZalogowanegoUzytkownika);
+                        ObservableList<String> rab_list = FXCollections.observableArrayList();
+                        rab_list.add("0%");
+                        for(int i =0; i<wynik.length; i++)
+                        {
+                            if(wynik[i].length()<4)
+                            {
+                                wynik[i]=wynik[i]+"0";
+                            }
+                            wynik[i]=wynik[i].replace("0.0","");
+                            wynik[i]=wynik[i].replace("0.","");
+                            wynik[i]=wynik[i]+"%";
+                            rab_list.add(wynik[i]);
+                        }
+                        choiceBox_typ_rabatu.setItems(rab_list);
+                        choiceBox_typ_rabatu.setValue("0%");
+                        value_of_cena_bez_rabatu.setText(decfor.format(sumCen)+ " zł");
+                        value_of_cena_z_rabatem.setText(decfor.format(sumCen)+ " zł");
+                        choiceBox_typ_rabatu.setOnAction(actionEvent -> aktualizujRabat());
+
+                        button_oproznij.setVisible(false);
+                        button_zamow.setVisible(false);
+                        button_kup.setVisible(false);
+                        produkty.setVisible(false);
+                        rabat.setVisible(true);
+                        gosc.setVisible(false);
+                        czyZamowienie=false;
+                    }
+                    else
+                    {
+                        cenaFinalna = sumCen;
+                        finalizujTransakcje();
+                        dane.getIdProduktowWKoszyku().clear();
+                        dane.getIdZestawowWKoszyku().clear();
+                        root = FXMLLoader.load(getClass().getResource("koszyk" + ".fxml"));
+                        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        scene = new Scene(root);
+                        stage.setScene(scene);
+                        stage.show();
+                    }
                 }
             }
             else
             {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Uwaga!");
-                alert.setContentText("Niestety nie wszystkie zamówione produkty znajdują się na składzie.\nMożliwym jest zamówienie, ale  nie zakup. ");
+                alert.setContentText("Niestety nie wszystkie zamówione produkty znajdują się w magazynie.\nMożliwym jest zamówienie, ale  nie zakup. ");
                 alert.showAndWait();
             }
         }
@@ -641,8 +703,62 @@ public class ControllerKoszyk implements Initializable {
                     "'"+textField_nazwisko.getText()+"', " +
                     "'"+textField_email.getText()+"')");
             idGosc=wynik[0];
-            sprawdzDostepnosc();
-            finalizujTransakcje();
+            if(sprawdzDostepnosc())
+            {
+                finalizujTransakcje();
+                dane.getIdProduktowWKoszyku().clear();
+                dane.getIdZestawowWKoszyku().clear();
+                root = FXMLLoader.load(getClass().getResource("koszyk" + ".fxml"));
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
+            else
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Uwaga!");
+                alert.setContentText("Niestety nie wszystkie zamówione produkty znajdują się wmagazynie.\nMożliwym jest zamówienie, ale  nie zakup. ");
+                alert.showAndWait();
+            }
+
+        }
+    }
+
+    @FXML
+    void aktualizujRabat() {
+        Double pom;
+        String choice = choiceBox_typ_rabatu.getSelectionModel().getSelectedItem();
+        choice=choice.replace("%","");
+        if(choice.length()<2)
+        {
+            choice="0.0"+choice;
+        }
+        else
+        {
+            choice="0."+choice;
+        }
+        znizka=Double.parseDouble(choice);
+        pom=sumCen*(1-znizka);
+        value_of_cena_z_rabatem.setText(decfor.format(pom)+ " zł");
+    }
+
+    @FXML
+    void rabatDalej(MouseEvent event) throws IOException {
+        Double pom=sumCen*(1-znizka);;
+        cenaFinalna=pom;
+        if(czyZamowienie)
+        {
+            connection.wprowadzDaneBezAlert("UPDATE uzytkownik_rabat ur " +
+                    "SET ur.czy_wazny = 0 " +
+                    "WHERE EXISTS ( " +
+                    "SELECT 1 " +
+                    "FROM typ_rabatu tr " +
+                    "WHERE ur.id_rabatu = tr.id_rabatu " +
+                    "AND tr.kwota = " +znizka+
+                    ") " +
+                    "AND ur.id_uzytkownika = "+idZalogowanegoUzytkownika);
+            finalizujZamowienie();
             dane.getIdProduktowWKoszyku().clear();
             dane.getIdZestawowWKoszyku().clear();
             root = FXMLLoader.load(getClass().getResource("koszyk" + ".fxml"));
@@ -650,13 +766,36 @@ public class ControllerKoszyk implements Initializable {
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-
         }
-    }
-
-    @FXML
-    void rabatDalej(MouseEvent event) {
-        //TODO
+        else
+        {
+            if(sprawdzDostepnosc()) {
+                connection.wprowadzDaneBezAlert("UPDATE uzytkownik_rabat ur " +
+                        "SET ur.czy_wazny = 0 " +
+                        "WHERE EXISTS ( " +
+                        "SELECT 1 " +
+                        "FROM typ_rabatu tr " +
+                        "WHERE ur.id_rabatu = tr.id_rabatu " +
+                        "AND tr.kwota = " +znizka+
+                        ") " +
+                        "AND ur.id_uzytkownika = "+idZalogowanegoUzytkownika);
+                finalizujTransakcje();
+                dane.getIdProduktowWKoszyku().clear();
+                dane.getIdZestawowWKoszyku().clear();
+                root = FXMLLoader.load(getClass().getResource("koszyk" + ".fxml"));
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
+            else
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Uwaga!");
+                alert.setContentText("Niestety nie wszystkie zamówione produkty znajdują się w magazynie.\nMożliwym jest zamówienie, ale  nie zakup. ");
+                alert.showAndWait();
+            }
+        }
     }
 
     @FXML
@@ -700,6 +839,7 @@ public class ControllerKoszyk implements Initializable {
 
     @FXML
     void zaloguj(MouseEvent event) throws IOException {
+        dane.setDestynacjaPowrotuZeStronyLogowania("koszyk");
         root = FXMLLoader.load(getClass().getResource("logowanie" + ".fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);

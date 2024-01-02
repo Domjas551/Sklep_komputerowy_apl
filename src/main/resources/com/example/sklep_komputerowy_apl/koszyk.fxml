@@ -42,9 +42,9 @@
             </AnchorPane>
          </children>
       </StackPane>
-      <Button fx:id="button_zamow" layoutX="410.0" layoutY="561.0" mnemonicParsing="false" onMouseClicked="#order" text="Zamów" />
-      <Button fx:id="button_kup" layoutX="373.0" layoutY="561.0" mnemonicParsing="false" onMouseClicked="#buy" text="Kup" />
-      <Button fx:id="button_oproznij" layoutX="311.0" layoutY="561.0" mnemonicParsing="false" onMouseClicked="#clear" text="Opróżnij" />
+      <Button fx:id="button_zamow" layoutX="713.0" layoutY="561.0" mnemonicParsing="false" onMouseClicked="#order" text="Zamów" />
+      <Button fx:id="button_kup" layoutX="676.0" layoutY="561.0" mnemonicParsing="false" onMouseClicked="#buy" text="Kup" />
+      <Button fx:id="button_oproznij" layoutX="614.0" layoutY="561.0" mnemonicParsing="false" onMouseClicked="#clear" text="Opróżnij" />
       <StackPane layoutX="14.0" layoutY="106.0" prefHeight="450.0" prefWidth="754.0">
          <children>
             <AnchorPane fx:id="produkty" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="754.0" style="-fx-background-color: gainsboro;">
@@ -149,5 +149,6 @@
             </ImageView>
          </graphic>
       </Button>
+      <Text layoutX="277.0" layoutY="578.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Created by: Piotr Jakubas and Dominik Jasiński" />
    </children>
 </AnchorPane>
