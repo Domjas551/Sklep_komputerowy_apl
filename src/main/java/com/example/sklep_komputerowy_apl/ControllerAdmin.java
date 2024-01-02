@@ -309,7 +309,7 @@ public class ControllerAdmin implements Initializable {
     private String nazwy_dyski[];
     private String nazwy_zestawy[];
 
-    private String email;
+    private String email="";
     private String r5;
     private String r10;
     private String r15;
@@ -319,10 +319,10 @@ public class ControllerAdmin implements Initializable {
     private ArrayList<String> typProduktowUzupelnij=new ArrayList<>();
     private ArrayList<Integer> iloscProduktowUzupelnij=new ArrayList<>();
 
-    private String nazwaWybranyProdukt;
+    private String nazwaWybranyProdukt="";
     private String typWybranyProdukt;
 
-    private String trazamId;
+    private String trazamId="";
     private String trazamTyp;
 
 
@@ -1716,81 +1716,84 @@ public class ControllerAdmin implements Initializable {
     //funkcja do uzupełniania wybranego produktu o podaną ilość
     @FXML
     void uzupelnijWybranyProdukt(){
+        if(nazwaWybranyProdukt.equals("")){
+            informationAlert("Nie wybrano produktu");
+        }else{
+            if(!uzupelnij_ilosc.getText().equals("")){
+                int ilosc=Integer.parseInt(uzupelnij_ilosc.getText());
+                String wynik="0";
 
-        if(!uzupelnij_ilosc.getText().equals("")){
-            int ilosc=Integer.parseInt(uzupelnij_ilosc.getText());
-            String wynik="0";
+                if(typWybranyProdukt.equals("Płyta główna")){
 
-            if(typWybranyProdukt.equals("Płyta główna")){
+                    for(int i=0;i<ilosc;i++){
 
-                for(int i=0;i<ilosc;i++){
+                        wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
+                                "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
+                                " null, null, null, " +
+                                "(select id_plyty_glownej from plyta_glowna where nazwa_produktu='"+nazwaWybranyProdukt+"'), " +
+                                "null,null,null,null)");
+                    }
+                }else if(typWybranyProdukt.equals("Procesor")){
+                    for(int i=0;i<ilosc;i++){
 
-                    wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
-                            "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
-                            " null, null, null, " +
-                            "(select id_plyty_glownej from plyta_glowna where nazwa_produktu='"+nazwaWybranyProdukt+"'), " +
-                            "null,null,null,null)");
+                        wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
+                                "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
+                                " null, null, null, " +
+                                "null, " +
+                                "null," +
+                                "(select id_procesora from procesor where nazwa_produktu='"+nazwaWybranyProdukt+"')," +
+                                "null,null)");
+                    }
+                }else if(typWybranyProdukt.equals("Pamięć RAM")){
+                    for(int i=0;i<ilosc;i++){
+
+                        wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
+                                "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
+                                " null, null," +
+                                " (select id_pamieci_ram from pamiec_ram where nazwa_produktu='"+nazwaWybranyProdukt+"'), " +
+                                "null, " +
+                                "null," +
+                                "null," +
+                                "null,null)");
+                    }
+                }else if(typWybranyProdukt.equals("Karta graficzna")){
+                    for(int i=0;i<ilosc;i++){
+
+                        wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
+                                "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
+                                " null, null," +
+                                " null, " +
+                                "null, " +
+                                "(select id_karty_graficznej from karta_graficzna where nazwa_produktu='"+nazwaWybranyProdukt+"')," +
+                                "null," +
+                                "null,null)");
+                    }
+                }else if(typWybranyProdukt.equals("Dysk")){
+                    for(int i=0;i<ilosc;i++){
+
+                        wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
+                                "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
+                                " null, null," +
+                                " null, " +
+                                "null, " +
+                                "null," +
+                                "null," +
+                                "(select id_dysku from dysk where nazwa_produktu='"+nazwaWybranyProdukt+"'),null)");
+                    }
                 }
-            }else if(typWybranyProdukt.equals("Procesor")){
-                for(int i=0;i<ilosc;i++){
 
-                    wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
-                            "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
-                            " null, null, null, " +
-                            "null, " +
-                            "null," +
-                            "(select id_procesora from procesor where nazwa_produktu='"+nazwaWybranyProdukt+"')," +
-                            "null,null)");
+                //wyświetlenie alertu
+                if(wynik.equals("1")){
+                    informationAlert("Wprowadzenie/modyfikacja danych zakończona pomyślnie");
+                }else{
+                    errorAlert("Wprowadzenie/modyfikacja danych nieudana");
                 }
-            }else if(typWybranyProdukt.equals("Pamięć RAM")){
-                for(int i=0;i<ilosc;i++){
 
-                    wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
-                            "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
-                            " null, null," +
-                            " (select id_pamieci_ram from pamiec_ram where nazwa_produktu='"+nazwaWybranyProdukt+"'), " +
-                            "null, " +
-                            "null," +
-                            "null," +
-                            "null,null)");
-                }
-            }else if(typWybranyProdukt.equals("Karta graficzna")){
-                for(int i=0;i<ilosc;i++){
+                //zaktualizowanie informacji w tabeli
+                odswiezTableUzupelnij();
 
-                    wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
-                            "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
-                            " null, null," +
-                            " null, " +
-                            "null, " +
-                            "(select id_karty_graficznej from karta_graficzna where nazwa_produktu='"+nazwaWybranyProdukt+"')," +
-                            "null," +
-                            "null,null)");
-                }
-            }else if(typWybranyProdukt.equals("Dysk")){
-                for(int i=0;i<ilosc;i++){
 
-                    wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
-                            "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
-                            " null, null," +
-                            " null, " +
-                            "null, " +
-                            "null," +
-                            "null," +
-                            "(select id_dysku from dysk where nazwa_produktu='"+nazwaWybranyProdukt+"'),null)");
-                }
             }
-
-            //wyświetlenie alertu
-            if(wynik.equals("1")){
-                informationAlert("Wprowadzenie/modyfikacja danych zakończona pomyślnie");
-            }else{
-                errorAlert("Wprowadzenie/modyfikacja danych nieudana");
-            }
-
-            //zaktualizowanie informacji w tabeli
-            odswiezTableUzupelnij();
-
-
         }
     }
 
@@ -1910,69 +1913,71 @@ public class ControllerAdmin implements Initializable {
         //utworzenie ograniczenia na cene
         Pattern pat_cena = Pattern.compile("^[0-9]*+$");
         Matcher matcher;
-
-        if (!textarea_trazam_id.getText().equals("")) {
-            //sprawdzenie poprawności wprowadzonych danych
-            matcher = pat_cena.matcher(textarea_trazam_id.getText());
-            if (matcher.find()) {
-                //pass
-            } else {
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Id przyjmuje tylko cyfry");
-            }
-        }
-
-        String id = textarea_trazam_id.getText();
-
-        String zapytanie = "Select id, email, typ, ilosc, cena_calkowita from (Select id_transakcji as id, email,'T' as typ, " +
-                "(Select count(*) from produkt where id_transakcji=t.id_transakcji) as ilosc, cena_calkowita from transakcja t " +
-                "join uzytkownik on t.id_uzytkownika=uzytkownik.id_uzytkownika  where status='oczekująca' " +
-                "union " +
-                "Select id_zamowienia as id, email,'Z' as typ, (Select count(*) from produkt where id_zamowienia=z.id_zamowienia) as ilosc, cena_calkowita from zamowienie z " +
-                "join uzytkownik on z.id_uzytkownika=uzytkownik.id_uzytkownika where status_odbioru='oczekujace') t where ";
-
-        ArrayList<String> sl = new ArrayList<>();
-
-        if (!email.equals("")) {
-            sl.add("email like('%" + email + "%')");
-        }
-        if (trazam_typ.getSelectionModel().getSelectedItem() != null && !trazam_typ.getSelectionModel().getSelectedItem().equals("Oba")) {
-            sl.add("typ='" + (trazam_typ.getSelectionModel().getSelectedItem().equals("Transakcja") ? "T'" : "Z'"));
-        }
-        if (!id.equals("")) {
-            sl.add("id=" + id);
-        }
-
-        for (int i = 0; i < sl.size(); i++) {
-            if(i==0){
-                zapytanie+=sl.get(i);
-            }else{
-                zapytanie+=" and "+sl.get(i);
-            }
-        }
-        if(sl.size()>0){
-            //wprowadzenie elementów do tabeli
-            String wynik[]= connection.uzyskajDane(zapytanie);
-
-            if(wynik.length<=1){
-                //gdy zapytanie nie zwróciło żądnych wyników
-
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
-
-                ttz_list.clear();
-            }else{
-                for(int i=0;i<wynik.length;i+=5){
-                    ttz_list.add(new TableTrazam(wynik[i],wynik[i+1],wynik[i+2],Integer.parseInt(wynik[i+3]),Double.parseDouble(wynik[i+4])));
+        try {
+            if (!textarea_trazam_id.getText().equals("")) {
+                //sprawdzenie poprawności wprowadzonych danych
+                matcher = pat_cena.matcher(textarea_trazam_id.getText());
+                if (matcher.find()) {
+                    //pass
+                } else {
+                    throw new TypeException("Id przyjmuje tylko cyfry");
                 }
             }
 
-            table_tra_zam.setItems(ttz_list);
+            String id = textarea_trazam_id.getText();
 
-            dane.setOstatnieZapytanieTableTrazam(zapytanie);
-        }else {
-            dane.setOstatnieZapytanieTableTrazam("");
-            uzupelnijTableTrazam();
+            String zapytanie = "Select id, email, typ, ilosc, cena_calkowita from (Select id_transakcji as id, email,'T' as typ, " +
+                    "(Select count(*) from produkt where id_transakcji=t.id_transakcji) as ilosc, cena_calkowita from transakcja t " +
+                    "join uzytkownik on t.id_uzytkownika=uzytkownik.id_uzytkownika  where status='oczekująca' " +
+                    "union " +
+                    "Select id_zamowienia as id, email,'Z' as typ, (Select count(*) from produkt where id_zamowienia=z.id_zamowienia) as ilosc, cena_calkowita from zamowienie z " +
+                    "join uzytkownik on z.id_uzytkownika=uzytkownik.id_uzytkownika where status_odbioru='oczekujace') t where ";
+
+            ArrayList<String> sl = new ArrayList<>();
+
+            if (!email.equals("")) {
+                sl.add("email like('%" + email + "%')");
+            }
+            if (trazam_typ.getSelectionModel().getSelectedItem() != null && !trazam_typ.getSelectionModel().getSelectedItem().equals("Oba")) {
+                sl.add("typ='" + (trazam_typ.getSelectionModel().getSelectedItem().equals("Transakcja") ? "T'" : "Z'"));
+            }
+            if (!id.equals("")) {
+                sl.add("id=" + id);
+            }
+
+            for (int i = 0; i < sl.size(); i++) {
+                if (i == 0) {
+                    zapytanie += sl.get(i);
+                } else {
+                    zapytanie += " and " + sl.get(i);
+                }
+            }
+            if (sl.size() > 0) {
+                //wprowadzenie elementów do tabeli
+                String wynik[] = connection.uzyskajDane(zapytanie);
+
+                if (wynik.length <= 1) {
+                    //gdy zapytanie nie zwróciło żądnych wyników
+
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
+
+                    ttz_list.clear();
+                } else {
+                    for (int i = 0; i < wynik.length; i += 5) {
+                        ttz_list.add(new TableTrazam(wynik[i], wynik[i + 1], wynik[i + 2], Integer.parseInt(wynik[i + 3]), Double.parseDouble(wynik[i + 4])));
+                    }
+                }
+
+                table_tra_zam.setItems(ttz_list);
+
+                dane.setOstatnieZapytanieTableTrazam(zapytanie);
+            } else {
+                dane.setOstatnieZapytanieTableTrazam("");
+                uzupelnijTableTrazam();
+            }
+        }catch(TypeException t){
+            t.alert();
         }
 
     }
@@ -1992,17 +1997,20 @@ public class ControllerAdmin implements Initializable {
         String id=trazamId;
         String typ=trazamTyp;
 
-        if(typ.equals("T")){
-            connection.wprowadzDane("Update transakcja " +
-                    "set status='zatwierdzona' where id_transakcji="+id);
+        if(id.equals("")){
+            informationAlert("Nie wybrano transakcji/zamówienia");
         }else{
+            if(typ.equals("T")){
+                connection.wprowadzDane("Update transakcja " +
+                        "set status='zatwierdzona' where id_transakcji="+id);
+            }else{
 
-            connection.wprowadzDane("Update zamowienie " +
-                    "set status_odbioru='do odbioru' where id_zamowienia="+id);
+                connection.wprowadzDane("Update zamowienie " +
+                        "set status_odbioru='do odbioru' where id_zamowienia="+id);
+            }
+
+            uzupelnijTableTrazam();
         }
-
-        uzupelnijTableTrazam();
-
     }
 
     //funkcja do odrzucania transakcji/zamówień
@@ -2011,17 +2019,20 @@ public class ControllerAdmin implements Initializable {
         String id=trazamId;
         String typ=trazamTyp;
 
-        if(typ.equals("T")){
-            connection.wprowadzDane("Update transakcja " +
-                    "set status='anulowana' where id_transakcji="+id);
-
+        if(id.equals("")){
+            informationAlert("Nie wybrano transakcji/zamówienia");
         }else{
-            connection.wprowadzDane("Update zamowienie " +
-                    "set status_odbioru='anulowane' where id_zamowienia="+id);
+            if(typ.equals("T")){
+                connection.wprowadzDane("Update transakcja " +
+                        "set status='anulowana' where id_transakcji="+id);
+
+            }else{
+                connection.wprowadzDane("Update zamowienie " +
+                        "set status_odbioru='anulowane' where id_zamowienia="+id);
+            }
+
+            uzupelnijTableTrazam();
         }
-
-        uzupelnijTableTrazam();
-
     }
 
     //funkcja do przesiewania tabeli użytkownicy
@@ -2084,125 +2095,127 @@ public class ControllerAdmin implements Initializable {
     //funkcja do zarządzania użytkownikiem
     @FXML
     void zarzadzaj(MouseEvent event) throws IOException {
-        String wynik=connection.uzyskajDane(
-                "Select id_uzytkownika from uzytkownik where email='"+email+"'")[0];
 
-        dane.setIdWybranegoUzytkownika(wynik);
+        if(email.equals("")){
+            informationAlert("Nie wybrano konta użytkownika");
+        }else{
+            String wynik=connection.uzyskajDane(
+                    "Select id_uzytkownika from uzytkownik where email='"+email+"'")[0];
 
-        root = FXMLLoader.load(getClass().getResource("admin_uzytkownik" + ".fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+            dane.setIdWybranegoUzytkownika(wynik);
+
+            root = FXMLLoader.load(getClass().getResource("admin_uzytkownik" + ".fxml"));
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
+
     }
 
     //funkcja do przyznawania rabatów
     @FXML
     void przyznajRabat(){
-        String rabat=scrollbar_typ_rabatu.getSelectionModel().getSelectedItem();
-        String id_rabatu;
-        String id_uz=connection.uzyskajDane("Select id_uzytkownika from uzytkownik where email='"+email+"'")[0];
+        if(email.equals("")){
+            informationAlert("Nie wybrano konta użytkownika");
+        }else{
+            String rabat=scrollbar_typ_rabatu.getSelectionModel().getSelectedItem();
+            String id_rabatu;
+            String id_uz=connection.uzyskajDane("Select id_uzytkownika from uzytkownik where email='"+email+"'")[0];
 
-        LocalDateTime date = LocalDateTime.now();
-        LocalDateTime date2=date.plusMonths(1);
-        DateTimeFormatter formatowanie = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
+            LocalDateTime date = LocalDateTime.now();
+            DateTimeFormatter formatowanie = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
+            String formattedDate2=date.format(formatowanie);
 
-        String formattedDate = date2.format(formatowanie);
-        String formattedDate2=date.format(formatowanie);
+            switch(rabat){
+                case "5%":
+                    if(r5.equals("N")){
+                        id_rabatu=connection.uzyskajDane("Select id_rabatu from typ_rabatu where kwota=0.05")[0];
+                        connection.wprowadzDane("update uzytkownik_rabat set czy_wazny=1 "+
+                                "where id_uzytkownika="+id_uz+" and "+"id_rabatu="+id_rabatu);
 
-        switch(rabat){
-            case "5%":
-                if(r5.equals("N")){
-                    id_rabatu=connection.uzyskajDane("Select id_rabatu from typ_rabatu where kwota=0.05")[0];
-                    connection.wprowadzDane("insert into uzytkownik_rabat " +
-                            "values("+id_rabatu+", " +
-                            id_uz+",1)");
+                        //wysłanie wiadomości do użytkownika odnośnie przyznania rabatu
+                        String idwiadomosci=connection.uzyskajDane("Select max(id_wiadomosci)+1 from wiadomosc")[0];
+                        String wynik=connection.wprowadzDaneBezAlert("Insert into wiadomosc values(" +
+                                idwiadomosci+"," +
+                                id_uz+", "+"'Gratulacje! Otrzymano rabat o wysokości 5%.','"+formattedDate2+"',0)");
 
-                    //wysłanie wiadomości do użytkownika odnośnie przyznania rabatu
-                    String idwiadomosci=connection.uzyskajDane("Select max(id_wiadomosci)+1 from wiadomosc")[0];
-                    String wynik=connection.wprowadzDaneBezAlert("Insert into wiadomosc values(" +
-                            idwiadomosci+"," +
-                            id_uz+", "+"'Gratulacje! Otrzymano rabat o wysokości 5%.','"+formattedDate2+"',0)");
+                        if(wynik.equals("0")){
+                            errorAlert("Błąd przy wysyłaniu wiadomości do użytkownika");
+                        }
 
-                    if(wynik.equals("0")){
-                        errorAlert("Błąd przy wysyłaniu wiadomości do użytkownika");
+                    }else{
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Uzytkownik posiada już ten rabat");
                     }
+                    break;
+                case "10%":
+                    if(r10.equals("N")){
+                        id_rabatu=connection.uzyskajDane("Select id_rabatu from typ_rabatu where kwota=0.10")[0];
+                        connection.wprowadzDane("update uzytkownik_rabat set czy_wazny=1 "+
+                                "where id_uzytkownika="+id_uz+" and "+"id_rabatu="+id_rabatu);
 
-                }else{
-                    //wyświetlenie alertu informacyjnego
-                    informationAlert("Uzytkownik posiada już ten rabat");
-                }
-                break;
-            case "10%":
-                if(r10.equals("N")){
-                    id_rabatu=connection.uzyskajDane("Select id_rabatu from typ_rabatu where kwota=0.10")[0];
-                    connection.wprowadzDane("insert into uzytkownik_rabat " +
-                            "values("+id_rabatu+", " +
-                            id_uz+",1)");
+                        //wysłanie wiadomości do użytkownika odnośnie przyznania rabatu
+                        String idwiadomosci=connection.uzyskajDane("Select max(id_wiadomosci)+1 from wiadomosc")[0];
+                        String wynik=connection.wprowadzDaneBezAlert("Insert into wiadomosc values(" +
+                                idwiadomosci+"," +
+                                id_uz+", "+"'Gratulacje! Otrzymano rabat o wysokości 10%.','"+formattedDate2+"',0)");
 
-                    //wysłanie wiadomości do użytkownika odnośnie przyznania rabatu
-                    String idwiadomosci=connection.uzyskajDane("Select max(id_wiadomosci)+1 from wiadomosc")[0];
-                    String wynik=connection.wprowadzDaneBezAlert("Insert into wiadomosc values(" +
-                            idwiadomosci+"," +
-                            id_uz+", "+"'Gratulacje! Otrzymano rabat o wysokości 10%.','"+formattedDate2+"',0)");
+                        if(wynik.equals("0")){
+                            errorAlert("Błąd przy wysyłaniu wiadomości do użytkownika");
+                        }
 
-                    if(wynik.equals("0")){
-                        errorAlert("Błąd przy wysyłaniu wiadomości do użytkownika");
+                    }else{
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Uzytkownik posiada już ten rabat");
                     }
+                    break;
+                case "15%":
+                    if(r15.equals("N")){
+                        id_rabatu=connection.uzyskajDane("Select id_rabatu from typ_rabatu where kwota=0.15")[0];
+                        connection.wprowadzDane("update uzytkownik_rabat set czy_wazny=1 "+
+                                "where id_uzytkownika="+id_uz+" and "+"id_rabatu="+id_rabatu);
 
-                }else{
-                    //wyświetlenie alertu informacyjnego
-                    informationAlert("Uzytkownik posiada już ten rabat");
-                }
-                break;
-            case "15%":
-                if(r15.equals("N")){
-                    id_rabatu=connection.uzyskajDane("Select id_rabatu from typ_rabatu where kwota=0.15")[0];
-                    connection.wprowadzDane("insert into uzytkownik_rabat " +
-                            "values("+id_rabatu+", " +
-                            id_uz+",1)");
+                        //wysłanie wiadomości do użytkownika odnośnie przyznania rabatu
+                        String idwiadomosci=connection.uzyskajDane("Select max(id_wiadomosci)+1 from wiadomosc")[0];
+                        String wynik=connection.wprowadzDaneBezAlert("Insert into wiadomosc values(" +
+                                idwiadomosci+"," +
+                                id_uz+", "+"'Gratulacje! Otrzymano rabat o wysokości 15%.','"+formattedDate2+"',0)");
 
-                    //wysłanie wiadomości do użytkownika odnośnie przyznania rabatu
-                    String idwiadomosci=connection.uzyskajDane("Select max(id_wiadomosci)+1 from wiadomosc")[0];
-                    String wynik=connection.wprowadzDaneBezAlert("Insert into wiadomosc values(" +
-                            idwiadomosci+"," +
-                            id_uz+", "+"'Gratulacje! Otrzymano rabat o wysokości 15%.','"+formattedDate2+"',0)");
+                        if(wynik.equals("0")){
+                            errorAlert("Błąd przy wysyłaniu wiadomości do użytkownika");
+                        }
 
-                    if(wynik.equals("0")){
-                        errorAlert("Błąd przy wysyłaniu wiadomości do użytkownika");
+                    }else{
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Uzytkownik posiada już ten rabat");
                     }
+                    break;
+                case "25%":
+                    if(r25.equals("N")){
+                        id_rabatu=connection.uzyskajDane("Select id_rabatu from typ_rabatu where kwota=0.25")[0];
+                        connection.wprowadzDane("update uzytkownik_rabat set czy_wazny=1 "+
+                                "where id_uzytkownika="+id_uz+" and "+"id_rabatu="+id_rabatu);
 
-                }else{
-                    //wyświetlenie alertu informacyjnego
-                    informationAlert("Uzytkownik posiada już ten rabat");
-                }
-                break;
-            case "25%":
-            if(r25.equals("N")){
-                id_rabatu=connection.uzyskajDane("Select id_rabatu from typ_rabatu where kwota=0.25")[0];
-                connection.wprowadzDane("insert into uzytkownik_rabat " +
-                        "values("+id_rabatu+", " +
-                        id_uz+",1)");
+                        //wysłanie wiadomości do użytkownika odnośnie przyznania rabatu
+                        String idwiadomosci=connection.uzyskajDane("Select max(id_wiadomosci)+1 from wiadomosc")[0];
+                        String wynik=connection.wprowadzDaneBezAlert("Insert into wiadomosc values(" +
+                                idwiadomosci+"," +
+                                id_uz+", "+"'Gratulacje! Otrzymano rabat o wysokości 25%.','"+formattedDate2+"',0)");
 
-                //wysłanie wiadomości do użytkownika odnośnie przyznania rabatu
-                String idwiadomosci=connection.uzyskajDane("Select max(id_wiadomosci)+1 from wiadomosc")[0];
-                String wynik=connection.wprowadzDaneBezAlert("Insert into wiadomosc values(" +
-                        idwiadomosci+"," +
-                        id_uz+", "+"'Gratulacje! Otrzymano rabat o wysokości 25%.','"+formattedDate2+"',0)");
+                        if(wynik.equals("0")){
+                            errorAlert("Błąd przy wysyłaniu wiadomości do użytkownika");
+                        }
 
-                if(wynik.equals("0")){
-                    errorAlert("Błąd przy wysyłaniu wiadomości do użytkownika");
-                }
-
-            }else{
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Uzytkownik posiada już ten rabat");
+                    }else{
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Uzytkownik posiada już ten rabat");
+                    }
+                    break;
             }
-            break;
+
+            uzupelnijTableUzytkownicy();
         }
-
-        uzupelnijTableUzytkownicy();
-
     }
 
     //funkcje do wyświetlania statystyk
