@@ -497,10 +497,10 @@ public class ControllerAdmin implements Initializable {
         //wypełnienie danymi z BD
         if(dane.getOstatnieZapytanieTableUzytkownicy().equals("")){
             String wynik[]= connection.uzyskajDane("Select email, " +
-                    "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=1) then 'P' else 'N' end as \"0.05\", " +
-                "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=2) then 'P' else 'N' end as \"0.1\", " +
-                "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=3) then 'P' else 'N' end as \"0.15\", " +
-                "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=4) then 'P' else 'N' end as \"0.25\" from uzytkownik u " +
+                    "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=1 and czy_wazny=1) then 'P' else 'N' end as \"0.05\", " +
+                "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=2 and czy_wazny=1) then 'P' else 'N' end as \"0.1\", " +
+                "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=3 and czy_wazny=1) then 'P' else 'N' end as \"0.15\", " +
+                "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=4 and czy_wazny=1) then 'P' else 'N' end as \"0.25\" from uzytkownik u " +
                     "where czy_aktywny=1");
 
             if(wynik.length<=1){
@@ -2116,8 +2116,7 @@ public class ControllerAdmin implements Initializable {
                     id_rabatu=connection.uzyskajDane("Select id_rabatu from typ_rabatu where kwota=0.05")[0];
                     connection.wprowadzDane("insert into uzytkownik_rabat " +
                             "values("+id_rabatu+", " +
-                            id_uz+"," +
-                            "'"+formattedDate+"')");
+                            id_uz+",1)");
 
                     //wysłanie wiadomości do użytkownika odnośnie przyznania rabatu
                     String idwiadomosci=connection.uzyskajDane("Select max(id_wiadomosci)+1 from wiadomosc")[0];
@@ -2139,8 +2138,7 @@ public class ControllerAdmin implements Initializable {
                     id_rabatu=connection.uzyskajDane("Select id_rabatu from typ_rabatu where kwota=0.10")[0];
                     connection.wprowadzDane("insert into uzytkownik_rabat " +
                             "values("+id_rabatu+", " +
-                            id_uz+"," +
-                            "'"+formattedDate+"')");
+                            id_uz+",1)");
 
                     //wysłanie wiadomości do użytkownika odnośnie przyznania rabatu
                     String idwiadomosci=connection.uzyskajDane("Select max(id_wiadomosci)+1 from wiadomosc")[0];
@@ -2162,8 +2160,7 @@ public class ControllerAdmin implements Initializable {
                     id_rabatu=connection.uzyskajDane("Select id_rabatu from typ_rabatu where kwota=0.15")[0];
                     connection.wprowadzDane("insert into uzytkownik_rabat " +
                             "values("+id_rabatu+", " +
-                            id_uz+"," +
-                            "'"+formattedDate+"')");
+                            id_uz+",1)");
 
                     //wysłanie wiadomości do użytkownika odnośnie przyznania rabatu
                     String idwiadomosci=connection.uzyskajDane("Select max(id_wiadomosci)+1 from wiadomosc")[0];
@@ -2185,8 +2182,7 @@ public class ControllerAdmin implements Initializable {
                 id_rabatu=connection.uzyskajDane("Select id_rabatu from typ_rabatu where kwota=0.25")[0];
                 connection.wprowadzDane("insert into uzytkownik_rabat " +
                         "values("+id_rabatu+", " +
-                        id_uz+"," +
-                        "'"+formattedDate+"')");
+                        id_uz+",1)");
 
                 //wysłanie wiadomości do użytkownika odnośnie przyznania rabatu
                 String idwiadomosci=connection.uzyskajDane("Select max(id_wiadomosci)+1 from wiadomosc")[0];
