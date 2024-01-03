@@ -467,11 +467,11 @@
          </children>
       </StackPane>
       <Button fx:id="button_plyty" layoutX="21.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showPlyty" text="Płyty główne" />
-      <Button fx:id="button_procesory" layoutX="106.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showProcesory" text="Prcocesory" />
-      <Button fx:id="button_kartyGraf" layoutX="180.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showKarty" text="Karty graficzne" />
-      <Button fx:id="button_pamRam" layoutX="275.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showPamiecRam" text="Pamięć RAM" />
-      <Button fx:id="button_dyski" layoutX="358.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showDyski" text="Dyski" />
-      <Button fx:id="button_zestawy" layoutX="403.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showZestawy" text="Zestawy" />
+      <Button fx:id="button_procesory" layoutX="106.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showProcesory" text="Procesory" />
+      <Button fx:id="button_kartyGraf" layoutX="174.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showKarty" text="Karty graficzne" />
+      <Button fx:id="button_pamRam" layoutX="269.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showPamiecRam" text="Pamięć RAM" />
+      <Button fx:id="button_dyski" layoutX="352.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showDyski" text="Dyski" />
+      <Button fx:id="button_zestawy" layoutX="397.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showZestawy" text="Zestawy" />
       <StackPane layoutX="580.0" layoutY="3.0" prefHeight="102.0" prefWidth="200.0">
          <children>
             <AnchorPane fx:id="anchor_zaloguj" prefHeight="200.0" prefWidth="200.0">

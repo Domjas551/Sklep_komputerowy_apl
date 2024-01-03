@@ -325,6 +325,8 @@ public class ControllerAdmin implements Initializable {
     private String trazamId="";
     private String trazamTyp;
 
+    //todo przesianie tabel zapytania
+    //todo admin toProfil
 
     //wprowadzenie wartości do tabel
     //tabela uzupełnień
@@ -714,7 +716,7 @@ public class ControllerAdmin implements Initializable {
         }
 
         pieU_list.forEach(data -> data.nameProperty().bind(
-                Bindings.concat(data.getName()," ilość: ",data.getPieValue())
+                Bindings.concat(data.getName()," liczba: ",data.getPieValue())
         ));
 
         pie_produkty.getData().addAll(pieU_list);
@@ -1618,10 +1620,77 @@ public class ControllerAdmin implements Initializable {
         if(!nazwa.equals("")){
             //utworzenie list do wypełniania odpowiednich typów
             ObservableList<TableUzupelnianie> tuz_list= FXCollections.observableArrayList();
-
             //wypełnienie danymi z BD
 
             String zapytanie="Select nazwa_produktu, typ, ilosc from (Select plyta_glowna.nazwa_produktu, 'Płyta główna' as typ, count(*) as ilosc from produkt " +
+                    "join plyta_glowna on produkt.id_plyty_glownej=plyta_glowna.id_plyty_glownej " +
+                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu " +
+                    "union "+
+                    "Select plyta_glowna.nazwa_produktu, 'Płyta główna' as typ, 0 as ilosc from produkt "+
+                    "join plyta_glowna on produkt.id_plyty_glownej=plyta_glowna.id_plyty_glownej " +
+                    "where (id_transakcji is not null or id_zamowienia is not null) " +
+                    "and plyta_glowna.nazwa_produktu not in (" +
+                    "Select nazwa_produktu from (Select plyta_glowna.nazwa_produktu, 'Płyta główna' as typ, count(*) as ilosc from produkt " +
+                    "join plyta_glowna on produkt.id_plyty_glownej=plyta_glowna.id_plyty_glownej " +
+                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu))" +
+                    " group by nazwa_produktu" +
+                    " union " +
+                    "select procesor.nazwa_produktu, 'Procesor' as typ, count(*) as ilosc from produkt " +
+                    "join procesor on produkt.id_procesora=procesor.id_procesora " +
+                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu " +
+                    "union "+
+                    "select procesor.nazwa_produktu, 'Procesor' as typ, 0 as ilosc from produkt " +
+                    "join procesor on produkt.id_procesora=procesor.id_procesora " +
+                    "where (id_transakcji is  not null or id_zamowienia is null) " +
+                    "and procesor.nazwa_produktu not in ("+
+                    "select nazwa_produktu from (select procesor.nazwa_produktu, 'Procesor' as typ, count(*) as ilosc from produkt " +
+                    "join procesor on produkt.id_procesora=procesor.id_procesora " +
+                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu)) "+
+                    "group by nazwa_produktu " +
+                    "union " +
+                    "select karta_graficzna.nazwa_produktu, 'Karta graficzna' as typ, count(*) as ilosc from produkt " +
+                    "join karta_graficzna on produkt.id_karty_graficznej=karta_graficzna.id_karty_graficznej " +
+                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu " +
+                    "union "+
+                    "select karta_graficzna.nazwa_produktu, 'Karta graficzna' as typ, 0 as ilosc from produkt " +
+                    "join karta_graficzna on produkt.id_karty_graficznej=karta_graficzna.id_karty_graficznej " +
+                    "where (id_transakcji is not null or id_zamowienia is not null)" +
+                    "and karta_graficzna.nazwa_produktu not in (" +
+                    "select nazwa_produktu from (" +
+                    "select karta_graficzna.nazwa_produktu, 'Karta graficzna' as typ, count(*) as ilosc from produkt " +
+                    "join karta_graficzna on produkt.id_karty_graficznej=karta_graficzna.id_karty_graficznej " +
+                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu ))"+
+                    "group by nazwa_produktu " +
+                    "union " +
+                    "select pamiec_ram.nazwa_produktu, 'Pamięć RAM' as typ, count(*) as ilosc from produkt " +
+                    "join pamiec_ram on produkt.id_pamieci_ram=pamiec_ram.id_pamieci_ram " +
+                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu " +
+                    "union "+
+                    "select pamiec_ram.nazwa_produktu, 'Pamięć RAM' as typ, 0 as ilosc from produkt " +
+                    "join pamiec_ram on produkt.id_pamieci_ram=pamiec_ram.id_pamieci_ram " +
+                    "where (id_transakcji is not null or id_zamowienia is not null)" +
+                    "and pamiec_ram.nazwa_produktu not in (" +
+                    "select nazwa_produktu from ("+
+                    "select pamiec_ram.nazwa_produktu, 'Pamięć RAM' as typ, count(*) as ilosc from produkt " +
+                    "join pamiec_ram on produkt.id_pamieci_ram=pamiec_ram.id_pamieci_ram " +
+                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu ))"+
+                    "group by nazwa_produktu "+
+                    "union " +
+                    "select dysk.nazwa_produktu, 'Dysk' as typ, count(*) as ilosc from produkt " +
+                    "join dysk on produkt.id_dysku=dysk.id_dysku " +
+                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu " +
+                    "union "+
+                    "select dysk.nazwa_produktu, 'Dysk' as typ, 0 as ilosc from produkt " +
+                    "join dysk on produkt.id_dysku=dysk.id_dysku " +
+                    "where (id_transakcji is not null or id_zamowienia is not null) " +
+                    "and dysk.nazwa_produktu not in (" +
+                    "select nazwa_produktu from ("+
+                    "select dysk.nazwa_produktu, 'Dysk' as typ, count(*) as ilosc from produkt " +
+                    "join dysk on produkt.id_dysku=dysk.id_dysku " +
+                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu)) "+
+                    "group by nazwa_produktu"+
+                    ") where nazwa_produktu like('%"+nazwa+"%') order by ilosc asc";
+/*"Select nazwa_produktu, typ, ilosc from (Select plyta_glowna.nazwa_produktu, 'Płyta główna' as typ, count(*) as ilosc from produkt " +
                     "join plyta_glowna on produkt.id_plyty_glownej=plyta_glowna.id_plyty_glownej " +
                     "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu" +
                     " union " +
@@ -1639,7 +1708,7 @@ public class ControllerAdmin implements Initializable {
                     "union " +
                     "select dysk.nazwa_produktu, 'Dysk' as typ, count(*) as ilosc from produkt " +
                     "join dysk on produkt.id_dysku=dysk.id_dysku " +
-                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu) where nazwa_produktu like('%"+nazwa+"%') order by ilosc asc";
+                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu) where nazwa_produktu like('%"+nazwa+"%') order by ilosc asc";*/
             String wynik[]= connection.uzyskajDane(zapytanie);
 
             if(wynik.length<=1){
@@ -1658,6 +1727,7 @@ public class ControllerAdmin implements Initializable {
                 table_uzupelnianie.setItems(tuz_list);
                 dane.setOstatnieZapytanieUzupelnijTable(zapytanie);
         }else{
+            /*
             //wyszukanie wszystkich
 
             //utworzenie list do wypełniania odpowiednich typów
@@ -1699,7 +1769,10 @@ public class ControllerAdmin implements Initializable {
             }
 
             table_uzupelnianie.setItems(tuz_list);
+            dane.setOstatnieZapytanieUzupelnijTable("");*/
+
             dane.setOstatnieZapytanieUzupelnijTable("");
+            odswiezTableUzupelnij();
         }
     }
 
@@ -1731,7 +1804,7 @@ public class ControllerAdmin implements Initializable {
                                 "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
                                 " null, null, null, " +
                                 "(select id_plyty_glownej from plyta_glowna where nazwa_produktu='"+nazwaWybranyProdukt+"'), " +
-                                "null,null,null,null)");
+                                "null,null,null,null,null)");
                     }
                 }else if(typWybranyProdukt.equals("Procesor")){
                     for(int i=0;i<ilosc;i++){
@@ -1742,7 +1815,7 @@ public class ControllerAdmin implements Initializable {
                                 "null, " +
                                 "null," +
                                 "(select id_procesora from procesor where nazwa_produktu='"+nazwaWybranyProdukt+"')," +
-                                "null,null)");
+                                "null,null,null)");
                     }
                 }else if(typWybranyProdukt.equals("Pamięć RAM")){
                     for(int i=0;i<ilosc;i++){
@@ -1754,7 +1827,7 @@ public class ControllerAdmin implements Initializable {
                                 "null, " +
                                 "null," +
                                 "null," +
-                                "null,null)");
+                                "null,null,null)");
                     }
                 }else if(typWybranyProdukt.equals("Karta graficzna")){
                     for(int i=0;i<ilosc;i++){
@@ -1766,7 +1839,7 @@ public class ControllerAdmin implements Initializable {
                                 "null, " +
                                 "(select id_karty_graficznej from karta_graficzna where nazwa_produktu='"+nazwaWybranyProdukt+"')," +
                                 "null," +
-                                "null,null)");
+                                "null,null,null)");
                     }
                 }else if(typWybranyProdukt.equals("Dysk")){
                     for(int i=0;i<ilosc;i++){
@@ -1778,10 +1851,10 @@ public class ControllerAdmin implements Initializable {
                                 "null, " +
                                 "null," +
                                 "null," +
-                                "(select id_dysku from dysk where nazwa_produktu='"+nazwaWybranyProdukt+"'),null)");
+                                "(select id_dysku from dysk where nazwa_produktu='"+nazwaWybranyProdukt+"'),null,null)");
                     }
                 }
-
+//todo uzupełnianie zestawu
                 //wyświetlenie alertu
                 if(wynik.equals("1")){
                     informationAlert("Wprowadzenie/modyfikacja danych zakończona pomyślnie");
@@ -1815,7 +1888,7 @@ public class ControllerAdmin implements Initializable {
                                     "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
                                     " null, null, null, " +
                                     "(select id_plyty_glownej from plyta_glowna where nazwa_produktu='" + nazwyProduktowUzupelnij.get(j) + "'), " +
-                                    "null,null,null,null)");
+                                    "null,null,null,null,null)");
 
                             //przerwanie pętli w razie wystąpienia błędu
                             if(wynik.equals("0")){
@@ -1831,7 +1904,7 @@ public class ControllerAdmin implements Initializable {
                                     "null, " +
                                     "null," +
                                     "(select id_procesora from procesor where nazwa_produktu='" + nazwyProduktowUzupelnij.get(j) + "')," +
-                                    "null,null)");
+                                    "null,null,null)");
 
                             //przerwanie pętli w razie wystąpienia błędu
                             if(wynik.equals("0")){
@@ -1848,7 +1921,7 @@ public class ControllerAdmin implements Initializable {
                                     "null, " +
                                     "null," +
                                     "null," +
-                                    "null,null)");
+                                    "null,null,null)");
 
                             //przerwanie pętli w razie wystąpienia błędu
                             if(wynik.equals("0")){
@@ -1865,7 +1938,7 @@ public class ControllerAdmin implements Initializable {
                                     "null, " +
                                     "(select id_karty_graficznej from karta_graficzna where nazwa_produktu='" + nazwyProduktowUzupelnij.get(j) + "')," +
                                     "null," +
-                                    "null,null)");
+                                    "null,null,null)");
 
                             //przerwanie pętli w razie wystąpienia błędu
                             if(wynik.equals("0")){
@@ -1882,7 +1955,7 @@ public class ControllerAdmin implements Initializable {
                                     "null, " +
                                     "null," +
                                     "null," +
-                                    "(select id_dysku from dysk where nazwa_produktu='" + nazwyProduktowUzupelnij.get(j) + "'),null)");
+                                    "(select id_dysku from dysk where nazwa_produktu='" + nazwyProduktowUzupelnij.get(j) + "'),null,null)");
 
                             //przerwanie pętli w razie wystąpienia błędu
                             if(wynik.equals("0")){
@@ -2019,6 +2092,8 @@ public class ControllerAdmin implements Initializable {
         String id=trazamId;
         String typ=trazamTyp;
 
+        //todo tworzenie nowych instancji produktów w odrzuconych operacjach
+
         if(id.equals("")){
             informationAlert("Nie wybrano transakcji/zamówienia");
         }else{
@@ -2046,10 +2121,10 @@ public class ControllerAdmin implements Initializable {
         String email = textfield_email.getText();
 
         String zapytanie = "Select email, " +
-                "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=1) then 'P' else 'N' end as \"0.05\", " +
-                "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=2) then 'P' else 'N' end as \"0.1\", " +
-                "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=3) then 'P' else 'N' end as \"0.15\", " +
-            "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=4) then 'P' else 'N' end as \"0.25\" from uzytkownik u where ";
+                "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=1 and czy_wazny=1) then 'P' else 'N' end as \"0.05\", " +
+                "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=2 and czy_wazny=1) then 'P' else 'N' end as \"0.1\", " +
+                "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=3 and czy_wazny=1) then 'P' else 'N' end as \"0.15\", " +
+            "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=4 and czy_wazny=1) then 'P' else 'N' end as \"0.25\" from uzytkownik u where ";
 
         if (!email.equals("")) {
             zapytanie+="email like('%" + email + "%')";
@@ -2259,7 +2334,7 @@ public class ControllerAdmin implements Initializable {
                 }
 
                 pieU_list.forEach(data -> data.nameProperty().bind(
-                        Bindings.concat(data.getName()," ilość: ",data.getPieValue())
+                        Bindings.concat(data.getName()," liczba: ",data.getPieValue())
                 ));
 
                 //wstawienie danych

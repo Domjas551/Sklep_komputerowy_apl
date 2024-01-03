@@ -750,6 +750,7 @@ public class ControllerUzytkownik implements Initializable {
     void wybierzProduktRekl(){
         String strona=rek_typ.getSelectionModel().getSelectedItem();
 
+        //ustawienie widoczności strony w zależności czy użytkownik posiada transakcje/zamówienia
         if(s1[0].equals("")){
             strona="Transakcje";
         }else if(s2[0].equals("")){
