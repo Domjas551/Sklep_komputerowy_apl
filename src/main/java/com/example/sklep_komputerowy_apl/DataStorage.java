@@ -15,6 +15,7 @@ public class DataStorage {
     private String ostatnieZapytanieRam = "";
     private String ostatnieZapytanieDyski = "";
     private String ostatnieZapytanieZestawy = "";
+
     //ostatnie zapytanie do tabeli uzupełnień komponentów
     private String ostatnieZapytanieUzupelnijTable = "";
 

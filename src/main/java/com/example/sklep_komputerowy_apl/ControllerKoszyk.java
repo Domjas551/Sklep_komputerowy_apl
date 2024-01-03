@@ -22,7 +22,6 @@ import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class ControllerKoszyk implements Initializable {
@@ -239,6 +238,7 @@ public class ControllerKoszyk implements Initializable {
         }
     }
 
+    //Funkcja sprawdza, czy w magazynie znajduja sie wszystkie zawarte w koszyku elementy. Uzywana przy transakcji.
     boolean sprawdzDostepnosc()
     {
         String wynik[];
@@ -300,12 +300,24 @@ public class ControllerKoszyk implements Initializable {
         return true;
     }
 
-    boolean konfigurator()
-    {
-        //TODO
-        return true;
+    //TODO
+    void konfigurator() {
+        if (id_zestawow_w_koszyku.isEmpty() && !id_produktow_w_koszyku.isEmpty()) {
+            boolean s1;
+            boolean s2;
+            for (int i = 0; i < id_produktow_w_koszyku.size(); i = i + 3) {
+                if (id_produktow_w_koszyku.get(i).equals("2")) {
+                    for (int j = 0; j < id_produktow_w_koszyku.size(); j = j + 3) {
+                        if (id_produktow_w_koszyku.get(i).equals("1")) {
+
+                        }
+                    }
+                }
+            }
+        }
     }
 
+    //Funkcja wprowadza do bazy danych zakup zawartych w koszyku elementow
     void finalizujTransakcje()
     {
         String id_transakcji[];
@@ -333,7 +345,7 @@ public class ControllerKoszyk implements Initializable {
                 formattedDate+"', " +
                 cenaFinalna+", " +
                 "'oczekująca', " +
-                +znizka+")");
+                znizka+")");
 
         id_transakcji=connection.uzyskajDane("Select max(id_transakcji) from transakcja");
 
@@ -436,6 +448,7 @@ public class ControllerKoszyk implements Initializable {
         alert.showAndWait();
     }
 
+    //Funkcja wprowadza do bazy danych zamowienie wszystkich zawartych w koszyku elementow
     void finalizujZamowienie(){
         String id_zamowienia[];
         String id_zestawu[];
@@ -550,6 +563,8 @@ public class ControllerKoszyk implements Initializable {
         alert.showAndWait();
     }
 
+    //Funkcja przenosi do zakladki rabatu jesli uzytkownikowi przysluguja jakiekolwiek rabaty,
+    //w innym razie zatwierdza zamowienie z poziomu glownej zakladki koszyka
     @FXML
     void order(MouseEvent event) throws IOException {
         if(!(dane.getIdZestawowWKoszyku().isEmpty()&&dane.getIdProduktowWKoszyku().isEmpty())) {
@@ -608,6 +623,8 @@ public class ControllerKoszyk implements Initializable {
         }
     }
 
+    //Funkcja przenosi do zakladki gosc jesli idZalogowanegoUzytkownika wynosi 0, w innym razie przenosi do zakladki rabatu jesli
+    //uzytkownikowi przysluguja jakiekolwiek rabaty, w innym razie zatwierdza transakcje z poziomu glownej zakladki koszyka
     @FXML
     void buy(MouseEvent event) throws IOException {
         if (!(dane.getIdZestawowWKoszyku().isEmpty() && dane.getIdProduktowWKoszyku().isEmpty())) {
@@ -681,6 +698,7 @@ public class ControllerKoszyk implements Initializable {
         }
     }
 
+    //Funkcja zatwierdza transakcję z poziomu zakładki gościa
     @FXML
     void goscDalej(MouseEvent event) throws IOException {
         if(textField_imie.getText().isEmpty()|| textField_nazwisko.getText().isEmpty()||textField_email.getText().isEmpty())
@@ -725,6 +743,7 @@ public class ControllerKoszyk implements Initializable {
         }
     }
 
+    //Funkcja aktualizująca na bieżąco zawartość zakładki rabat, gdy zmieniany jest wybor w ramach choiceboxa
     @FXML
     void aktualizujRabat() {
         Double pom;
@@ -743,6 +762,7 @@ public class ControllerKoszyk implements Initializable {
         value_of_cena_z_rabatem.setText(decfor.format(pom)+ " zł");
     }
 
+    //Funkcja zatwierdzająca transakcję lub zamowienie z poziomu zakładki rabatu, a więc po wyborze znizki
     @FXML
     void rabatDalej(MouseEvent event) throws IOException {
         Double pom=sumCen*(1-znizka);;
