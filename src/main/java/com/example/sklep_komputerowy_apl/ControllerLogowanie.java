@@ -183,29 +183,34 @@ public class ControllerLogowanie implements Initializable {
                 logowanie_text_error.setText("Niepoprawne dane logowania!");
             }
             //Konto istnieje - sprawdzamy hasło
-            else{
-                //Funkcja Hashująca na podanym haśle
-                MessageDigest md = MessageDigest.getInstance("SHA-256");
-                md.update(haslo.toString().getBytes());
-                byte[] dig_pass = md.digest();
-                StringBuilder hexString = new StringBuilder();
-
-                //Konwersja na HEX
-                for (byte digPass : dig_pass) {
-                    hexString.append(Integer.toHexString(0xFF & digPass));
-                }
-
-                if (hexString.toString().equals(hasloDB)){ //Hasło poprawne
-                    String id = connection.uzyskajDane("Select id_uzytkownika from Uzytkownik where email = '" + email + "'")[0];
-                    dane.setIdZalogowanegoUzytkownika(id);
-                    root = FXMLLoader.load(getClass().getResource("wyszukiwarka" + ".fxml"));
-                    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-                    scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.show();
-                }
-                else{ //Błędne hasło
+            else{ //TODO SPRAWDZANIE CZY KONTO JEST AKTYWNE!!!!
+                String aktywne = connection.uzyskajDane("Select czy_aktywny from uzytkownik where email = '" + email + "'")[0];
+                if (aktywne.equals("0")){
                     logowanie_text_error.setText("Niepoprawne dane logowania!");
+                }
+                else {
+                    //Funkcja Hashująca na podanym haśle
+                    MessageDigest md = MessageDigest.getInstance("SHA-256");
+                    md.update(haslo.toString().getBytes());
+                    byte[] dig_pass = md.digest();
+                    StringBuilder hexString = new StringBuilder();
+
+                    //Konwersja na HEX
+                    for (byte digPass : dig_pass) {
+                        hexString.append(Integer.toHexString(0xFF & digPass));
+                    }
+
+                    if (hexString.toString().equals(hasloDB)) { //Hasło poprawne
+                        String id = connection.uzyskajDane("Select id_uzytkownika from Uzytkownik where email = '" + email + "'")[0];
+                        dane.setIdZalogowanegoUzytkownika(id);
+                        root = FXMLLoader.load(getClass().getResource("wyszukiwarka" + ".fxml"));
+                        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        scene = new Scene(root);
+                        stage.setScene(scene);
+                        stage.show();
+                    } else { //Błędne hasło
+                        logowanie_text_error.setText("Niepoprawne dane logowania!");
+                    }
                 }
             }
         }
