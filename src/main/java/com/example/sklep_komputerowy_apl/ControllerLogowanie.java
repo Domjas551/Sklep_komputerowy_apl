@@ -183,7 +183,7 @@ public class ControllerLogowanie implements Initializable {
                 logowanie_text_error.setText("Niepoprawne dane logowania!");
             }
             //Konto istnieje - sprawdzamy hasło
-            else{ //TODO SPRAWDZANIE CZY KONTO JEST AKTYWNE!!!!
+            else{
                 String aktywne = connection.uzyskajDane("Select czy_aktywny from uzytkownik where email = '" + email + "'")[0];
                 if (aktywne.equals("0")){
                     logowanie_text_error.setText("Niepoprawne dane logowania!");
@@ -203,7 +203,11 @@ public class ControllerLogowanie implements Initializable {
                     if (hexString.toString().equals(hasloDB)) { //Hasło poprawne
                         String id = connection.uzyskajDane("Select id_uzytkownika from Uzytkownik where email = '" + email + "'")[0];
                         dane.setIdZalogowanegoUzytkownika(id);
-                        root = FXMLLoader.load(getClass().getResource("wyszukiwarka" + ".fxml"));
+                        String x = dane.getDestynacjaPowrotuZeStronyLogowania();
+                        if (x.equals("")){
+                            x = "wyszukiwarka";
+                        }
+                        root = FXMLLoader.load(getClass().getResource(x + ".fxml"));
                         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                         scene = new Scene(root);
                         stage.setScene(scene);
