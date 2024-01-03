@@ -139,10 +139,10 @@ public class ControllerRejestracja {  // TODO POŁĄCZENIE DB
         }
 
         //Sprawdzanie czy email jest już zarejestrowany
-        //int emailIstnieje = Integer.getInteger(Arrays.toString(connection.uzyskajDane("SELECT count(*) from Uzytkownik where email = \"" + email + "\"")));
+        //int emailIstnieje = Integer.getInteger(connection.uzyskajDane("SELECT count(*) from Uzytkownik where email = \"" + email + "\"")[0]);
 
         //Nadawanie nowego id użytkownikowi na zasadzie następnego dostępnego id
-        int id = Integer.getInteger(Arrays.toString(connection.uzyskajDane("Select max(id) from Uzytkownik")))+1;
+        int id = Integer.getInteger(connection.uzyskajDane("Select max(id) from Uzytkownik")[0])+1;
 
         //Email + imie + nazwisko + powtórz hasło wyrzucają ten sam typ błedu (BadDataException), łapany tylko 1 na raz
         try {
