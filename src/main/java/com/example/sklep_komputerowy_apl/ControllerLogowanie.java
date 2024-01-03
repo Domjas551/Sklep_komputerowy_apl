@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.security.MessageDigest;
 import java.util.ResourceBundle;
 
@@ -87,7 +86,7 @@ public class ControllerLogowanie implements Initializable {
         CharSequence email = login_tekst_email.getCharacters();
         CharSequence haslo = login_tekst_haslo.getCharacters();
 
-        String hasloDB = Arrays.toString(connection.uzyskajDane("SELECT haslo from Uzytkownicy where email = \"" + email + "\""));
+        String hasloDB = connection.uzyskajDane("SELECT haslo from Uzytkownicy where email = \"" + email + "\"")[0];
 
         if (hasloDB.equals("")){
             //Konto nie istnieje
@@ -107,7 +106,7 @@ public class ControllerLogowanie implements Initializable {
             }
 
             if (hexString.toString().equals(hasloDB)){ //Hasło poprawne
-                String id = Arrays.toString(connection.uzyskajDane("SELECT id from Uzytkownicy where email = \"" + email + "\""));
+                String id = connection.uzyskajDane("SELECT id from Uzytkownicy where email = \"" + email + "\"")[0];
                 dane.setIdZalogowanegoUzytkownika(id);
             }
             else{ //Błędne hasło
