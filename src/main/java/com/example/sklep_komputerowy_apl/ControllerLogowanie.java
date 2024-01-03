@@ -6,7 +6,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -40,33 +42,24 @@ public class ControllerLogowanie implements Initializable {
     private AnchorPane background;
 
     @FXML
-    private Button button_cart;
-
-    @FXML
     private Text button_home;
 
     @FXML
     private Button button_zaloguj;
 
     @FXML
-    private ImageView image_cart;
-
-    @FXML
     private TextField login_tekst_email;
 
     @FXML
-    private TextField login_tekst_haslo;
+    private PasswordField login_tekst_haslo;
 
     @FXML
     private Text logowanie_text_error;
 
+    //Kontynuuj jako gość
     @FXML
-    void goHome(MouseEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("produkt" + ".fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+    void guestLogin(MouseEvent event) {
+
     }
 
     @FXML
@@ -86,7 +79,7 @@ public class ControllerLogowanie implements Initializable {
         CharSequence email = login_tekst_email.getCharacters();
         CharSequence haslo = login_tekst_haslo.getCharacters();
 
-        String hasloDB = connection.uzyskajDane("SELECT haslo from Uzytkownicy where email = \"" + email + "\"")[0];
+        String hasloDB = connection.uzyskajDane("Select haslo from Uzytkownik where email = '" + email + "'")[0];
 
         if (hasloDB.equals("")){
             //Konto nie istnieje
@@ -106,8 +99,9 @@ public class ControllerLogowanie implements Initializable {
             }
 
             if (hexString.toString().equals(hasloDB)){ //Hasło poprawne
-                String id = connection.uzyskajDane("SELECT id from Uzytkownicy where email = \"" + email + "\"")[0];
+                String id = connection.uzyskajDane("Select id_uzytkownika from Uzytkownik where email = '" + email + "'")[0];
                 dane.setIdZalogowanegoUzytkownika(id);
+                System.out.println("tooo");
             }
             else{ //Błędne hasło
                 logowanie_text_error.setText("Niepoprawne dane logowania!");

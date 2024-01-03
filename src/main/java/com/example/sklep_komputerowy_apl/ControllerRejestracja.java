@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.regex.*;
 import java.security.MessageDigest;
 
-public class ControllerRejestracja {  // TODO POŁĄCZENIE DB
+public class ControllerRejestracja {
 
     private Stage stage;
     private Scene scene;
@@ -139,10 +139,21 @@ public class ControllerRejestracja {  // TODO POŁĄCZENIE DB
         }
 
         //Sprawdzanie czy email jest już zarejestrowany
-        //int emailIstnieje = Integer.getInteger(connection.uzyskajDane("SELECT count(*) from Uzytkownik where email = \"" + email + "\"")[0]);
+        try {
+            int emailIstnieje = Integer.parseInt(connection.uzyskajDane("Select id_uzytkownika from Uzytkownik where email = '" + email+"'")[0]);
+            System.out.println(emailIstnieje);
+            if (emailIstnieje != 0) throw new BadDataException("emailIstnieje");
+        }
+        catch (BadDataException e){
+            rejestracja_email_label.setFill(Paint.valueOf("RED"));
+            rejestracja_text_error.setText("Na ten email zostało już załorzone konto!");
+        }
+        catch (Exception ignored){
 
+        }
         //Nadawanie nowego id użytkownikowi na zasadzie następnego dostępnego id
-        int id = Integer.getInteger(connection.uzyskajDane("Select max(id) from Uzytkownik")[0])+1;
+        String[] maxId = connection.uzyskajDane("Select max(id_uzytkownika) from Uzytkownik");
+        Integer id = Integer.parseInt(maxId[0])+1;
 
         //Email + imie + nazwisko + powtórz hasło wyrzucają ten sam typ błedu (BadDataException), łapany tylko 1 na raz
         try {
@@ -150,10 +161,6 @@ public class ControllerRejestracja {  // TODO POŁĄCZENIE DB
 
             //Ustawienia okienka z tekstem błędów na puste
             rejestracja_text_error.setText("");
-
-            /*if (emailIstnieje!=0){
-                throw new BadDataException("emailIstnieje");
-            }*/
 
             //Obsługa emaila - format taki sam dla całej reszty danych oprócz hasła
             Pattern pat_em = Pattern.compile("^.+@.+[.].+$"); //Ustawianie REGEX
@@ -203,10 +210,6 @@ public class ControllerRejestracja {  // TODO POŁĄCZENIE DB
                     rejestracja_powtorz_haslo_label.setFill(Paint.valueOf("RED"));
                     rejestracja_text_error.setText("Podane hasła nie są takie same!");
                 }
-                case "emailIstnieje" -> {
-                    rejestracja_email_label.setFill(Paint.valueOf("RED"));
-                    rejestracja_text_error.setText("Na ten email zostało już załorzone konto!");
-                }
             }
         }
         try {
@@ -226,7 +229,7 @@ public class ControllerRejestracja {  // TODO POŁĄCZENIE DB
         }
 
 
-        /*if (err == 0) {
+        if (err == 0) {
             //Szyfrowanie używając MessageDigest
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(haslo.toString().getBytes());
@@ -239,9 +242,9 @@ public class ControllerRejestracja {  // TODO POŁĄCZENIE DB
             }
 
             //Wprowadzanie do bazy
-            connection.wprowadzDane("INSERT INTO uzytkownik values ("+ id +", "+ email +","+imie+","+nazwisko+","+ hexString +",0,0)");
+            connection.wprowadzDaneBezAlert("INSERT INTO uzytkownik values ("+ id +", '"+ email +"','"+imie+"','"+nazwisko+"','"+ hexString +"',0,0,1)");
             dane.setIdZalogowanegoUzytkownika(String.valueOf(id));
-        }*/
+        }
 
     }
 
