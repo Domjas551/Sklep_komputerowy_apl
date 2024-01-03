@@ -72,6 +72,7 @@
                         <TableColumn fx:id="column_koszyk_cena" prefWidth="130.0" text="Cena" />
                      </columns>
                   </TableView>
+                  <Button fx:id="button_koszyk_wroc" layoutX="33.0" layoutY="408.0" mnemonicParsing="false" onMouseClicked="#goHome" text="Wróć" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="rabat" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="754.0" style="-fx-background-color: gainsboro;" visible="false">
@@ -103,6 +104,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
+                  <Button fx:id="button_rabat_wroc" layoutX="40.0" layoutY="400.0" mnemonicParsing="false" onMouseClicked="#goToCart" text="Wróć" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="gosc" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="754.0" style="-fx-background-color: gainsboro;" visible="false">
@@ -136,6 +138,7 @@
                   <TextField fx:id="textField_nazwisko" layoutX="150.0" layoutY="180.0" />
                   <TextField fx:id="textField_email" layoutX="150.0" layoutY="230.0" />
                   <Button fx:id="button_gosc_dalej" layoutX="664.0" layoutY="411.0" mnemonicParsing="false" onMouseClicked="#goscDalej" text="Potwierdź" />
+                  <Button fx:id="button_gosc_wroc" layoutX="63.0" layoutY="409.0" mnemonicParsing="false" onMouseClicked="#goToCart" text="Wróć" />
                </children>
             </AnchorPane>
          </children>

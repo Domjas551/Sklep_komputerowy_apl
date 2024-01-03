@@ -128,6 +128,12 @@ public class ControllerAdminUzytkownik implements Initializable {
         //Value_of_name
         wynik = connection.uzyskajDane("Select email from Uzytkownik where id_uzytkownika = " + idWybranegoUzytkownika);
         value_of_email.setText(wynik[0]);
+
+        //Wyłączenie możliwości zmiany hasła dla goscia
+        if(dane.getIdWybranegoUzytkownika().equals("0"))
+        {
+            button_zmien_haslo.setVisible(false);
+        }
     }
 
     @FXML
