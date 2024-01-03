@@ -203,7 +203,7 @@ public class ControllerAdminUzytkownik implements Initializable {
     }
 
     @FXML
-    void zmienHaslo(MouseEvent event) {
+    void zmienHaslo(MouseEvent event) throws IOException {
         String wynik[] = connection.uzyskajDane("Select haslo from uzytkownik where id_uzytkownika = " + idWybranegoUzytkownika);
 
         if(checkbox_stare_haslo.isSelected())
@@ -265,6 +265,12 @@ public class ControllerAdminUzytkownik implements Initializable {
             alert.setContentText("Wprowadzono niepoprawne stare hasło!");
             alert.showAndWait();
         }
+
+        root = FXMLLoader.load(getClass().getResource("admin_uzytkownik" + ".fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML

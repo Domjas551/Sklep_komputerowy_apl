@@ -24,9 +24,13 @@ public class DataStorage {
     //ostatnie zapyranie do tabeli użytkowników
     private String ostatnieZapytanieTableUzytkownicy = "";
 
-    private String idZalogowanegoUzytkownika = "21";
-    private String idWybranegoUzytkownika = "0";
+    //Id aktualnie zalogowanego uzytkownika. Jesli wynosi "0", oznacza to, ze uzytkownik nie jest zalogowany
+    private String idZalogowanegoUzytkownika = "1";
+    //Uzywane przez admina do wskazywanego wybranej przez niego osoby w ramach zarządzania
+    private String idWybranegoUzytkownika = "2";
+    //Id wybranego aktualnie produktu
     private String idWybranegoProduktu = "150";
+    //Uzywany do powrotu ze strony logowania do przerwanej czynnosci
     private String destynacjaPowrotuZeStronyLogowania;
     //private ArrayList<String> idProduktowWKoszyku = new ArrayList<>(Arrays.asList("1", "1", "1")); //kategoria, typ_produktu, liczba egzemplarzy
     private ArrayList<String> idProduktowWKoszyku = new ArrayList<>();
