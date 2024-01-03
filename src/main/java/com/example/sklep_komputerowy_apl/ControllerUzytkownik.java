@@ -21,6 +21,8 @@ import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
@@ -655,23 +657,23 @@ public class ControllerUzytkownik implements Initializable {
 
             //pobranie danych z BD
             String wynik[]=connection.uzyskajDane("Select "+
-                "(case WHEN ppr.id_pamieci_ram IS NOT NULL THEN ppr.nazwa_produktu "+
-                "WHEN ppg.id_plyty_glownej IS NOT NULL THEN ppg.nazwa_produktu "+
-                "WHEN pkg.id_karty_graficznej IS NOT NULL THEN pkg.nazwa_produktu "+
-                "WHEN pproc.id_procesora IS NOT NULL THEN pproc.nazwa_produktu "+
-                "WHEN pd.id_dysku IS NOT NULL THEN pd.nazwa_produktu "+
-                "else null "+
-                "end) "+
-                "as nazwa_produktu," +
-                "(case when id_reklamacji is null then 'Nie' else 'Tak' end) "+
-                "from Produkt p "+
-                "LEFT JOIN Pamiec_RAM ppr ON p.id_pamieci_ram = ppr.id_pamieci_ram "+
-                "LEFT JOIN Plyta_glowna ppg ON p.id_plyty_glownej = ppg.id_plyty_glownej "+
-                "LEFT JOIN Karta_graficzna pkg ON p.id_karty_graficznej = pkg.id_karty_graficznej "+
-                "LEFT JOIN Procesor pproc ON p.id_procesora = pproc.id_procesora "+
-                "LEFT JOIN Dysk pd ON p.id_dysku = pd.id_dysku " +
-                "left join reklamacja r on p.id_produktu=r.id_produktu "+
-                "where p.id_zamowienia="+id);
+                    "(case WHEN ppr.id_pamieci_ram IS NOT NULL THEN ppr.nazwa_produktu "+
+                    "WHEN ppg.id_plyty_glownej IS NOT NULL THEN ppg.nazwa_produktu "+
+                    "WHEN pkg.id_karty_graficznej IS NOT NULL THEN pkg.nazwa_produktu "+
+                    "WHEN pproc.id_procesora IS NOT NULL THEN pproc.nazwa_produktu "+
+                    "WHEN pd.id_dysku IS NOT NULL THEN pd.nazwa_produktu "+
+                    "else null "+
+                    "end) "+
+                    "as nazwa_produktu," +
+                    "(case when id_reklamacji is null then 'Nie' else 'Tak' end) "+
+                    "from Produkt p "+
+                    "LEFT JOIN Pamiec_RAM ppr ON p.id_pamieci_ram = ppr.id_pamieci_ram "+
+                    "LEFT JOIN Plyta_glowna ppg ON p.id_plyty_glownej = ppg.id_plyty_glownej "+
+                    "LEFT JOIN Karta_graficzna pkg ON p.id_karty_graficznej = pkg.id_karty_graficznej "+
+                    "LEFT JOIN Procesor pproc ON p.id_procesora = pproc.id_procesora "+
+                    "LEFT JOIN Dysk pd ON p.id_dysku = pd.id_dysku " +
+                    "left join reklamacja r on p.id_produktu=r.id_produktu "+
+                    "where p.id_zamowienia="+id);
 
             if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
@@ -887,7 +889,7 @@ public class ControllerUzytkownik implements Initializable {
     }
 
     @FXML
-    void zmienHaslo(MouseEvent event) {
+    void zmienHaslo(MouseEvent event) throws NoSuchAlgorithmException {
         String wynik[] = connection.uzyskajDane("Select haslo from uzytkownik where id_uzytkownika = " + idZalogowanegoUzytkownika);
 
         if(checkbox_stare_haslo.isSelected())
@@ -899,7 +901,20 @@ public class ControllerUzytkownik implements Initializable {
         }
         System.out.println("w: "+wynik[0]);
         System.out.println("tf: "+textField_stare_haslo.getText());
-        if(textField_stare_haslo.getText().equals(wynik[0]))
+
+        //MessageDigest na podanym haśle
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(textField_nowe_haslo.toString().getBytes());
+        byte[] dig_pass = md.digest();
+
+        StringBuilder hexString = new StringBuilder();
+
+        //Konwersja na HEX
+        for (byte digPass : dig_pass) {
+            hexString.append(Integer.toHexString(0xFF & digPass));
+        }
+
+        if(hexString.toString().equals(wynik[0]))
         {
             if(checkbox_nowe_haslo.isSelected())
             {
@@ -927,13 +942,27 @@ public class ControllerUzytkownik implements Initializable {
                     }
                     else
                     {
-                        connection.wprowadzDane("UPDATE Uzytkownik SET haslo = '" + textField_nowe_haslo.getText()+"' WHERE id_uzytkownika = " + idZalogowanegoUzytkownika);
+                        //MD na nowym haśle
+                        md = MessageDigest.getInstance("SHA-256");
+                        md.update(textField_nowe_haslo.toString().getBytes());
+                        dig_pass = md.digest();
+
+                        hexString = new StringBuilder();
+
+                        //Konwersja na HEX
+                        for (byte digPass : dig_pass) {
+                            hexString.append(Integer.toHexString(0xFF & digPass));
+                        }
+
+                        connection.wprowadzDane("UPDATE Uzytkownik SET haslo = '" + hexString +"' WHERE id_uzytkownika = " + idZalogowanegoUzytkownika);
                     }
                 } catch (BadPasswordException ex) {
                     Alert alert=new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Błąd");
                     alert.setContentText("Nowe hasło nie spełnia wymagań!");
                     alert.showAndWait();
+                } catch (NoSuchAlgorithmException e) {
+                    throw new RuntimeException(e);
                 }
             }
             else
