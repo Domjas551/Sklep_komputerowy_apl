@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
@@ -10,22 +11,26 @@
 
 <AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: gray;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sklep_komputerowy_apl.ControllerLogowanie">
    <children>
-      <Text fx:id="button_home" fill="#d3d3d3" layoutX="15.0" layoutY="60.0" onMouseClicked="#goHome" strokeType="OUTSIDE" strokeWidth="0.0" text="KompPol@nd">
+      <Text fx:id="button_home" fill="#d3d3d3" layoutX="15.0" layoutY="60.0" onMouseClicked="#guestLogin" strokeType="OUTSIDE" strokeWidth="0.0" text="KompPol@nd">
          <font>
             <Font name="System Bold Italic" size="48.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Text>
       <StackPane layoutX="14.0" layoutY="106.0" prefHeight="450.0" prefWidth="754.0" style="-fx-background-color: gainsboro;">
          <children>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="login_tekst_email" layoutX="303.0" layoutY="149.0" promptText="E-Mail" />
-                  <TextField fx:id="login_tekst_haslo" layoutX="303.0" layoutY="200.0" promptText="Hasło">
-                     <tooltip>
-                        <Tooltip text="6 - 20 znaków w tym 1 mała i duża litera, cyfra oraz znak specjalny" />
-                     </tooltip>
-                  </TextField>
-                  <Button fx:id="button_zaloguj" layoutX="349.0" layoutY="315.0" mnemonicParsing="false" onMouseClicked="#zaloguj" text="Zaloguj" />
+                  <TextField fx:id="login_tekst_email" layoutX="303.0" layoutY="149.0" promptText="E-Mail">
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor></TextField>
+                  <Button fx:id="button_zaloguj" layoutX="349.0" layoutY="315.0" mnemonicParsing="false" onMouseClicked="#zaloguj" text="Zaloguj">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
                   <Text layoutX="315.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Logowanie">
                      <font>
                         <Font size="26.0" />
@@ -33,8 +38,28 @@
                   </Text>
                   <Text layoutX="303.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="email" />
                   <Text layoutX="304.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hasło" />
-                  <Text fx:id="logowanie_text_error" fill="RED" layoutX="197.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="361.0" />
-                  <Text layoutX="282.0" layoutY="246.0" onMouseClicked="#doRejestracji" strokeType="OUTSIDE" strokeWidth="0.0" text="Nie posiadasz konta? Zarejestruj się!" />
+                  <Text fx:id="logowanie_text_error" fill="RED" layoutX="197.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="361.0" />
+                  <Text layoutX="282.0" layoutY="246.0" onMouseClicked="#doRejestracji" strokeType="OUTSIDE" strokeWidth="0.0" text="Nie posiadasz konta? ">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Text>
+                  <PasswordField fx:id="login_tekst_haslo" layoutX="304.0" layoutY="200.0" promptText="Hasło">
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor></PasswordField>
+                  <Text fill="BLUE" layoutX="398.0" layoutY="246.0" onMouseClicked="#doRejestracji" strokeType="OUTSIDE" strokeWidth="0.0" text="Zarejestruj się!">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Text>
+                  <Text fill="BLUE" layoutX="14.0" layoutY="430.0" onMouseClicked="#guestLogin" strokeType="OUTSIDE" strokeWidth="0.0" text="Kontynuuj jako gość">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Text>
                </children></AnchorPane>
          </children>
       </StackPane>
