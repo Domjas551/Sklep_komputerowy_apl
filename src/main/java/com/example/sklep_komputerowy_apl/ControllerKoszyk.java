@@ -395,6 +395,17 @@ public class ControllerKoszyk implements Initializable {
         DateTimeFormatter formatowanie = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
         String formattedDate = date.format(formatowanie);
 
+        //Dodanie automatycznej znizki
+        if(znizka==0&&cenaFinalna>=1000)
+        {
+            znizka=0.02;
+            cenaFinalna=cenaFinalna*0.98;
+
+        } else if (znizka==0&&cenaFinalna>=10000) {
+            znizka=0.04;
+            cenaFinalna=cenaFinalna*0.96;
+        }
+
         //Dodanie transakcji do bazy danych
         connection.wprowadzDaneBezAlert("INSERT INTO transakcja (id_transakcji, id_uzytkownika, data_t, cena_calkowita, status, znizka) " +
                 "VALUES ((SELECT MAX(id_transakcji) + 1 FROM transakcja), " +
@@ -509,6 +520,18 @@ public class ControllerKoszyk implements Initializable {
     void finalizujZamowienie(){
         String id_zamowienia[];
         String id_zestawu[];
+
+        //Dodanie automatycznej znizki
+        if(znizka==0&&cenaFinalna>=1000)
+        {
+            znizka=0.02;
+            cenaFinalna=cenaFinalna*0.98;
+
+        } else if (znizka==0&&cenaFinalna>=10000) {
+            znizka=0.04;
+            cenaFinalna=cenaFinalna*0.96;
+        }
+
         //pobranie i zedytowanie aktualnej daty
         LocalDateTime date = LocalDateTime.now();
         DateTimeFormatter formatowanie = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
