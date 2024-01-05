@@ -2271,153 +2271,161 @@ public class ControllerWyszukiwarka  implements Initializable{
     void showProduktPlyty(MouseEvent event) throws IOException{
         Integer index=table_plyty.getSelectionModel().getSelectedIndex();
 
-        System.out.println(tp_nazwa.getCellData(index));
-        System.out.println(tp_chipset.getCellData(index));
-        System.out.println(tp_cena.getCellData(index));
+        if(tp_nazwa.getCellData(index)!=null) {
+            //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
+            String wynik = connection.uzyskajDane("Select id_produktu from produkt where " +
+                    "id_plyty_glownej=(select id_plyty_glownej from plyta_glowna where nazwa_produktu='" + tp_nazwa.getCellData(index) + "') " +
+                    "and id_transakcji is null and id_zamowienia is null fetch first 1 row only")[0];
 
-        //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
-        String wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
-                "id_plyty_glownej=(select id_plyty_glownej from plyta_glowna where nazwa_produktu='"+tp_nazwa.getCellData(index)+"') " +
-                "and id_transakcji is null and id_zamowienia is null fetch first 1 row only")[0];
+            //pozyskanie id produktu na bazie jego nazwy, instancji do zmówienia
+            if (wynik.equals("")) {
+                wynik = connection.uzyskajDane("Select id_produktu from produkt where " +
+                        "id_plyty_glownej=(select id_plyty_glownej from plyta_glowna where nazwa_produktu='" + tp_nazwa.getCellData(index) + "') " +
+                        "fetch first 1 row only")[0];
+            }
+            dane.setIdWybranegoProduktu(wynik);
 
-        //pozyskanie id produktu na bazie jego nazwy, instancji do zmówienia
-        if(wynik.equals("")){
-            wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
-                    "id_plyty_glownej=(select id_plyty_glownej from plyta_glowna where nazwa_produktu='"+tp_nazwa.getCellData(index)+"') " +
-                    "fetch first 1 row only")[0];
+            //przejście na strone produktu
+            root = FXMLLoader.load(getClass().getResource("produkt" + ".fxml"));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
         }
-        dane.setIdWybranegoProduktu(wynik);
-
-        //przejście na strone produktu
-        root = FXMLLoader.load(getClass().getResource("produkt" + ".fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
     }
 
     @FXML
     void showProduktProcesory(MouseEvent event) throws IOException{
         Integer index=table_procesory.getSelectionModel().getSelectedIndex();
 
-        //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
-        String wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
-                "id_procesora=(select id_procesora from procesor where nazwa_produktu='"+tpr_nazwa.getCellData(index)+"') " +
-                "and id_transakcji is null and id_zamowienia is null fetch first 1 row only")[0];
+        if(tpr_nazwa.getCellData(index)!=null) {
+            //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
+            String wynik = connection.uzyskajDane("Select id_produktu from produkt where " +
+                    "id_procesora=(select id_procesora from procesor where nazwa_produktu='" + tpr_nazwa.getCellData(index) + "') " +
+                    "and id_transakcji is null and id_zamowienia is null fetch first 1 row only")[0];
 
-        //pozyskanie id produktu na bazie jego nazwy, instancji do zmówienia
-        if(wynik.equals("")){
-            wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
-                    "id_procesora=(select id_procesora from procesor where nazwa_produktu='"+tpr_nazwa.getCellData(index)+"') " +
-                    "fetch first 1 row only")[0];
+            //pozyskanie id produktu na bazie jego nazwy, instancji do zmówienia
+            if (wynik.equals("")) {
+                wynik = connection.uzyskajDane("Select id_produktu from produkt where " +
+                        "id_procesora=(select id_procesora from procesor where nazwa_produktu='" + tpr_nazwa.getCellData(index) + "') " +
+                        "fetch first 1 row only")[0];
+            }
+            dane.setIdWybranegoProduktu(wynik);
+
+            //przejście na strone produktu
+            root = FXMLLoader.load(getClass().getResource("produkt" + ".fxml"));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
         }
-        dane.setIdWybranegoProduktu(wynik);
-
-        //przejście na strone produktu
-        root = FXMLLoader.load(getClass().getResource("produkt" + ".fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
     }
 
     @FXML
     void showProduktKarty(MouseEvent event) throws IOException{
         Integer index=table_karty.getSelectionModel().getSelectedIndex();
 
-        //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
-        String wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
-                "id_karty_graficznej=(select id_karty_graficznej from karta_graficzna where nazwa_produktu='"+tk_nazwa.getCellData(index)+"') " +
-                "and id_transakcji is null and id_zamowienia is null fetch first 1 row only")[0];
+        if(tk_nazwa.getCellData(index)!=null) {
+            //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
+            String wynik = connection.uzyskajDane("Select id_produktu from produkt where " +
+                    "id_karty_graficznej=(select id_karty_graficznej from karta_graficzna where nazwa_produktu='" + tk_nazwa.getCellData(index) + "') " +
+                    "and id_transakcji is null and id_zamowienia is null fetch first 1 row only")[0];
 
-        //pozyskanie id produktu na bazie jego nazwy, instancji do zmówienia
-        if(wynik.equals("")){
-            wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
-                    "id_karty_graficznej=(select id_karty_graficznej from karta_graficzna where nazwa_produktu='"+tk_nazwa.getCellData(index)+"') " +
-                    "fetch first 1 row only")[0];
+            //pozyskanie id produktu na bazie jego nazwy, instancji do zmówienia
+            if (wynik.equals("")) {
+                wynik = connection.uzyskajDane("Select id_produktu from produkt where " +
+                        "id_karty_graficznej=(select id_karty_graficznej from karta_graficzna where nazwa_produktu='" + tk_nazwa.getCellData(index) + "') " +
+                        "fetch first 1 row only")[0];
+            }
+            dane.setIdWybranegoProduktu(wynik);
+
+            //przejście na strone produktu
+            root = FXMLLoader.load(getClass().getResource("produkt" + ".fxml"));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
         }
-        dane.setIdWybranegoProduktu(wynik);
-
-        //przejście na strone produktu
-        root = FXMLLoader.load(getClass().getResource("produkt" + ".fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
     }
 
     @FXML
     void showProduktPamiec(MouseEvent event) throws IOException{
         Integer index=table_ram.getSelectionModel().getSelectedIndex();
 
-        //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
-        String wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
-                "id_pamieci_ram=(select id_pamieci_ram from pamiec_ram where nazwa_produktu='"+tr_nazwa.getCellData(index)+"') " +
-                "and id_transakcji is null and id_zamowienia is null fetch first 1 row only")[0];
+        if(tr_nazwa.getCellData(index)!=null) {
+            //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
+            String wynik = connection.uzyskajDane("Select id_produktu from produkt where " +
+                    "id_pamieci_ram=(select id_pamieci_ram from pamiec_ram where nazwa_produktu='" + tr_nazwa.getCellData(index) + "') " +
+                    "and id_transakcji is null and id_zamowienia is null fetch first 1 row only")[0];
 
-        //pozyskanie id produktu na bazie jego nazwy, instancji do zmówienia
-        if(wynik.equals("")){
-            wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
-                    "id_pamieci_ram=(select id_pamieci_ram from pamiec_ram where nazwa_produktu='"+tr_nazwa.getCellData(index)+"') " +
-                    "fetch first 1 row only")[0];
+            //pozyskanie id produktu na bazie jego nazwy, instancji do zmówienia
+            if (wynik.equals("")) {
+                wynik = connection.uzyskajDane("Select id_produktu from produkt where " +
+                        "id_pamieci_ram=(select id_pamieci_ram from pamiec_ram where nazwa_produktu='" + tr_nazwa.getCellData(index) + "') " +
+                        "fetch first 1 row only")[0];
+            }
+            dane.setIdWybranegoProduktu(wynik);
+
+            //przejście na strone produktu
+            root = FXMLLoader.load(getClass().getResource("produkt" + ".fxml"));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
         }
-        dane.setIdWybranegoProduktu(wynik);
-
-        //przejście na strone produktu
-        root = FXMLLoader.load(getClass().getResource("produkt" + ".fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
     }
 
     @FXML
     void showProduktDyski(MouseEvent event) throws IOException{
         Integer index=table_dyski.getSelectionModel().getSelectedIndex();
 
-        //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
-        String wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
-                "id_dysku=(select id_dysku from dysk where nazwa_produktu='"+td_nazwa.getCellData(index)+"') " +
-                "and id_transakcji is null and id_zamowienia is null fetch first 1 row only")[0];
+        if(td_nazwa.getCellData(index)!=null) {
+            //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
+            String wynik = connection.uzyskajDane("Select id_produktu from produkt where " +
+                    "id_dysku=(select id_dysku from dysk where nazwa_produktu='" + td_nazwa.getCellData(index) + "') " +
+                    "and id_transakcji is null and id_zamowienia is null fetch first 1 row only")[0];
 
-        //pozyskanie id produktu na bazie jego nazwy, instancji do zmówienia
-        if(wynik.equals("")){
-            wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
-                    "id_dysku=(select id_dysku from dysk where nazwa_produktu='"+td_nazwa.getCellData(index)+"') " +
-                    "fetch first 1 row only")[0];
+            //pozyskanie id produktu na bazie jego nazwy, instancji do zmówienia
+            if (wynik.equals("")) {
+                wynik = connection.uzyskajDane("Select id_produktu from produkt where " +
+                        "id_dysku=(select id_dysku from dysk where nazwa_produktu='" + td_nazwa.getCellData(index) + "') " +
+                        "fetch first 1 row only")[0];
+            }
+            dane.setIdWybranegoProduktu(wynik);
+
+            //przejście na strone produktu
+            root = FXMLLoader.load(getClass().getResource("produkt" + ".fxml"));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
         }
-        dane.setIdWybranegoProduktu(wynik);
-
-        //przejście na strone produktu
-        root = FXMLLoader.load(getClass().getResource("produkt" + ".fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
     }
 
     @FXML
     void showProduktZestawy(MouseEvent event) throws IOException{
         Integer index=table_zestawy.getSelectionModel().getSelectedIndex();
 
-        //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
-        String wynik=connection.uzyskajDane("Select id_zestawu from zestaw " +
-                "where nazwa_zestawu='"+tz_nazwa.getCellData(index)+"'")[0];
+        if(tz_nazwa.getCellData(index)!=null) {
+            //pozyskanie id produktu na bazie jego nazwy, instancji do zakupienia
+            String wynik = connection.uzyskajDane("Select id_zestawu from zestaw " +
+                    "where nazwa_zestawu='" + tz_nazwa.getCellData(index) + "'")[0];
 
-        //pozyskanie id produktu na bazie jego nazwy, instancji do zmówienia
-        if(wynik.equals("")){
-            wynik=connection.uzyskajDane("Select id_produktu from produkt where " +
-                    "id_zestawu=(select id_zestawu from zestaw where nazwa_zestawu='"+tz_nazwa.getCellData(index)+"') " +
-                    "fetch first 1 row only")[0];
+            //pozyskanie id produktu na bazie jego nazwy, instancji do zmówienia
+            if (wynik.equals("")) {
+                wynik = connection.uzyskajDane("Select id_produktu from produkt where " +
+                        "id_zestawu=(select id_zestawu from zestaw where nazwa_zestawu='" + tz_nazwa.getCellData(index) + "') " +
+                        "fetch first 1 row only")[0];
+            }
+            dane.setIdWybranegoZestawu(wynik);
+
+            //przejście na strone produktu
+            root = FXMLLoader.load(getClass().getResource("zestaw" + ".fxml"));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
         }
-        dane.setIdWybranegoZestawu(wynik);
-
-        //przejście na strone produktu
-        root = FXMLLoader.load(getClass().getResource("zestaw" + ".fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
 
     }
 
@@ -2433,6 +2441,7 @@ public class ControllerWyszukiwarka  implements Initializable{
 
     @FXML
     void zaloguj(MouseEvent event) throws IOException {
+        dane.setDestynacjaPowrotuZeStronyLogowania("wyszukiwarka");
         root = FXMLLoader.load(getClass().getResource("logowanie" + ".fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);

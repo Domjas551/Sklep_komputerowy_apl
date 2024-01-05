@@ -64,6 +64,7 @@ public class ControllerLogowanie implements Initializable {
     //Inicjalizacja
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        dane.setCzyLogowanie(1);
         try {
             //Pseudo PING - sprawdzanie czy instnieje połączenie z serwerem
             String x = connection.uzyskajDane("Select '1' from uzytkownik where id_uzytkownika=1")[0];
@@ -127,6 +128,7 @@ public class ControllerLogowanie implements Initializable {
         }
 
         if (this.con == 0) {
+            dane.setCzyLogowanie(0);
             dane.setIdZalogowanegoUzytkownika("0");
             root = FXMLLoader.load(getClass().getResource("wyszukiwarka" + ".fxml"));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -207,6 +209,7 @@ public class ControllerLogowanie implements Initializable {
                         if (x.equals("")){
                             x = "wyszukiwarka";
                         }
+                        dane.setCzyLogowanie(0);
                         root = FXMLLoader.load(getClass().getResource(x + ".fxml"));
                         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                         scene = new Scene(root);

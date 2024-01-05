@@ -9,11 +9,18 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Main extends Application {
+
+    //podłączenie do klas z komunikacją do BD
+    ConnectionStorage connection=ConnectionStorage.getInstance();
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("koszyk" + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("logowanie" + ".fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("KomPol@nd");
+
+        connection.setStage(stage);
+
+
 
         //ustawienie ikony aplikacji
         Image icon =new Image(getClass().getResourceAsStream("/images/SISCK_icon1.png"));

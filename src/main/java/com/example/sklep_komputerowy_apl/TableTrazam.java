@@ -1,13 +1,13 @@
 package com.example.sklep_komputerowy_apl;
 
 public class TableTrazam {
-    private String id;
+    private Integer id;
     private String email;
     private String typ;
     private Integer ilosc;
     private Double cena;
 
-    public TableTrazam(String id, String email, String typ, Integer ilosc, Double cena) {
+    public TableTrazam(Integer id, String email, String typ, Integer ilosc, Double cena) {
         this.id=id;
         this.email = email;
         this.typ=typ;
@@ -15,7 +15,7 @@ public class TableTrazam {
         this.cena = cena;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 

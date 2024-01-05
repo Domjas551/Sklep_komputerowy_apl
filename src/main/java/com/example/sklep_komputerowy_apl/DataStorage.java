@@ -26,7 +26,7 @@ public class DataStorage {
     private String ostatnieZapytanieTableUzytkownicy = "";
 
     //Id aktualnie zalogowanego uzytkownika. Jesli wynosi "0", oznacza to, ze uzytkownik nie jest zalogowany
-    private String idZalogowanegoUzytkownika = "1";
+    private String idZalogowanegoUzytkownika = "10";
     //Uzywane przez admina do wskazywanego wybranej przez niego osoby w ramach zarządzania
     private String idWybranegoUzytkownika = "2";
     //Id wybranego aktualnie produktu
@@ -37,6 +37,9 @@ public class DataStorage {
     private ArrayList<String> idProduktowWKoszyku = new ArrayList<>();
     //private ArrayList<String> idZestawowWKoszyku = new ArrayList<>(Arrays.asList("1", "1")); // Typ zestawu, liczba egzemplarzy
     private ArrayList<String> idZestawowWKoszyku = new ArrayList<>();
+
+    //zmienna mówiąca czy aktualna strona to strona logowania
+    private int czyLogowanie;
 
 
     //strona zestawów
@@ -172,5 +175,13 @@ public class DataStorage {
 
     public void setDestynacjaPowrotuZeStronyLogowania(String destynacjaPowrotuZeStronyLogowania) {
         this.destynacjaPowrotuZeStronyLogowania = destynacjaPowrotuZeStronyLogowania;
+    }
+
+    public void setCzyLogowanie(int czyLogowanie) {
+        this.czyLogowanie = czyLogowanie;
+    }
+
+    public int getCzyLogowanie() {
+        return czyLogowanie;
     }
 }

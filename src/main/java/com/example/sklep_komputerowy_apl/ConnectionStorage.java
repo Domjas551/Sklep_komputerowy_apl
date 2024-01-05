@@ -1,6 +1,12 @@
 package com.example.sklep_komputerowy_apl;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,6 +17,9 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 public class ConnectionStorage {
+
+    //podłączenie do klas z danymi
+    DataStorage dane=DataStorage.getInstance();
     private static  final ConnectionStorage instance=new ConnectionStorage();
 
     //zmienna przechowująca połączenie do serwera zarządzającym BD
@@ -19,6 +28,12 @@ public class ConnectionStorage {
     private InputStreamReader isr;
     private BufferedReader br;
     private PrintWriter pw;
+
+    //Elementy do zmian scen
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+
 
     private ConnectionStorage(){
         try{
@@ -50,8 +65,15 @@ public class ConnectionStorage {
 
             return wynik;
         }catch(SocketException s){
-            //System.out.println("Utracono połączenie z serwerem");
-            s.printStackTrace();
+
+            try {
+                if(dane.getCzyLogowanie()==0){
+                    errorAlert("Utracono połączenie z serwerem");
+                    goLogowanie();
+                }
+            }catch(IOException e){
+                e.printStackTrace();
+            }
         }catch(UnknownHostException e){
             e.printStackTrace();
         }catch(IOException e){
@@ -85,6 +107,15 @@ public class ConnectionStorage {
                 alert.showAndWait();
                 return "1";
             }
+        }catch(SocketException s){
+            errorAlert("Utracono połączenie z serwerem");
+            try {
+                if(dane.getCzyLogowanie()==0){
+                    goLogowanie();
+                }
+            }catch(IOException e){
+                e.printStackTrace();
+            }
         }catch(IOException i){
             i.printStackTrace();
         }
@@ -105,11 +136,38 @@ public class ConnectionStorage {
 
                 return "1";
             }
+        }catch(SocketException s){
+            errorAlert("Utracono połączenie z serwerem");
+            try {
+                if(dane.getCzyLogowanie()==0){
+                    goLogowanie();
+                }
+            }catch(IOException e){
+                e.printStackTrace();
+            }
         }catch(IOException i){
             i.printStackTrace();
         }
 
         return "0";
+    }
+
+    //wyświetlanie alertów
+    public void errorAlert(String m){
+        //utworzenie alertu typu information do wyświetlenia
+        Alert alert=new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setContentText(m);
+        alert.showAndWait();
+    }
+
+    //funkcja do prześcia na strone logowania
+    public void goLogowanie() throws IOException{
+        System.out.println("lo");
+        root = FXMLLoader.load(getClass().getResource("logowanie" + ".fxml"));
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     public int getPort() {
@@ -150,5 +208,9 @@ public class ConnectionStorage {
 
     public void setPw(PrintWriter pw) {
         this.pw = pw;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }
