@@ -32,7 +32,7 @@ public class DataStorage {
     //Id wybranego aktualnie produktu
     private String idWybranegoProduktu = "150";
     //Uzywany do powrotu ze strony logowania do przerwanej czynnosci
-    private String destynacjaPowrotuZeStronyLogowania;
+    private String destynacjaPowrotuZeStronyLogowania = "";
     //private ArrayList<String> idProduktowWKoszyku = new ArrayList<>(Arrays.asList("1", "1", "1")); //kategoria, typ_produktu, liczba egzemplarzy
     private ArrayList<String> idProduktowWKoszyku = new ArrayList<>();
     //private ArrayList<String> idZestawowWKoszyku = new ArrayList<>(Arrays.asList("1", "1")); // Typ zestawu, liczba egzemplarzy
