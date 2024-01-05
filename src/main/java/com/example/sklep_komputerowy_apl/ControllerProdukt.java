@@ -44,6 +44,9 @@ public class ControllerProdukt implements Initializable {
     private Button button_cart;
 
     @FXML
+    private Button button_wroc;
+
+    @FXML
     private Button button_dodaj_do_koszyka;
 
     @FXML

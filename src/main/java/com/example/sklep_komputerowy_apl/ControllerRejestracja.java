@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.regex.*;
 import java.security.MessageDigest;
 
-public class ControllerRejestracja {  // TODO POŁĄCZENIE DB
+public class ControllerRejestracja {
 
     private Stage stage;
     private Scene scene;
@@ -120,10 +120,20 @@ public class ControllerRejestracja {  // TODO POŁĄCZENIE DB
     }
 
     @FXML
-    void rejestracja(MouseEvent event) throws NoSuchAlgorithmException {
+    void rejestracja(MouseEvent event) throws NoSuchAlgorithmException, IOException {
 
         //Do dodawania danych do DB
         int err = 0;
+
+        //Ustawienia okienka z tekstem błędów na puste
+        rejestracja_text_error.setText("");
+
+        //Ustwianie kolorów na domyślne
+        rejestracja_email_label.setFill(Paint.valueOf("BLACK"));
+        rejestracja_imie_label.setFill(Paint.valueOf("BLACK"));
+        rejestracja_nazwisko_label.setFill(Paint.valueOf("BLACK"));
+        rejestracja_powtorz_haslo_label.setFill(Paint.valueOf("BLACK"));
+        rejestracja_haslo_label.setFill(Paint.valueOf("BLACK"));
 
         //Zbieranie tekstu z TextBoxów
         CharSequence imie = rejestracja_tekst_imie.getCharacters();
@@ -139,21 +149,29 @@ public class ControllerRejestracja {  // TODO POŁĄCZENIE DB
         }
 
         //Sprawdzanie czy email jest już zarejestrowany
-        //int emailIstnieje = Integer.getInteger(connection.uzyskajDane("SELECT count(*) from Uzytkownik where email = \"" + email + "\"")[0]);
+        try {
+            int emailIstnieje = Integer.parseInt(connection.uzyskajDane("Select id_uzytkownika from Uzytkownik where email = '" + email+"'")[0]);
+            if (emailIstnieje != 0) {
+                throw new BadDataException("emailIstnieje");
+            }
+        }
+        //Jest zarejstrowany
+        catch (BadDataException e){
+            err = 1;
+            rejestracja_email_label.setFill(Paint.valueOf("RED"));
+            rejestracja_text_error.setText("Na ten email zostało już załorzone konto!");
+        }
+        //Nie jest zarejestrowany (parseInt wywala error bo String jest pusty więc nie ma konta z takim mailem, ignorujemy go)
+        catch (Exception ignored){
+
+        }
 
         //Nadawanie nowego id użytkownikowi na zasadzie następnego dostępnego id
-        int id = Integer.getInteger(connection.uzyskajDane("Select max(id) from Uzytkownik")[0])+1;
+        String[] maxId = connection.uzyskajDane("Select max(id_uzytkownika) from Uzytkownik");
+        Integer id = Integer.parseInt(maxId[0])+1;
 
         //Email + imie + nazwisko + powtórz hasło wyrzucają ten sam typ błedu (BadDataException), łapany tylko 1 na raz
         try {
-            err = 0;
-
-            //Ustawienia okienka z tekstem błędów na puste
-            rejestracja_text_error.setText("");
-
-            /*if (emailIstnieje!=0){
-                throw new BadDataException("emailIstnieje");
-            }*/
 
             //Obsługa emaila - format taki sam dla całej reszty danych oprócz hasła
             Pattern pat_em = Pattern.compile("^.+@.+[.].+$"); //Ustawianie REGEX
@@ -161,7 +179,7 @@ public class ControllerRejestracja {  // TODO POŁĄCZENIE DB
 
             if (!matcher.find()) { //Jak nie to error
                 throw new BadDataException("email");
-            }else rejestracja_email_label.setFill(Paint.valueOf("BLACK")); //Jak tak to tekst na czane jakby był wcześniej zmieniany
+            } //Jak tak to tekst na czane jakby był wcześniej zmieniany
 
             //Obsługa imie
             Pattern pat_imie = Pattern.compile("[a-z]+", Pattern.CASE_INSENSITIVE);
@@ -169,7 +187,7 @@ public class ControllerRejestracja {  // TODO POŁĄCZENIE DB
 
             if (!matcher.find()) {
                 throw new BadDataException("imie");
-            }else rejestracja_imie_label.setFill(Paint.valueOf("BLACK"));
+            }
 
             //Obsługa nazwisko
             Pattern pat_naz = Pattern.compile("[a-z]+", Pattern.CASE_INSENSITIVE);
@@ -177,12 +195,12 @@ public class ControllerRejestracja {  // TODO POŁĄCZENIE DB
 
             if (!matcher.find()) {
                 throw new BadDataException("nazwisko");
-            }else rejestracja_nazwisko_label.setFill(Paint.valueOf("BLACK"));
+            }
 
             //Obsługa powtórzenia hasła
             if (!haslo_powt.toString().equals(haslo.toString())) {
                 throw new BadDataException("haslo_powt");
-            }else rejestracja_powtorz_haslo_label.setFill(Paint.valueOf("BLACK"));
+            }
 
         } catch (BadDataException ex) {
             err = 1; //Jest błąd, nie wysyłamy do DB
@@ -203,21 +221,16 @@ public class ControllerRejestracja {  // TODO POŁĄCZENIE DB
                     rejestracja_powtorz_haslo_label.setFill(Paint.valueOf("RED"));
                     rejestracja_text_error.setText("Podane hasła nie są takie same!");
                 }
-                case "emailIstnieje" -> {
-                    rejestracja_email_label.setFill(Paint.valueOf("RED"));
-                    rejestracja_text_error.setText("Na ten email zostało już załorzone konto!");
-                }
             }
         }
         try {
             //REGEX dla hasła
             Pattern pat_ha = Pattern.compile("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(){};:<>~?_=+-]).{6,20}");
             Matcher matcher = pat_ha.matcher(haslo);
-            err = 0;
 
             if (!matcher.find()) {
                 throw new BadPasswordException();
-            }else rejestracja_haslo_label.setFill(Paint.valueOf("BLACK"));
+            }
 
         } catch (BadPasswordException ex) {
             err = 1;
@@ -226,7 +239,7 @@ public class ControllerRejestracja {  // TODO POŁĄCZENIE DB
         }
 
 
-        /*if (err == 0) {
+        if (err == 0) {
             //Szyfrowanie używając MessageDigest
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(haslo.toString().getBytes());
@@ -239,9 +252,14 @@ public class ControllerRejestracja {  // TODO POŁĄCZENIE DB
             }
 
             //Wprowadzanie do bazy
-            connection.wprowadzDane("INSERT INTO uzytkownik values ("+ id +", "+ email +","+imie+","+nazwisko+","+ hexString +",0,0)");
+            connection.wprowadzDaneBezAlert("INSERT INTO uzytkownik values ("+ id +", '"+ email +"','"+imie+"','"+nazwisko+"','"+ hexString +"',0,0,1)");
             dane.setIdZalogowanegoUzytkownika(String.valueOf(id));
-        }*/
+            root = FXMLLoader.load(getClass().getResource("wyszukiwarka" + ".fxml"));
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
 
     }
 

@@ -83,6 +83,15 @@ public class ControllerKoszyk implements Initializable {
     private Button button_zamow;
 
     @FXML
+    private Button button_gosc_wroc;
+
+    @FXML
+    private Button button_koszyk_wroc;
+
+    @FXML
+    private Button button_rabat_wroc;
+
+    @FXML
     private ChoiceBox<String> choiceBox_typ_rabatu;
 
     @FXML
@@ -236,6 +245,8 @@ public class ControllerKoszyk implements Initializable {
             wyloguj.setVisible(false);
             zaloguj.setVisible(true);
         }
+
+        konfigurator();
     }
 
     //Funkcja sprawdza, czy w magazynie znajduja sie wszystkie zawarte w koszyku elementy. Uzywana przy transakcji.
@@ -300,18 +311,64 @@ public class ControllerKoszyk implements Initializable {
         return true;
     }
 
-    //TODO
     void konfigurator() {
         if (id_zestawow_w_koszyku.isEmpty() && !id_produktow_w_koszyku.isEmpty()) {
-            boolean s1;
-            boolean s2;
+            boolean s1=false;
+            boolean sp1=false;
+            boolean s2=false;
+            boolean sp2=false;
+            String wynik1[];
+            String wynik2[];
             for (int i = 0; i < id_produktow_w_koszyku.size(); i = i + 3) {
                 if (id_produktow_w_koszyku.get(i).equals("2")) {
                     for (int j = 0; j < id_produktow_w_koszyku.size(); j = j + 3) {
-                        if (id_produktow_w_koszyku.get(i).equals("1")) {
-
+                        if (id_produktow_w_koszyku.get(j).equals("1"))
+                        {
+                             sp1=true;
+                             wynik1=connection.uzyskajDane("Select typ_obslugiwanej_pamieci from plyta_glowna where id_plyty_glownej = "+id_produktow_w_koszyku.get(i+1));
+                             wynik2=connection.uzyskajDane("Select rodzaj_pamieci from pamiec_ram where id_pamieci_ram = "+id_produktow_w_koszyku.get(j+1));
+                             if(wynik1[0].equals(wynik2[0]))
+                             {
+                                 s1=true;
+                             }
+                        }
+                        if (id_produktow_w_koszyku.get(j).equals("4"))
+                        {
+                            sp2=true;
+                            wynik1=connection.uzyskajDane("Select gniazdo_procesora from plyta_glowna where id_plyty_glownej = "+id_produktow_w_koszyku.get(i+1));
+                            wynik2=connection.uzyskajDane("Select gniazdo_procesora from procesor where id_procesora = "+id_produktow_w_koszyku.get(j+1));
+                            if(wynik1[0].equals(wynik2[0]))
+                            {
+                                s2=true;
+                            }
                         }
                     }
+                    wynik1=connection.uzyskajDane("Select nazwa_produktu from plyta_glowna where id_plyty_glownej = "+id_produktow_w_koszyku.get(i+1));
+                    if(sp1&&sp2&&!s1&&!s2)
+                    {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Konfigurator");
+                        alert.setContentText("Uwaga!\nWybrana przez Ciebie płyta główna "+ wynik1[0]+" nie jest kompatybilna ani z żadnym z wybranych procesorów ani z żadną z wybranych pamięci RAM.");
+                        alert.showAndWait();
+                    }
+                    else if (sp1&&!s1)
+                    {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Konfigurator");
+                        alert.setContentText("Uwaga!\nWybrana przez Ciebie płyta główna "+ wynik1[0]+" nie jest kompatybilna z żadną z wybranych pamięci RAM.");
+                        alert.showAndWait();
+                    }
+                    else if (sp2&&!s2)
+                    {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Konfigurator");
+                        alert.setContentText("Uwaga!\nWybrana przez Ciebie płyta główna "+ wynik1[0]+" nie jest kompatybilna z żadnym z wybranych procesorów.");
+                        alert.showAndWait();
+                    }
+                    s1=false;
+                    s2=false;
+                    sp1=false;
+                    sp2=false;
                 }
             }
         }
@@ -337,6 +394,17 @@ public class ControllerKoszyk implements Initializable {
         LocalDateTime date = LocalDateTime.now();
         DateTimeFormatter formatowanie = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
         String formattedDate = date.format(formatowanie);
+
+        //Dodanie automatycznej znizki
+        if(znizka==0&&cenaFinalna>=1000)
+        {
+            znizka=0.02;
+            cenaFinalna=cenaFinalna*0.98;
+
+        } else if (znizka==0&&cenaFinalna>=10000) {
+            znizka=0.04;
+            cenaFinalna=cenaFinalna*0.96;
+        }
 
         //Dodanie transakcji do bazy danych
         connection.wprowadzDaneBezAlert("INSERT INTO transakcja (id_transakcji, id_uzytkownika, data_t, cena_calkowita, status, znizka) " +
@@ -452,6 +520,18 @@ public class ControllerKoszyk implements Initializable {
     void finalizujZamowienie(){
         String id_zamowienia[];
         String id_zestawu[];
+
+        //Dodanie automatycznej znizki
+        if(znizka==0&&cenaFinalna>=1000)
+        {
+            znizka=0.02;
+            cenaFinalna=cenaFinalna*0.98;
+
+        } else if (znizka==0&&cenaFinalna>=10000) {
+            znizka=0.04;
+            cenaFinalna=cenaFinalna*0.96;
+        }
+
         //pobranie i zedytowanie aktualnej daty
         LocalDateTime date = LocalDateTime.now();
         DateTimeFormatter formatowanie = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");

@@ -40,6 +40,9 @@ public class ControllerZestaw implements Initializable {
     private TextField textField_liczba_egzemplarzy;
 
     @FXML
+    private Button button_wroc;
+
+    @FXML
     private Button button_cart;
 
     @FXML
