@@ -242,7 +242,7 @@
                               <ChoiceBox fx:id="rek_choicebox_id_trans" layoutX="25.0" layoutY="40.0" prefWidth="150.0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="rek_zam" prefHeight="200.0" prefWidth="200.0">
+                        <AnchorPane fx:id="rek_zam" prefHeight="200.0" prefWidth="200.0" visible="false">
                            <children>
                               <Text layoutX="30.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wybierz id zamówienia">
                                  <font>

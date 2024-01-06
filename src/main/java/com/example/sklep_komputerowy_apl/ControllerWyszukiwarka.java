@@ -374,13 +374,16 @@ public class ControllerWyszukiwarka  implements Initializable{
             String wynik[]= connection.uzyskajDane("Select distinct nazwa_produktu,chipset,cena from produkt " +
                     "join plyta_glowna on produkt.id_plyty_glownej=plyta_glowna.id_plyty_glownej");
 
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                tp_list.clear();
+                    tp_list.clear();
+                }
+
             }else{
                 for(int i=0;i<wynik.length;i+=3){
                     tp_list.add(new TablePlyty(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
@@ -392,13 +395,16 @@ public class ControllerWyszukiwarka  implements Initializable{
         }else{
             //danymi z uprzednio wykonanego zapytania
             String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie("plyty"));
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                tpr_list.clear();
+                    tpr_list.clear();
+                }
+
             }else{
                 for(int i=0;i<wynik.length;i+=3){
                     tp_list.add(new TablePlyty(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
@@ -414,13 +420,15 @@ public class ControllerWyszukiwarka  implements Initializable{
             String wynik[]= connection.uzyskajDane("Select distinct nazwa_produktu,rodzina,cena from produkt " +
                     "join procesor on produkt.id_procesora=procesor.id_procesora");
 
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    tpr_list.clear();
+                }
 
-                tpr_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
                     tpr_list.add(new TableProcesory(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
@@ -431,13 +439,15 @@ public class ControllerWyszukiwarka  implements Initializable{
         }else{
             //danymi z uprzednio wykonanego zapytania
             String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie("procesory"));
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    tpr_list.clear();
+                }
 
-                tpr_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
                     tpr_list.add(new TableProcesory(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
@@ -453,13 +463,15 @@ public class ControllerWyszukiwarka  implements Initializable{
             String wynik[]= connection.uzyskajDane("Select distinct nazwa_produktu,uklad_graficzny,cena from produkt " +
                     "join karta_graficzna on produkt.id_karty_graficznej=karta_graficzna.id_karty_graficznej");
 
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    tk_list.clear();
+                }
 
-                tk_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
                     tk_list.add(new TableKarty(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
@@ -470,13 +482,15 @@ public class ControllerWyszukiwarka  implements Initializable{
         }else{
             //danymi z uprzednio wykonanego zapytania
             String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie("karty"));
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    tk_list.clear();
+                }
 
-                tk_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
                     tk_list.add(new TableKarty(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
@@ -491,13 +505,15 @@ public class ControllerWyszukiwarka  implements Initializable{
             String wynik[]= connection.uzyskajDane("Select distinct nazwa_produktu,rodzaj_pamieci,cena from produkt " +
                     "join pamiec_ram on produkt.id_pamieci_ram=pamiec_ram.id_pamieci_ram");
 
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    tr_list.clear();
+                }
 
-                tr_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
                     tr_list.add(new TableRam(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
@@ -508,13 +524,15 @@ public class ControllerWyszukiwarka  implements Initializable{
         }else{
             //danymi z uprzednio wykonanego zapytania
             String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie("ram"));
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    tr_list.clear();
+                }
 
-                tr_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
                     tr_list.add(new TableRam(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
@@ -532,11 +550,13 @@ public class ControllerWyszukiwarka  implements Initializable{
 
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    td_list.clear();
+                }
 
-                td_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
                     td_list.add(new TableDyski(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
@@ -547,13 +567,15 @@ public class ControllerWyszukiwarka  implements Initializable{
         }else{
             //danymi z uprzednio wykonanego zapytania
             String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie("dyski"));
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    td_list.clear();
+                }
 
-                td_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
                     td_list.add(new TableDyski(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
@@ -567,13 +589,15 @@ public class ControllerWyszukiwarka  implements Initializable{
         if(dane.uzyskajPoprzednieZapytanie("zestawy").equals("")){
             String wynik[]= connection.uzyskajDane("Select distinct nazwa_zestawu,cena from zestaw");
 
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    tz_list.clear();
+                }
 
-                tz_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=2){
                     tz_list.add(new TableZestawy(wynik[i],Double.parseDouble(wynik[i+1])));
@@ -584,13 +608,15 @@ public class ControllerWyszukiwarka  implements Initializable{
         }else{
             //danymi z uprzednio wykonanego zapytania
             String wynik[]= connection.uzyskajDane(dane.uzyskajPoprzednieZapytanie("zestawy"));
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    tz_list.clear();
+                }
 
-                tz_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=2){
                     tz_list.add(new TableZestawy(wynik[i],Double.parseDouble(wynik[i+1])));
@@ -1395,13 +1421,15 @@ public class ControllerWyszukiwarka  implements Initializable{
             //zapisanie ostatio wykonanego zapytania
             dane.zapiszZapytanie(zapytanie);
 
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    tp_list.clear();
+                }
 
-                tp_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
                     tp_list.add(new TablePlyty(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
@@ -1589,13 +1617,15 @@ public class ControllerWyszukiwarka  implements Initializable{
             //zapisanie ostatio wykonanego zapytania
             dane.zapiszZapytanie(zapytanie);
 
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    tpr_list.clear();
+                }
 
-                tpr_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
                     tpr_list.add(new TableProcesory(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
@@ -1799,13 +1829,15 @@ public class ControllerWyszukiwarka  implements Initializable{
             //zapisanie ostatio wykonanego zapytania
             dane.zapiszZapytanie(zapytanie);
 
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    tk_list.clear();
+                }
 
-                tk_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
                     tk_list.add(new TableKarty(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
@@ -1982,13 +2014,15 @@ public class ControllerWyszukiwarka  implements Initializable{
             //zapisanie ostatio wykonanego zapytania
             dane.zapiszZapytanie(zapytanie);
 
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    tr_list.clear();
+                }
 
-                tr_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
                     tr_list.add(new TableRam(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
@@ -2157,13 +2191,15 @@ public class ControllerWyszukiwarka  implements Initializable{
             //zapisanie ostatio wykonanego zapytania
             dane.zapiszZapytanie(zapytanie);
 
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    td_list.clear();
+                }
 
-                td_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
                     td_list.add(new TableDyski(wynik[i],wynik[i+1],Double.parseDouble(wynik[i+2])));
@@ -2244,13 +2280,15 @@ public class ControllerWyszukiwarka  implements Initializable{
             //zapisanie ostatio wykonanego zapytania
             dane.zapiszZapytanie(zapytanie);
 
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    tz_list.clear();
+                }
 
-                tz_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=2){
                     tz_list.add(new TableZestawy(wynik[i],Double.parseDouble(wynik[i+1])));

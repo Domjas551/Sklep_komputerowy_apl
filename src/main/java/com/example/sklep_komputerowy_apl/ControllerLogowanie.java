@@ -64,13 +64,17 @@ public class ControllerLogowanie implements Initializable {
     //Inicjalizacja
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //zmienna informująca że aktywna strona to strona logowania
         dane.setCzyLogowanie(1);
         try {
             //Pseudo PING - sprawdzanie czy instnieje połączenie z serwerem
             String x = connection.uzyskajDane("Select '1' from uzytkownik where id_uzytkownika=1")[0];
+            //zmienna informująca czy nawiązano połączenie z serwerem
+            dane.setCzyOffline(0);
         }
         //Brak połączenia z serwerem sprawia że nie da się opuścić strony z logowaniem
         catch (Exception ignored) {
+            dane.setCzyOffline(1);
             connection_error_text.setVisible(true);
             button_connect.setVisible(true);
             con = 1;
@@ -95,6 +99,7 @@ public class ControllerLogowanie implements Initializable {
             connection_error_text.setVisible(false);
             button_connect.setVisible(false);
             this.con = 0;
+            dane.setCzyOffline(0);
         }catch(IOException e){
             connection_error_text.setVisible(true);
             button_connect.setVisible(true);

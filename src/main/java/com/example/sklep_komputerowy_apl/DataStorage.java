@@ -26,7 +26,7 @@ public class DataStorage {
     private String ostatnieZapytanieTableUzytkownicy = "";
 
     //Id aktualnie zalogowanego uzytkownika. Jesli wynosi "0", oznacza to, ze uzytkownik nie jest zalogowany
-    private String idZalogowanegoUzytkownika = "10";
+    private String idZalogowanegoUzytkownika = "1";
     //Uzywane przez admina do wskazywanego wybranej przez niego osoby w ramach zarządzania
     private String idWybranegoUzytkownika = "2";
     //Id wybranego aktualnie produktu
@@ -40,6 +40,8 @@ public class DataStorage {
 
     //zmienna mówiąca czy aktualna strona to strona logowania
     private int czyLogowanie;
+    //zmienna informująca czy jest połączenie z serwerem
+    private int czyOffline;
 
 
     //strona zestawów
@@ -183,5 +185,13 @@ public class DataStorage {
 
     public int getCzyLogowanie() {
         return czyLogowanie;
+    }
+
+    public int getCzyOffline() {
+        return czyOffline;
+    }
+
+    public void setCzyOffline(int czyOffline) {
+        this.czyOffline = czyOffline;
     }
 }

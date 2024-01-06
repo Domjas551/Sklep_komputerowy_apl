@@ -421,11 +421,13 @@ public class ControllerAdmin implements Initializable {
             typProduktowUzupelnij.clear();
             iloscProduktowUzupelnij.clear();
 
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
+                }
 
                 tuz_list.clear();
             }else{
@@ -441,12 +443,15 @@ public class ControllerAdmin implements Initializable {
         }else{
             //danymi z uprzednio wykonanego zapytania
             String wynik[]= connection.uzyskajDane(dane.getOstatnieZapytanieUzupelnijTable());
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
-                tuz_list.clear();
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
+                    tuz_list.clear();
+                }
+
             }else{
                 for(int i=0;i<wynik.length;i+=3){
                     tuz_list.add(new TableUzupelnianie(wynik[i],wynik[i+1],Integer.parseInt(wynik[i+2])));
@@ -472,13 +477,16 @@ public class ControllerAdmin implements Initializable {
                     "Select id_zamowienia as id, email,'Z' as typ, (Select count(*) from produkt where id_zamowienia=z.id_zamowienia) as ilosc, cena_calkowita from zamowienie z " +
                     "join uzytkownik on z.id_uzytkownika=uzytkownik.id_uzytkownika where status_odbioru='oczekujace'");
 
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                ttz_list.clear();
+                    ttz_list.clear();
+                }
+
             }else{
                 for(int i=0;i<wynik.length;i+=5){
                     ttz_list.add(new TableTrazam(Integer.parseInt(wynik[i]),wynik[i+1],wynik[i+2],Integer.parseInt(wynik[i+3]),Double.parseDouble(wynik[i+4])));
@@ -489,13 +497,15 @@ public class ControllerAdmin implements Initializable {
         }else{
             //danymi z uprzednio wykonanego zapytania
             String wynik[]= connection.uzyskajDane(dane.getOstatnieZapytanieTableTrazam());
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    ttz_list.clear();
+                }
 
-                ttz_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=5){
                     ttz_list.add(new TableTrazam(Integer.parseInt(wynik[i]),wynik[i+1],wynik[i+2],Integer.parseInt(wynik[i+3]),Double.parseDouble(wynik[i+4])));
@@ -520,13 +530,15 @@ public class ControllerAdmin implements Initializable {
                 "case when exists(select 1 from uzytkownik_rabat where id_uzytkownika=u.id_uzytkownika and id_rabatu=4 and czy_wazny=1) then 'P' else 'N' end as \"0.25\" from uzytkownik u " +
                     "where czy_aktywny=1");
 
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    tu_list.clear();
+                }
 
-                tu_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=5){
                     tu_list.add(new TableUzytkownicy(wynik[i],wynik[i+1],wynik[i+2],wynik[i+3],wynik[i+4]));
@@ -537,13 +549,15 @@ public class ControllerAdmin implements Initializable {
         }else{
             //danymi z uprzednio wykonanego zapytania
             String wynik[]= connection.uzyskajDane(dane.getOstatnieZapytanieTableUzytkownicy());
-            if(wynik.length<=1){
+            if(wynik.length<1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    tu_list.clear();
+                }
 
-                tu_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=5){
                     tu_list.add(new TableUzytkownicy(wynik[i],wynik[i+1],wynik[i+2],wynik[i+3],wynik[i+4]));
@@ -716,13 +730,14 @@ public class ControllerAdmin implements Initializable {
             "select 'Dysk' as typ, count(*) as ilosc from produkt where id_dysku is not null and "+
             "(id_transakcji in (select id_transakcji from transakcja where status='zatwierdzona') or id_zamowienia in (select id_zamowienia from zamowienie where status_odbioru='zrealizowane'))");
 
-        if(wynik.length<=1){
+        if(wynik.length<1){
             //gdy zapytanie nie zwróciło żądnych wyników
+            if(dane.getCzyOffline()==0){
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+                pieU_list.clear();
+            }
 
-            //wyświetlenie alertu informacyjnego
-            informationAlert("Brak danych do wyświetlenia");
-
-            pieU_list.clear();
         }else{
             for(int i=0;i<wynik.length;i+=2){
                 pieU_list.add(new PieChart.Data(wynik[i],Integer.parseInt(wynik[i+1])));
@@ -752,11 +767,12 @@ public class ControllerAdmin implements Initializable {
                 "group by id_uzytkownika order by ilosc desc fetch first 5 rows only");
 
 
-        if(wynik.length<=1){
+        if(wynik.length<1){
             //gdy zapytanie nie zwróciło żądnych wyników
-
-            //wyświetlenie alertu informacyjnego
-            informationAlert("Brak danych do wyświetlenia");
+            if(dane.getCzyOffline()==0){
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+            }
 
         }else{
             for(int i=0;i<wynik.length;i+=2){
@@ -779,11 +795,13 @@ public class ControllerAdmin implements Initializable {
                 "where id_plyty_glownej is not null and (id_zamowienia is not null or id_transakcji is not null) " +
                 "group by id_plyty_glownej order by id desc fetch first 5 rows only");
 
-        if(wynik.length<=1){
+        if(wynik.length<1){
             //gdy zapytanie nie zwróciło żądnych wyników
+            if(dane.getCzyOffline()==0){
+                //wyświetlenie alertu informacyjnego
+                informationAlert("Brak danych do wyświetlenia");
+            }
 
-            //wyświetlenie alertu informacyjnego
-            informationAlert("Brak danych do wyświetlenia");
         }else{
             for(int i=0;i<wynik.length;i+=2){
                 //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
@@ -876,13 +894,14 @@ public class ControllerAdmin implements Initializable {
                 //utworzenie list do wypełniania odpowiednich typów
                 ObservableList<TableUzupelnianie> tuz_list= FXCollections.observableArrayList();
 
-                if(wynik.length<=1){
+                if(wynik.length<1){
                     //gdy zapytanie nie zwróciło żądnych wyników
+                    if(dane.getCzyOffline()==0){
+                        //wyświetlenie alertu informacyjengo
+                        informationAlert("Brak danych do wyświetlenia");
+                        tuz_list.clear();
+                    }
 
-                    //wyświetlenie alertu informacyjengo
-                    informationAlert("Brak danych do wyświetlenia");
-
-                    tuz_list.clear();
                 }else{
                     for(int i=0;i<wynik.length;i+=3){
                         tuz_list.add(new TableUzupelnianie(wynik[i],wynik[i+1],Integer.parseInt(wynik[i+2])));
@@ -1703,7 +1722,7 @@ public class ControllerAdmin implements Initializable {
             "select dysk.nazwa_produktu, 'Dysk' as typ, count(*) as ilosc from produkt " +
             "join dysk on produkt.id_dysku=dysk.id_dysku " +
             "where id_transakcji is null and id_zamowienia is null and id_zestawu is null group by nazwa_produktu)) "+
-            "group by nazwa_produktu" +
+            "group by nazwa_produktu " +
             "union "+
             "Select zestaw.nazwa_zestawu, 'Zestaw' as typ, count(*)/5 as ilosc "+
             "from produkt join zestaw on produkt.id_typu_zestawu=zestaw.id_zestawu "+
@@ -1740,11 +1759,13 @@ public class ControllerAdmin implements Initializable {
 
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    tuz_list.clear();
+                }
 
-                tuz_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=3){
                     tuz_list.add(new TableUzupelnianie(wynik[i],wynik[i+1],Integer.parseInt(wynik[i+2])));
@@ -2359,11 +2380,13 @@ public class ControllerAdmin implements Initializable {
 
                 String wynik[]=connection.uzyskajDane("Select * from produkt where id_transakcji="+id);
                 String wynikWew="0";
-                if(wynik.length<=1){
+                if(wynik.length<1){
                     //gdy zapytanie nie zwróciło żądnych wyników
+                    if(dane.getCzyOffline()==0){
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Transakcja pusta");
+                    }
 
-                    //wyświetlenie alertu informacyjnego
-                    informationAlert("Transakcja pusta");
 
                 }else{
                     for(int i=0;i<wynik.length;i+=10){
@@ -2427,11 +2450,13 @@ public class ControllerAdmin implements Initializable {
 
             if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
+                if(dane.getCzyOffline()==0){
+                    //wyświetlenie alertu informacyjnego
+                    informationAlert("Brak danych do wyświetlenia");
 
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
+                    tu_list.clear();
+                }
 
-                tu_list.clear();
             }else{
                 for(int i=0;i<wynik.length;i+=5){
                     tu_list.add(new TableUzytkownicy(wynik[i],wynik[i+1],wynik[i+2],wynik[i+3],wynik[i+4]));
@@ -2613,13 +2638,15 @@ public class ControllerAdmin implements Initializable {
                         "union "+
                         "select 'Dysk' as typ, count(*) as ilosc from produkt where id_dysku is not null and "+
                         "(id_transakcji in (select id_transakcji from transakcja where status='zatwierdzona') or id_zamowienia in (select id_zamowienia from zamowienie where status_odbioru='zrealizowane'))");
-                if(wynik.length<=1){
+                if(wynik.length<1){
                     //gdy zapytanie nie zwróciło żądnych wyników
+                    if(dane.getCzyOffline()==0){
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
 
-                    //wyświetlenie alertu informacyjnego
-                    informationAlert("Brak danych do wyświetlenia");
+                        pieU_list.clear();
+                    }
 
-                    pieU_list.clear();
                 }else{
                     for(int i=0;i<wynik.length;i+=2){
                         pieU_list.add(new PieChart.Data(wynik[i],Integer.parseInt(wynik[i+1])));
@@ -2699,11 +2726,13 @@ public class ControllerAdmin implements Initializable {
                         "group by id_uzytkownika order by ilosc desc fetch first 5 rows only");
 
 
-                if(wynik.length<=1){
+                if(wynik.length<1){
                     //gdy zapytanie nie zwróciło żądnych wyników
+                    if(dane.getCzyOffline()==0){
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
+                    }
 
-                    //wyświetlenie alertu informacyjnego
-                    informationAlert("Brak danych do wyświetlenia");
                 }else{
                     for(int i=0;i<wynik.length;i+=2){
                         //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
@@ -2731,11 +2760,13 @@ public class ControllerAdmin implements Initializable {
                         "group by id_uzytkownika order by ilosc desc fetch first 5 rows only");
 
 
-                if(wynik.length<=1){
+                if(wynik.length<1){
                     //gdy zapytanie nie zwróciło żądnych wyników
+                    if(dane.getCzyOffline()==0){
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
+                    }
 
-                    //wyświetlenie alertu informacyjnego
-                    informationAlert("Brak danych do wyświetlenia");
                 }else{
                     for(int i=0;i<wynik.length;i+=2){
                         //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
@@ -2763,11 +2794,13 @@ public class ControllerAdmin implements Initializable {
                         "group by id_uzytkownika order by ilosc desc fetch first 5 rows only");
 
 
-                if(wynik.length<=1){
+                if(wynik.length<1){
                     //gdy zapytanie nie zwróciło żądnych wyników
+                    if(dane.getCzyOffline()==0){
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
+                    }
 
-                    //wyświetlenie alertu informacyjnego
-                    informationAlert("Brak danych do wyświetlenia");
                 }else{
                     for(int i=0;i<wynik.length;i+=2){
                         //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
@@ -2803,11 +2836,13 @@ public class ControllerAdmin implements Initializable {
                         "where id_plyty_glownej is not null and (id_zamowienia is not null or id_transakcji is not null) " +
                         "group by id_plyty_glownej order by id desc fetch first 5 rows only");
 
-                if(wynik.length<=1){
+                if(wynik.length<1){
                     //gdy zapytanie nie zwróciło żądnych wyników
+                    if(dane.getCzyOffline()==0){
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
+                    }
 
-                    //wyświetlenie alertu informacyjnego
-                    informationAlert("Brak danych do wyświetlenia");
                 }else{
                     for(int i=0;i<wynik.length;i+=2){
                         //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
@@ -2837,11 +2872,13 @@ public class ControllerAdmin implements Initializable {
                         "where id_procesora is not null and (id_zamowienia is not null or id_transakcji is not null) " +
                         "group by id_procesora order by id desc fetch first 5 rows only");
 
-                if(wynik.length<=1){
+                if(wynik.length<1){
                     //gdy zapytanie nie zwróciło żądnych wyników
+                    if(dane.getCzyOffline()==0){
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
+                    }
 
-                    //wyświetlenie alertu informacyjnego
-                    informationAlert("Brak danych do wyświetlenia");
                 }else{
                     for(int i=0;i<wynik.length;i+=2){
                         //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
@@ -2871,11 +2908,13 @@ public class ControllerAdmin implements Initializable {
                         "where id_karty_graficznej is not null and (id_zamowienia is not null or id_transakcji is not null) " +
                         "group by id_karty_graficznej order by id desc fetch first 5 rows only");
 
-                if(wynik.length<=1){
+                if(wynik.length<1){
                     //gdy zapytanie nie zwróciło żądnych wyników
+                    if(dane.getCzyOffline()==0){
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
+                    }
 
-                    //wyświetlenie alertu informacyjnego
-                    informationAlert("Brak danych do wyświetlenia");
                 }else{
                     for(int i=0;i<wynik.length;i+=2){
                         //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
@@ -2905,11 +2944,13 @@ public class ControllerAdmin implements Initializable {
                         "where id_pamieci_ram is not null and (id_zamowienia is not null or id_transakcji is not null) " +
                         "group by id_pamieci_ram order by id desc fetch first 5 rows only");
 
-                if(wynik.length<=1){
+                if(wynik.length<1){
                     //gdy zapytanie nie zwróciło żądnych wyników
+                    if(dane.getCzyOffline()==0){
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
+                    }
 
-                    //wyświetlenie alertu informacyjnego
-                    informationAlert("Brak danych do wyświetlenia");
                 }else{
                     for(int i=0;i<wynik.length;i+=2){
                         //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
@@ -2939,11 +2980,13 @@ public class ControllerAdmin implements Initializable {
                         "where id_dysku is not null and (id_zamowienia is not null or id_transakcji is not null) " +
                         "group by id_dysku order by id desc fetch first 5 rows only");
 
-                if(wynik.length<=1){
+                if(wynik.length<1){
                     //gdy zapytanie nie zwróciło żądnych wyników
+                    if(dane.getCzyOffline()==0){
+                        //wyświetlenie alertu informacyjnego
+                        informationAlert("Brak danych do wyświetlenia");
+                    }
 
-                    //wyświetlenie alertu informacyjnego
-                    informationAlert("Brak danych do wyświetlenia");
                 }else{
                     for(int i=0;i<wynik.length;i+=2){
                         //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
