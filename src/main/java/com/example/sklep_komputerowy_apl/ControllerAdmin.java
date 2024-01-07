@@ -421,7 +421,7 @@ public class ControllerAdmin implements Initializable {
             typProduktowUzupelnij.clear();
             iloscProduktowUzupelnij.clear();
 
-            if(wynik.length<1){
+            if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
 
                 if(dane.getCzyOffline()==0){
@@ -921,13 +921,14 @@ public class ControllerAdmin implements Initializable {
             uzupelnianie.setVisible(true);
             opcje_dodania.setVisible(false);
         }else if(wybor.equals("Dodaj")){
-            scrollpane_table.setVisible(false);
+            /*scrollpane_table.setVisible(false);
             scrollpane_form_plyty.setVisible(true);
             scrollpane_form_karty.setVisible(false);
             scrollpane_form_procesory.setVisible(false);
             scrollpane_form_pamiec.setVisible(false);
             scrollpane_form_dyski.setVisible(false);
-            scrollpane_form_zestawy.setVisible(false);
+            scrollpane_form_zestawy.setVisible(false);*/
+            formZmienStroneForm();
             uzupelnianie.setVisible(false);
             opcje_dodania.setVisible(true);
         }
@@ -980,6 +981,13 @@ public class ControllerAdmin implements Initializable {
             scrollpane_form_pamiec.setVisible(false);
             scrollpane_form_dyski.setVisible(false);
             scrollpane_form_zestawy.setVisible(true);
+        }else if(wybor.equals("")){
+            scrollpane_form_plyty.setVisible(true);
+            scrollpane_form_procesory.setVisible(false);
+            scrollpane_form_karty.setVisible(false);
+            scrollpane_form_pamiec.setVisible(false);
+            scrollpane_form_dyski.setVisible(false);
+            scrollpane_form_zestawy.setVisible(false);
         }
     }
 
@@ -1078,14 +1086,15 @@ public class ControllerAdmin implements Initializable {
                             "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
                             " null, null, null, " +
                             "(select id_plyty_glownej from plyta_glowna where nazwa_produktu='"+fp_nazwa.getText()+"'), " +
-                            "null,null,null,null)");
+                            "null,null,null,null,null)");
                 }
 
                 if(wynik.equals("1")){
                     nazwy_plyty=connection.uzyskajDane("Select nazwa_produktu from PLYTA_GLOWNA");
                 }
 
-                //aktualizacja wartośći w checkboxach
+                //aktualizacja wartości w checkboxach
+                fz_plyta.getItems().clear();
                 fz_plyta.getItems().addAll(nazwy_plyty);
 
             }catch(EmptyValueException e){
@@ -1188,7 +1197,7 @@ public class ControllerAdmin implements Initializable {
                             "null, " +
                             "null," +
                             "(select id_procesora from procesor where nazwa_produktu='"+fpr_nazwa.getText()+"')," +
-                            "null,null)");
+                            "null,null,null)");
                 }
 
                 if(wynik.equals("1")){
@@ -1196,6 +1205,7 @@ public class ControllerAdmin implements Initializable {
                 }
 
                 //aktualizacja wartości w checkboxach
+                fz_procesor.getItems().clear();
                 fz_procesor.getItems().addAll(nazwy_procesory);
 
             }catch(EmptyValueException e){
@@ -1328,7 +1338,7 @@ public class ControllerAdmin implements Initializable {
                             "null, " +
                             "(select id_karty_graficznej from karta_graficzna where nazwa_produktu='"+fk_nazwa.getText()+"')," +
                             "null," +
-                            "null,null)");
+                            "null,null,null)");
                 }
 
                 if(wynik.equals("1")){
@@ -1336,6 +1346,7 @@ public class ControllerAdmin implements Initializable {
                 }
 
                 //aktualizacja wartości w checkboxach
+                fz_karta.getItems().clear();
                 fz_karta.getItems().addAll(nazwy_karty);
 
 
@@ -1420,7 +1431,7 @@ public class ControllerAdmin implements Initializable {
 
                 //utworzenie zapytania
                 String zapytanie="Insert into PAMIEC_RAM values((select case when max(id_pamieci_ram)>0 then max(id_pamieci_ram)+1 else 1 end from PAMIEC_RAM),'"
-                        +fr_pamiec.getValue()+"','"+fr_pojemnosc.getValue()+"','"+fr_taktowanie.getText()+"','"+fr_napiecie.getText()+"','"+fr_nazwa.getText()+"','"+fr_producent.getValue()+"','"+
+                        +fr_pamiec.getValue()+"','"+fr_pojemnosc.getValue()+"','"+fr_taktowanie.getText()+"',"+fr_napiecie.getText()+",'"+fr_nazwa.getText()+"','"+fr_producent.getValue()+"','"+
                         fr_opis.getText()+"',"+fr_cena.getText()+")";
 
                 //próba wprowadzenia danych do DB z oczekiwaniem na odpowiedź ze statusem zapytania błąd/sukces
@@ -1436,7 +1447,7 @@ public class ControllerAdmin implements Initializable {
                             "null, " +
                             "null," +
                             "null," +
-                            "null,null)");
+                            "null,null,null)");
                 }
 
                 if(wynik.equals("1")){
@@ -1444,6 +1455,7 @@ public class ControllerAdmin implements Initializable {
                 }
 
                 //aktualizacja wartości w checkboxach
+                fz_pamiec.getItems().clear();
                 fz_pamiec.getItems().addAll(nazwy_pamiec);
 
             }catch(EmptyValueException e){
@@ -1545,14 +1557,17 @@ public class ControllerAdmin implements Initializable {
                             "null, " +
                             "null," +
                             "null," +
-                            "(select id_dysku from dysk where nazwa_produktu='"+fd_nazwa.getText()+"'),null)");
+                            "(select id_dysku from dysk where nazwa_produktu='"+fd_nazwa.getText()+"'),null,null)");
                 }
 
                 if(wynik.equals("1")){
+                    System.out.println(nazwy_dyski.length);
                     nazwy_dyski=connection.uzyskajDane("Select nazwa_produktu from DYSK");
+                    System.out.println(nazwy_dyski.length);
                 }
 
                 //aktualizacja wartości w checkboxach
+                fz_dysk.getItems().clear();
                 fz_dysk.getItems().addAll(nazwy_dyski);
 
             }catch(EmptyValueException e){
@@ -1627,10 +1642,106 @@ public class ControllerAdmin implements Initializable {
                         +fz_cena.getText()+",'"+fz_nazwa.getText()+"')";
 
                 //próba wprowadzenia danych do DB z oczekiwaniem na odpowiedź ze statusem zapytania błąd/sukces
-                String wynik=connection.wprowadzDane(zapytanie);
+                String wynik=connection.wprowadzDaneBezAlert(zapytanie);
 
                 if(wynik.equals("1")){
                     nazwy_zestawy=connection.uzyskajDane("Select nazwa_zestawu from ZESTAW");
+
+                    //dodanie 5 instancji zestawu
+                    for(int i=0;i<5;i++){
+
+                        String idZestawu=connection.uzyskajDane("Select case " +
+                                "when max(id_zestawu)>0 then max(id_zestawu)+1 else 1 end from produkt")[0];
+                        String idTypuZestawu=connection.uzyskajDane("Select id_zestawu " +
+                                "from zestaw where nazwa_zestawu='"+fz_nazwa.getText()+"'")[0];
+                        String idProduktu=connection.uzyskajDane("Select case " +
+                                "when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt")[0];
+                        String idKomponentu=connection.uzyskajDane("Select id_pamiec_ram " +
+                                "from zestaw where nazwa_zestawu='"+fz_nazwa.getText()+"'")[0];
+
+                        //dodanie pamięci ram zestawu
+                        wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
+                                "values("+idProduktu+"," +
+                                " null, null," +
+                                idKomponentu+", " +
+                                "null, " +
+                                "null," +
+                                "null," +
+                                "null," +
+                                idTypuZestawu+", "+
+                                idZestawu+")");
+
+                        idProduktu=connection.uzyskajDane("Select case " +
+                                "when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt")[0];
+                        idKomponentu=connection.uzyskajDane("Select id_plyta_glowna " +
+                                "from zestaw where nazwa_zestawu='"+fz_nazwa.getText()+"'")[0];
+
+
+                        //dodanie płyty głównej zestawu
+                        wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
+                                "values("+idProduktu+"," +
+                                " null, null," +
+                                "null," +
+                                idKomponentu+", " +
+                                "null," +
+                                "null," +
+                                "null," +
+                                idTypuZestawu+", "+
+                                idZestawu+")");
+
+                        idProduktu=connection.uzyskajDane("Select case " +
+                                "when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt")[0];
+                        idKomponentu=connection.uzyskajDane("Select id_karta_graficzna from zestaw where nazwa_zestawu='"+fz_nazwa.getText()+"'")[0];
+
+
+                        //dodanie karty graficznej zestawu
+                        wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
+                                "values("+idProduktu+"," +
+                                " null, null," +
+                                "null, " +
+                                "null, " +
+                                idKomponentu+", " +
+                                "null, " +
+                                "null, " +
+                                idTypuZestawu+", "+
+                                idZestawu+")");
+
+                        idProduktu=connection.uzyskajDane("Select case " +
+                                "when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt")[0];
+                        idKomponentu=connection.uzyskajDane("Select id_procesor from zestaw where nazwa_zestawu='"+fz_nazwa.getText()+"'")[0];
+
+
+                        //dodanie procesora zestawu
+                        wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
+                                "values("+idProduktu+"," +
+                                " null, null," +
+                                "null, " +
+                                "null, " +
+                                "null, " +
+                                idKomponentu+", " +
+                                "null," +
+                                idTypuZestawu+", "+
+                                idZestawu+")");
+
+                        idProduktu=connection.uzyskajDane("Select case " +
+                                "when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt")[0];
+                        idKomponentu=connection.uzyskajDane("Select id_dysk from zestaw where nazwa_zestawu='"+fz_nazwa.getText()+"'")[0];
+
+
+                        //dodanie dysku zestawu
+                        wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
+                                "values("+idProduktu+"," +
+                                " null, null," +
+                                "null, " +
+                                "null, " +
+                                "null, " +
+                                "null, " +
+                                idKomponentu+", " +
+                                idTypuZestawu+", "+
+                                idZestawu+")");
+                    }
+
+                    informationAlert("Wprowadzenie/modyfikacja danych zakończona pomyślnie");
                 }
 
             }catch(EmptyValueException e){
@@ -1969,7 +2080,7 @@ public class ControllerAdmin implements Initializable {
                         idKomponentu=connection.uzyskajDane("Select id_procesor from zestaw where nazwa_zestawu='"+nazwaWybranyProdukt+"'")[0];
 
 
-                        //dodanie płyty głównej zestawu
+                        //dodanie procesora zestawu
                         wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
                                 "values("+idProduktu+"," +
                                 " null, null," +
@@ -1986,7 +2097,7 @@ public class ControllerAdmin implements Initializable {
                         idKomponentu=connection.uzyskajDane("Select id_dysk from zestaw where nazwa_zestawu='"+nazwaWybranyProdukt+"'")[0];
 
 
-                        //dodanie płyty głównej zestawu
+                        //dodanie dysku zestawu
                         wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
                                 "values("+idProduktu+"," +
                                 " null, null," +
@@ -2192,7 +2303,7 @@ public class ControllerAdmin implements Initializable {
                             idKomponentu=connection.uzyskajDane("Select id_procesor from zestaw where nazwa_zestawu='"+nazwyProduktowUzupelnij.get(j)+"'")[0];
 
 
-                            //dodanie płyty głównej zestawu
+                            //dodanie procesora zestawu
                             wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
                                     "values("+idProduktu+"," +
                                     " null, null," +
@@ -2215,7 +2326,7 @@ public class ControllerAdmin implements Initializable {
                             idKomponentu=connection.uzyskajDane("Select id_dysk from zestaw where nazwa_zestawu='"+nazwyProduktowUzupelnij.get(j)+"'")[0];
 
 
-                            //dodanie płyty głównej zestawu
+                            //dodanie dysku zestawu
                             wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
                                     "values("+idProduktu+"," +
                                     " null, null," +

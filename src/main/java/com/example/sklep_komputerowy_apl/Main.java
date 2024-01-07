@@ -14,7 +14,7 @@ public class Main extends Application {
     ConnectionStorage connection=ConnectionStorage.getInstance();
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("logowanie" + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("admin" + ".fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("KomPol@nd");
 
