@@ -212,7 +212,7 @@ public class ControllerAdminUzytkownik implements Initializable {
     }
 
     @FXML
-    void zmienHaslo(MouseEvent event) throws NoSuchAlgorithmException {
+    void zmienHaslo(MouseEvent event) throws NoSuchAlgorithmException, IOException {
         String wynik[] = connection.uzyskajDane("Select haslo from uzytkownik where id_uzytkownika = " + idWybranegoUzytkownika);
 
         if(checkbox_stare_haslo.isSelected())

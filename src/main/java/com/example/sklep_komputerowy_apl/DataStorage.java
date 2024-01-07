@@ -31,6 +31,8 @@ public class DataStorage {
     private String idWybranegoUzytkownika = "2";
     //Id wybranego aktualnie produktu
     private String idWybranegoProduktu = "150";
+    //strona zestawów
+    private String idWybranegoZestawu = "1";
     //Uzywany do powrotu ze strony logowania do przerwanej czynnosci
     private String destynacjaPowrotuZeStronyLogowania = "";
     //private ArrayList<String> idProduktowWKoszyku = new ArrayList<>(Arrays.asList("1", "1", "1")); //kategoria, typ_produktu, liczba egzemplarzy
@@ -42,10 +44,6 @@ public class DataStorage {
     private int czyLogowanie;
     //zmienna informująca czy jest połączenie z serwerem
     private int czyOffline;
-
-
-    //strona zestawów
-    private String idWybranegoZestawu = "1";
 
     public DataStorage() {
         this.wyszukiwarka_activePage = "plyty";
