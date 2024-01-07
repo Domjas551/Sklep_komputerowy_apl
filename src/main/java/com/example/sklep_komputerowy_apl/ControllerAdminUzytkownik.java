@@ -21,6 +21,8 @@ import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -129,6 +131,7 @@ public class ControllerAdminUzytkownik implements Initializable {
         wynik = connection.uzyskajDane("Select email from Uzytkownik where id_uzytkownika = " + idWybranegoUzytkownika);
         value_of_email.setText(wynik[0]);
 
+
         //Wyłączenie możliwości zmiany hasła dla goscia
         if(dane.getIdWybranegoUzytkownika().equals("0"))
         {
@@ -209,7 +212,7 @@ public class ControllerAdminUzytkownik implements Initializable {
     }
 
     @FXML
-    void zmienHaslo(MouseEvent event) throws IOException {
+    void zmienHaslo(MouseEvent event) throws NoSuchAlgorithmException {
         String wynik[] = connection.uzyskajDane("Select haslo from uzytkownik where id_uzytkownika = " + idWybranegoUzytkownika);
 
         if(checkbox_stare_haslo.isSelected())
@@ -219,7 +222,20 @@ public class ControllerAdminUzytkownik implements Initializable {
         else {
             textField_stare_haslo.setText(passwordField_stare_haslo.getText());
         }
-        if(textField_stare_haslo.getText().equals(wynik[0]))
+
+        //MessageDigest na podanym haśle
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(textField_stare_haslo.getCharacters().toString().getBytes());
+        byte[] dig_pass = md.digest();
+
+        StringBuilder hexString = new StringBuilder();
+
+        //Konwersja na HEX
+        for (byte digPass : dig_pass) {
+            hexString.append(Integer.toHexString(0xFF & digPass));
+        }
+
+        if(hexString.toString().equals(wynik[0]))
         {
             if(checkbox_nowe_haslo.isSelected())
             {
@@ -239,7 +255,7 @@ public class ControllerAdminUzytkownik implements Initializable {
 
             if(textField_nowe_haslo.getText().equals(textField_powtorz_haslo.getText())) {
                 try {
-                    Pattern pat_ha = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(){};:<>~?_=+-]).{6,20}$");
+                    Pattern pat_ha = Pattern.compile("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{6,20}");
                     Matcher matcher = pat_ha.matcher(textField_nowe_haslo.getText());
 
                     if (textField_nowe_haslo.getText().length() < 6 || textField_nowe_haslo.getText().length() > 20 || !matcher.find()) {
@@ -247,7 +263,19 @@ public class ControllerAdminUzytkownik implements Initializable {
                     }
                     else
                     {
-                        connection.wprowadzDane("UPDATE Uzytkownik SET haslo = '" + textField_nowe_haslo.getText()+"' WHERE id_uzytkownika = " + idWybranegoUzytkownika);
+                        //MD na nowym haśle
+                        md = MessageDigest.getInstance("SHA-256");
+                        md.update(textField_nowe_haslo.getCharacters().toString().getBytes());
+                        dig_pass = md.digest();
+
+                        hexString = new StringBuilder();
+
+                        //Konwersja na HEX
+                        for (byte digPass : dig_pass) {
+                            hexString.append(Integer.toHexString(0xFF & digPass));
+                        }
+
+                        connection.wprowadzDane("UPDATE Uzytkownik SET haslo = '" + hexString+"' WHERE id_uzytkownika = " + idWybranegoUzytkownika);
                     }
                 } catch (BadPasswordException ex) {
                     Alert alert=new Alert(Alert.AlertType.ERROR);
@@ -271,12 +299,6 @@ public class ControllerAdminUzytkownik implements Initializable {
             alert.setContentText("Wprowadzono niepoprawne stare hasło!");
             alert.showAndWait();
         }
-
-        root = FXMLLoader.load(getClass().getResource("admin_uzytkownik" + ".fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
     }
 
     @FXML

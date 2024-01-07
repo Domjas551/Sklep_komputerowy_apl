@@ -225,7 +225,7 @@ public class ControllerRejestracja {
         }
         try {
             //REGEX dla hasła
-            Pattern pat_ha = Pattern.compile("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(){};:<>~?_=+-]).{6,20}");
+            Pattern pat_ha = Pattern.compile("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{6,20}");
             Matcher matcher = pat_ha.matcher(haslo);
 
             if (!matcher.find()) {

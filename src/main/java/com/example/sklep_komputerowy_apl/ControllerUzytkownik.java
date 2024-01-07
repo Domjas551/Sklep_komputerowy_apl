@@ -750,7 +750,6 @@ public class ControllerUzytkownik implements Initializable {
     void wybierzProduktRekl(){
         String strona=rek_typ.getSelectionModel().getSelectedItem();
 
-        //ustawienie widoczności strony w zależności czy użytkownik posiada transakcje/zamówienia
         if(s1[0].equals("")){
             strona="Transakcje";
         }else if(s2[0].equals("")){
@@ -905,7 +904,7 @@ public class ControllerUzytkownik implements Initializable {
 
         //MessageDigest na podanym haśle
         MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(textField_nowe_haslo.toString().getBytes());
+        md.update(textField_stare_haslo.getCharacters().toString().getBytes());
         byte[] dig_pass = md.digest();
 
         StringBuilder hexString = new StringBuilder();
@@ -935,7 +934,7 @@ public class ControllerUzytkownik implements Initializable {
 
             if(textField_nowe_haslo.getText().equals(textField_powtorz_haslo.getText())) {
                 try {
-                    Pattern pat_ha = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*(){};:<>~?_=+-]).{6,20}$");
+                    Pattern pat_ha = Pattern.compile("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{6,20}");
                     Matcher matcher = pat_ha.matcher(textField_nowe_haslo.getText());
 
                     if (textField_nowe_haslo.getText().length() < 6 || textField_nowe_haslo.getText().length() > 20 || !matcher.find()) {
@@ -945,7 +944,7 @@ public class ControllerUzytkownik implements Initializable {
                     {
                         //MD na nowym haśle
                         md = MessageDigest.getInstance("SHA-256");
-                        md.update(textField_nowe_haslo.toString().getBytes());
+                        md.update(textField_nowe_haslo.getCharacters().toString().getBytes());
                         dig_pass = md.digest();
 
                         hexString = new StringBuilder();
