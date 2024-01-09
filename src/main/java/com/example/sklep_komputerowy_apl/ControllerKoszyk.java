@@ -423,6 +423,16 @@ public class ControllerKoszyk implements Initializable {
             for (int i = 0; i < id_produktow_w_koszyku.size(); i = i + 3) {
                 switch (id_produktow_w_koszyku.get(i)) {
                     case "1":
+                        /*
+                        for(int j=0; j< Integer.parseInt(id_produktow_w_koszyku.get(i+2)); j++)
+                        {
+                            connection.wprowadzDaneBezAlert("UPDATE produkt SET id_transakcji = " +
+                                    id_transakcji[0]+" WHERE id_produktu = " +
+                                    "(SELECT id_produktu from produkt where " +
+                                    "id_transakcji is null and id_zamowienia is null and id_zestawu is null and id_pamieci_ram = " +
+                                    id_produktow_w_koszyku.get(i+1)+" fetch first row only)");
+                        }
+                        */
                         wynik=connection.uzyskajDane("Select id_produktu from produkt where id_transakcji is null and id_zamowienia is null and id_zestawu is null and id_pamieci_ram = " +
                                 id_produktow_w_koszyku.get(i+1)+" fetch first " +
                                 id_produktow_w_koszyku.get(i+2)+" rows only");
@@ -433,6 +443,16 @@ public class ControllerKoszyk implements Initializable {
                         }
                         break;
                     case "2":
+                        /*
+                        for(int j=0; j< Integer.parseInt(id_produktow_w_koszyku.get(i+2)); j++)
+                        {
+                            connection.wprowadzDaneBezAlert("UPDATE produkt SET id_transakcji = " +
+                                    id_transakcji[0]+" WHERE id_produktu = " +
+                                    "(SELECT id_produktu from produkt where " +
+                                    "id_transakcji is null and id_zamowienia is null and id_zestawu is null and id_plyty_glownej = " +
+                                    id_produktow_w_koszyku.get(i+1)+" fetch first row only)");
+                        }
+                        */
                         wynik=connection.uzyskajDane("Select id_produktu from produkt where id_transakcji is null and id_zamowienia is null and id_zestawu is null and id_plyty_glownej = " +
                                 id_produktow_w_koszyku.get(i+1)+" fetch first " +
                                 id_produktow_w_koszyku.get(i+2)+" rows only");
@@ -443,6 +463,16 @@ public class ControllerKoszyk implements Initializable {
                         }
                         break;
                     case "3":
+                        /*
+                        for(int j=0; j< Integer.parseInt(id_produktow_w_koszyku.get(i+2)); j++)
+                        {
+                            connection.wprowadzDaneBezAlert("UPDATE produkt SET id_transakcji = " +
+                                    id_transakcji[0]+" WHERE id_produktu = " +
+                                    "(SELECT id_produktu from produkt where " +
+                                    "id_transakcji is null and id_zamowienia is null and id_zestawu is null and id_karty_graficznej = " +
+                                    id_produktow_w_koszyku.get(i+1)+" fetch first row only)");
+                        }
+                        */
                         wynik=connection.uzyskajDane("Select id_produktu from produkt where id_transakcji is null and id_zamowienia is null and id_zestawu is null and id_karty_graficznej = " +
                                 id_produktow_w_koszyku.get(i+1)+" fetch first " +
                                 id_produktow_w_koszyku.get(i+2)+" rows only");
@@ -453,6 +483,16 @@ public class ControllerKoszyk implements Initializable {
                         }
                         break;
                     case "4":
+                        /*
+                        for(int j=0; j< Integer.parseInt(id_produktow_w_koszyku.get(i+2)); j++)
+                        {
+                            connection.wprowadzDaneBezAlert("UPDATE produkt SET id_transakcji = " +
+                                    id_transakcji[0]+" WHERE id_produktu = " +
+                                    "(SELECT id_produktu from produkt where " +
+                                    "id_transakcji is null and id_zamowienia is null and id_zestawu is null and id_procesora = " +
+                                    id_produktow_w_koszyku.get(i+1)+" fetch first row only)");
+                        }
+                        */
                         wynik=connection.uzyskajDane("Select id_produktu from produkt where id_transakcji is null and id_zamowienia is null and id_zestawu is null and id_procesora = " +
                                 id_produktow_w_koszyku.get(i+1)+" fetch first " +
                                 id_produktow_w_koszyku.get(i+2)+" rows only");
@@ -463,6 +503,16 @@ public class ControllerKoszyk implements Initializable {
                         }
                         break;
                     case "5":
+                        /*
+                        for(int j=0; j< Integer.parseInt(id_produktow_w_koszyku.get(i+2)); j++)
+                        {
+                            connection.wprowadzDaneBezAlert("UPDATE produkt SET id_transakcji = " +
+                                    id_transakcji[0]+" WHERE id_produktu = " +
+                                    "(SELECT id_produktu from produkt where " +
+                                    "id_transakcji is null and id_zamowienia is null and id_zestawu is null and id_dysku = " +
+                                    id_produktow_w_koszyku.get(i+1)+" fetch first row only)");
+                        }
+                        */
                         wynik=connection.uzyskajDane("Select id_produktu from produkt where id_transakcji is null and id_zamowienia is null and id_zestawu is null and id_dysku = " +
                                 id_produktow_w_koszyku.get(i+1)+" fetch first " +
                                 id_produktow_w_koszyku.get(i+2)+" rows only");
@@ -707,10 +757,12 @@ public class ControllerKoszyk implements Initializable {
     @FXML
     void buy(MouseEvent event) throws IOException {
         if (!(dane.getIdZestawowWKoszyku().isEmpty() && dane.getIdProduktowWKoszyku().isEmpty())) {
+            connection.lock();
             if (sprawdzDostepnosc())
             {
                 if (idZalogowanegoUzytkownika.equals("0"))
                 {
+                    connection.unlock();
                     cenaFinalna = sumCen;
                     button_oproznij.setVisible(false);
                     button_zamow.setVisible(false);
@@ -725,6 +777,7 @@ public class ControllerKoszyk implements Initializable {
                     String wynik[]=connection.uzyskajDane("Select count(*)from uzytkownik_rabat where czy_wazny = 1 and id_uzytkownika = "+idZalogowanegoUzytkownika);
                     if(!wynik[0].equals("0"))
                     {
+                        connection.unlock();
                         wynik=connection.uzyskajDane("Select kwota from uzytkownik_rabat join typ_rabatu on uzytkownik_rabat.id_rabatu = typ_rabatu.id_rabatu where czy_wazny = 1 and id_uzytkownika = "+idZalogowanegoUzytkownika);
                         ObservableList<String> rab_list = FXCollections.observableArrayList();
                         rab_list.add("0%");
@@ -757,6 +810,7 @@ public class ControllerKoszyk implements Initializable {
                     {
                         cenaFinalna = sumCen;
                         finalizujTransakcje();
+                        connection.unlock();
                         dane.getIdProduktowWKoszyku().clear();
                         dane.getIdZestawowWKoszyku().clear();
                         root = FXMLLoader.load(getClass().getResource("koszyk" + ".fxml"));
@@ -769,6 +823,7 @@ public class ControllerKoszyk implements Initializable {
             }
             else
             {
+                connection.unlock();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Uwaga!");
                 alert.setContentText("Niestety nie wszystkie zamówione produkty znajdują się w magazynie.\nMożliwym jest zamówienie, ale  nie zakup. ");
@@ -800,9 +855,11 @@ public class ControllerKoszyk implements Initializable {
                     "'"+textField_nazwisko.getText()+"', " +
                     "'"+textField_email.getText()+"')");
             idGosc=wynik[0];
+            connection.lock();
             if(sprawdzDostepnosc())
             {
                 finalizujTransakcje();
+                connection.unlock();
                 dane.getIdProduktowWKoszyku().clear();
                 dane.getIdZestawowWKoszyku().clear();
                 root = FXMLLoader.load(getClass().getResource("koszyk" + ".fxml"));
@@ -813,6 +870,7 @@ public class ControllerKoszyk implements Initializable {
             }
             else
             {
+                connection.unlock();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Uwaga!");
                 alert.setContentText("Niestety nie wszystkie zamówione produkty znajdują się wmagazynie.\nMożliwym jest zamówienie, ale  nie zakup. ");
@@ -868,6 +926,7 @@ public class ControllerKoszyk implements Initializable {
         }
         else
         {
+            connection.lock();
             if(sprawdzDostepnosc()) {
                 connection.wprowadzDaneBezAlert("UPDATE uzytkownik_rabat ur " +
                         "SET ur.czy_wazny = 0 " +
@@ -879,6 +938,7 @@ public class ControllerKoszyk implements Initializable {
                         ") " +
                         "AND ur.id_uzytkownika = "+idZalogowanegoUzytkownika);
                 finalizujTransakcje();
+                connection.unlock();
                 dane.getIdProduktowWKoszyku().clear();
                 dane.getIdZestawowWKoszyku().clear();
                 root = FXMLLoader.load(getClass().getResource("koszyk" + ".fxml"));
@@ -889,6 +949,7 @@ public class ControllerKoszyk implements Initializable {
             }
             else
             {
+                connection.unlock();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Uwaga!");
                 alert.setContentText("Niestety nie wszystkie zamówione produkty znajdują się w magazynie.\nMożliwym jest zamówienie, ale  nie zakup. ");
