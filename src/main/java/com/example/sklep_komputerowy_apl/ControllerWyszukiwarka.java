@@ -687,8 +687,6 @@ public class ControllerWyszukiwarka  implements Initializable{
             anchor_zaloguj.setVisible(false);
         }
 
-        //todo rozmiar button_value_of_name
-
         //wyświetlenie nazwy użytkownika
         String wynik = connection.uzyskajDane("Select imie from Uzytkownik where id_uzytkownika = " + dane.getIdZalogowanegoUzytkownika())[0];
         button_value_of_name.setText(wynik);

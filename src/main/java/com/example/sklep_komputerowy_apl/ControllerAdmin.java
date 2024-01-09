@@ -325,8 +325,6 @@ public class ControllerAdmin implements Initializable {
     private String trazamId="";
     private String trazamTyp;
 
-    //todo przesianie tabel zapytania
-
     //wprowadzenie wartości do tabel
     //tabela uzupełnień
     public void odswiezTableUzupelnij(){
@@ -478,7 +476,7 @@ public class ControllerAdmin implements Initializable {
                     "join uzytkownik on z.id_uzytkownika=uzytkownik.id_uzytkownika where status_odbioru='oczekujace'");
 
             if(wynik.length<=1){
-                //gdy zapytanie nie zwróciło żądnych wyników
+                //gdy zapytanie nie zwróciło żadnych wyników
 
                 if(dane.getCzyOffline()==0){
                     //wyświetlenie alertu informacyjnego
@@ -745,12 +743,12 @@ public class ControllerAdmin implements Initializable {
             }
         }
 
+        //dodanie napisu do legendy
         pieU_list.forEach(data -> data.nameProperty().bind(
                 Bindings.concat(data.getName()," liczba: ",data.getPieValue())
         ));
 
         pie_produkty.getData().addAll(pieU_list);
-        //barUserZakupy.getData().addAll(seria1);
 
         //wykres użytkowników ogólny
 
@@ -921,13 +919,6 @@ public class ControllerAdmin implements Initializable {
             uzupelnianie.setVisible(true);
             opcje_dodania.setVisible(false);
         }else if(wybor.equals("Dodaj")){
-            /*scrollpane_table.setVisible(false);
-            scrollpane_form_plyty.setVisible(true);
-            scrollpane_form_karty.setVisible(false);
-            scrollpane_form_procesory.setVisible(false);
-            scrollpane_form_pamiec.setVisible(false);
-            scrollpane_form_dyski.setVisible(false);
-            scrollpane_form_zestawy.setVisible(false);*/
             formZmienStroneForm();
             uzupelnianie.setVisible(false);
             opcje_dodania.setVisible(true);
@@ -991,7 +982,7 @@ public class ControllerAdmin implements Initializable {
         }
     }
 
-    //funkcja dod odawania nowego produktu do magazynu
+    //funkcja do dodawania nowego produktu do magazynu
     @FXML
     void dodaj_produkt(){
 
@@ -1886,49 +1877,6 @@ public class ControllerAdmin implements Initializable {
                 table_uzupelnianie.setItems(tuz_list);
                 dane.setOstatnieZapytanieUzupelnijTable(zapytanie);
         }else{
-            /*
-            //wyszukanie wszystkich
-
-            //utworzenie list do wypełniania odpowiednich typów
-            ObservableList<TableUzupelnianie> tuz_list= FXCollections.observableArrayList();
-
-            //wypełnienie danymi z BD
-
-            String wynik[]= connection.uzyskajDane("Select nazwa_produktu, typ, ilosc from (Select plyta_glowna.nazwa_produktu, 'Płyta główna' as typ, count(*) as ilosc from produkt " +
-                    "join plyta_glowna on produkt.id_plyty_glownej=plyta_glowna.id_plyty_glownej " +
-                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu" +
-                    " union " +
-                    "select procesor.nazwa_produktu, 'Procesor' as typ, count(*) as ilosc from produkt " +
-                    "join procesor on produkt.id_procesora=procesor.id_procesora " +
-                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu " +
-                    "union " +
-                    "select karta_graficzna.nazwa_produktu, 'Karta graficzna' as typ, count(*) as ilosc from produkt " +
-                    "join karta_graficzna on produkt.id_karty_graficznej=karta_graficzna.id_karty_graficznej " +
-                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu " +
-                    "union " +
-                    "select pamiec_ram.nazwa_produktu, 'Pamieć RAM' as typ, count(*) as ilosc from produkt " +
-                    "join pamiec_ram on produkt.id_pamieci_ram=pamiec_ram.id_pamieci_ram " +
-                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu " +
-                    "union " +
-                    "select dysk.nazwa_produktu, 'Dysk' as typ, count(*) as ilosc from produkt " +
-                    "join dysk on produkt.id_dysku=dysk.id_dysku " +
-                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu) order by ilosc asc");
-
-            if(wynik.length<=1){
-                //gdy zapytanie nie zwróciło żądnych wyników
-
-                //wyświetlenie alertu informacyjnego
-                informationAlert("Brak danych do wyświetlenia");
-
-                tuz_list.clear();
-            }else{
-                for(int i=0;i<wynik.length;i+=3){
-                    tuz_list.add(new TableUzupelnianie(wynik[i],wynik[i+1],Integer.parseInt(wynik[i+2])));
-                }
-            }
-
-            table_uzupelnianie.setItems(tuz_list);
-            dane.setOstatnieZapytanieUzupelnijTable("");*/
 
             dane.setOstatnieZapytanieUzupelnijTable("");
             odswiezTableUzupelnij();
@@ -2119,7 +2067,6 @@ public class ControllerAdmin implements Initializable {
 
                 //zaktualizowanie informacji w tabeli
                 odswiezTableUzupelnij();
-
 
             }
         }
@@ -2345,7 +2292,6 @@ public class ControllerAdmin implements Initializable {
                             }
                         }
 
-
                     }
                 }
             }
@@ -2482,7 +2428,6 @@ public class ControllerAdmin implements Initializable {
     void odrzucTrazam(){
         String id=trazamId;
         String typ=trazamTyp;
-        //todo brak danych do tabel gdy utrata serwera
 
         if(id.equals("")){
             informationAlert("Nie wybrano transakcji/zamówienia");
@@ -2846,7 +2791,6 @@ public class ControllerAdmin implements Initializable {
 
                 }else{
                     for(int i=0;i<wynik.length;i+=2){
-                        //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
                         seria1.getData().add(new XYChart.Data<>(wynik[i], Double.parseDouble(wynik[i + 1])));
                     }
                 }
@@ -2880,7 +2824,6 @@ public class ControllerAdmin implements Initializable {
 
                 }else{
                     for(int i=0;i<wynik.length;i+=2){
-                        //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
                         seria2.getData().add(new XYChart.Data<>(wynik[i], Double.parseDouble(wynik[i + 1])));
                     }
                 }
@@ -2914,7 +2857,6 @@ public class ControllerAdmin implements Initializable {
 
                 }else{
                     for(int i=0;i<wynik.length;i+=2){
-                        //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
                         seria3.getData().add(new XYChart.Data<>(wynik[i], Double.parseDouble(wynik[i + 1])));
                     }
                 }
@@ -2956,7 +2898,6 @@ public class ControllerAdmin implements Initializable {
 
                 }else{
                     for(int i=0;i<wynik.length;i+=2){
-                        //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
                         seria1.getData().add(new XYChart.Data<>(wynik[i], Double.parseDouble(wynik[i + 1])));
                     }
                 }
@@ -2992,7 +2933,6 @@ public class ControllerAdmin implements Initializable {
 
                 }else{
                     for(int i=0;i<wynik.length;i+=2){
-                        //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
                         seria2.getData().add(new XYChart.Data<>(wynik[i], Double.parseDouble(wynik[i + 1])));
                     }
                 }
@@ -3100,7 +3040,6 @@ public class ControllerAdmin implements Initializable {
 
                 }else{
                     for(int i=0;i<wynik.length;i+=2){
-                        //pieU_list.add(new PieChart.Data(wynik[i],Double.parseDouble(wynik[i+1])));
                         seria5.getData().add(new XYChart.Data<>(wynik[i], Double.parseDouble(wynik[i + 1])));
                     }
                 }

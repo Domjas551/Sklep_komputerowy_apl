@@ -20,8 +20,6 @@ public class Main extends Application {
 
         connection.setStage(stage);
 
-
-
         //ustawienie ikony aplikacji
         Image icon =new Image(getClass().getResourceAsStream("/images/SISCK_icon1.png"));
         stage.getIcons().add(icon);

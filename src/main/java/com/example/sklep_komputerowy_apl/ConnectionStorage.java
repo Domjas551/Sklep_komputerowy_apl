@@ -173,9 +173,7 @@ public class ConnectionStorage {
 
     //funkcja do prześcia na strone logowania
     public void goLogowanie() throws IOException{
-        //todo do usunięcia
         dane.setCzyOffline(1);
-        System.out.println("lo");
         root = FXMLLoader.load(getClass().getResource("logowanie" + ".fxml"));
         scene = new Scene(root);
         stage.setScene(scene);
