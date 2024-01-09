@@ -826,7 +826,8 @@ public class ControllerKoszyk implements Initializable {
                 connection.unlock();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Uwaga!");
-                alert.setContentText("Niestety nie wszystkie zamówione produkty znajdują się w magazynie.\nMożliwym jest zamówienie, ale  nie zakup. ");
+                alert.setContentText("Niestety nie wszystkie zamówione produkty znajdują się w magazynie.\nMożliwym jest zamówienie, ale nie zakup. ");
+                alert.getDialogPane().setMinHeight(200);
                 alert.showAndWait();
             }
         }
@@ -873,7 +874,8 @@ public class ControllerKoszyk implements Initializable {
                 connection.unlock();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Uwaga!");
-                alert.setContentText("Niestety nie wszystkie zamówione produkty znajdują się wmagazynie.\nMożliwym jest zamówienie, ale  nie zakup. ");
+                alert.setContentText("Niestety nie wszystkie zamówione produkty znajdują się wmagazynie.\nMożliwym jest zamówienie, ale nie zakup. ");
+                alert.getDialogPane().setMinHeight(200);
                 alert.showAndWait();
             }
 
@@ -952,7 +954,8 @@ public class ControllerKoszyk implements Initializable {
                 connection.unlock();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Uwaga!");
-                alert.setContentText("Niestety nie wszystkie zamówione produkty znajdują się w magazynie.\nMożliwym jest zamówienie, ale  nie zakup. ");
+                alert.setContentText("Niestety nie wszystkie zamówione produkty znajdują się w magazynie.\nMożliwym jest zamówienie, ale nie zakup. ");
+                alert.getDialogPane().setMinHeight(200);
                 alert.showAndWait();
             }
         }
