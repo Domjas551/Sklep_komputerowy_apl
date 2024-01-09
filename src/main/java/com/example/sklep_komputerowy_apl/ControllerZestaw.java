@@ -140,6 +140,7 @@ public class ControllerZestaw implements Initializable {
         Alert alert=new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setContentText(m);
+        alert.getDialogPane().setMinHeight(200);
         alert.showAndWait();
     }
 
@@ -153,6 +154,7 @@ public class ControllerZestaw implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Błąd");
             alert.setContentText("Wprowadzona wartość nie jest liczbą");
+            alert.getDialogPane().setMinHeight(200);
             alert.showAndWait();
             return;
         }
@@ -166,6 +168,7 @@ public class ControllerZestaw implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Sukces");
                 alert.setContentText("Dodano do koszyka!");
+                alert.getDialogPane().setMinHeight(200);
                 alert.showAndWait();
                 return;
             }
@@ -176,6 +179,7 @@ public class ControllerZestaw implements Initializable {
         Alert alert=new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Sukces");
         alert.setContentText("Dodano Zestaw do koszyka!");
+        alert.getDialogPane().setMinHeight(200);
         alert.showAndWait();
     }
 
