@@ -522,14 +522,13 @@ public class ControllerKoszyk implements Initializable {
         String id_zestawu[];
 
         //Dodanie automatycznej znizki
-        if(znizka==0&&cenaFinalna>=1000)
+        if(znizka==0&&cenaFinalna>=10000)
         {
-            znizka=0.02;
-            cenaFinalna=cenaFinalna*0.98;
-
-        } else if (znizka==0&&cenaFinalna>=10000) {
             znizka=0.04;
             cenaFinalna=cenaFinalna*0.96;
+        } else if (znizka==0&&cenaFinalna>=1000) {
+            znizka=0.02;
+            cenaFinalna=cenaFinalna*0.98;
         }
 
         //pobranie i zedytowanie aktualnej daty

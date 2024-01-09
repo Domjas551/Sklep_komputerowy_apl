@@ -274,8 +274,12 @@ public class ControllerAdminUzytkownik implements Initializable {
                         for (byte digPass : dig_pass) {
                             hexString.append(Integer.toHexString(0xFF & digPass));
                         }
-
                         connection.wprowadzDane("UPDATE Uzytkownik SET haslo = '" + hexString+"' WHERE id_uzytkownika = " + idWybranegoUzytkownika);
+                        root = FXMLLoader.load(getClass().getResource("admin_uzytkownik" + ".fxml"));
+                        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                        scene = new Scene(root);
+                        stage.setScene(scene);
+                        stage.show();
                     }
                 } catch (BadPasswordException ex) {
                     Alert alert=new Alert(Alert.AlertType.ERROR);
@@ -299,11 +303,6 @@ public class ControllerAdminUzytkownik implements Initializable {
             alert.setContentText("Wprowadzono niepoprawne stare hasło!");
             alert.showAndWait();
         }
-        root = FXMLLoader.load(getClass().getResource("admin_uzytkownik" + ".fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
     }
 
     @FXML

@@ -466,6 +466,7 @@ public class ControllerUzytkownik implements Initializable {
     @FXML
     void deleteAccount(MouseEvent event) throws IOException {
         connection.wprowadzDane("UPDATE Uzytkownik SET czy_aktywny = 0 WHERE id_uzytkownika = " + idZalogowanegoUzytkownika);
+        dane.setIdZalogowanegoUzytkownika("0");
 
         root = FXMLLoader.load(getClass().getResource("wyszukiwarka" + ".fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -953,8 +954,12 @@ public class ControllerUzytkownik implements Initializable {
                         for (byte digPass : dig_pass) {
                             hexString.append(Integer.toHexString(0xFF & digPass));
                         }
-
                         connection.wprowadzDane("UPDATE Uzytkownik SET haslo = '" + hexString +"' WHERE id_uzytkownika = " + idZalogowanegoUzytkownika);
+                        root = FXMLLoader.load(getClass().getResource("uzytkownik" + ".fxml"));
+                        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                        scene = new Scene(root);
+                        stage.setScene(scene);
+                        stage.show();
                     }
                 } catch (BadPasswordException ex) {
                     Alert alert=new Alert(Alert.AlertType.ERROR);
@@ -962,6 +967,8 @@ public class ControllerUzytkownik implements Initializable {
                     alert.setContentText("Nowe hasło nie spełnia wymagań!");
                     alert.showAndWait();
                 } catch (NoSuchAlgorithmException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
