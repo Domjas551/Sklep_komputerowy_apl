@@ -440,6 +440,7 @@ public class ControllerUzytkownik implements Initializable {
         rek_choicebox_id_zam.setOnAction(actionEvent -> rekPokazTabele());
         rek_choicebox_id_trans.setOnAction(actionEvent -> rekPokazTabele());
 
+        //wyświetlenie elementu z choiceboxami
         anchor_typ.setVisible(true);
 
         //wypadek gdyby użytkownik nie miał transakcji/reklamacji
@@ -593,9 +594,11 @@ public class ControllerUzytkownik implements Initializable {
         textField_stare_haslo.setText("");
         textField_powtorz_haslo.setText("");
     }
+
     //funkcja do wyświetlenia strony reklamacji
     @FXML
     void showReklamacje(MouseEvent event){
+        //wypadek gdy nie ma się produktów do reklamacji
         if(s1[0].equals("") && s2[0].equals("")){
             informationAlert("Brak produktów do reklamacji");
         }else{
@@ -631,7 +634,7 @@ public class ControllerUzytkownik implements Initializable {
         }
     }
 
-    //funkcja do pokazania iwypełnienia odpowiedniej tabeli w zakładce reklamacje
+    //funkcja do pokazania i wypełnienia odpowiedniej tabeli w zakładce reklamacje
     @FXML
     void rekPokazTabele(){
 
@@ -780,6 +783,7 @@ public class ControllerUzytkownik implements Initializable {
     void reklamuj(){
         String strona=rek_typ.getSelectionModel().getSelectedItem();
 
+        //ustawienie zmiennej strona w przypadku gdy użytkownik nie ma tran/zam do reklamacji
         if(s1[0].equals("")){
             strona="Transakcje";
         }else if(s2[0].equals("")){

@@ -152,6 +152,16 @@ public class ConnectionStorage {
         return "0";
     }
 
+    //funkcja do wejścia do sekcji krytycznej
+    public void lock(){
+        pw.println("lock");
+    }
+
+    //funkcja do wyjścia z sekcji krytycznej
+    public void unlock(){
+        pw.println("unlock");
+    }
+
     //wyświetlanie alertów
     public void errorAlert(String m){
         //utworzenie alertu typu information do wyświetlenia

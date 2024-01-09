@@ -2475,6 +2475,7 @@ public class ControllerWyszukiwarka  implements Initializable{
 
         anchor_wyloguj.setVisible(false);
         anchor_zaloguj.setVisible(true);
+
     }
 
     @FXML

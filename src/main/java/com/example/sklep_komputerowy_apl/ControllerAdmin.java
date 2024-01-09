@@ -477,7 +477,7 @@ public class ControllerAdmin implements Initializable {
                     "Select id_zamowienia as id, email,'Z' as typ, (Select count(*) from produkt where id_zamowienia=z.id_zamowienia) as ilosc, cena_calkowita from zamowienie z " +
                     "join uzytkownik on z.id_uzytkownika=uzytkownik.id_uzytkownika where status_odbioru='oczekujace'");
 
-            if(wynik.length<1){
+            if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
 
                 if(dane.getCzyOffline()==0){
@@ -497,7 +497,7 @@ public class ControllerAdmin implements Initializable {
         }else{
             //danymi z uprzednio wykonanego zapytania
             String wynik[]= connection.uzyskajDane(dane.getOstatnieZapytanieTableTrazam());
-            if(wynik.length<1){
+            if(wynik.length<=1){
                 //gdy zapytanie nie zwróciło żądnych wyników
                 if(dane.getCzyOffline()==0){
                     //wyświetlenie alertu informacyjnego
