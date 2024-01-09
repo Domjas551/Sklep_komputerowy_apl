@@ -254,6 +254,12 @@ public class ControllerRejestracja {
             //Wprowadzanie do bazy
             connection.wprowadzDaneBezAlert("INSERT INTO uzytkownik values ("+ id +", '"+ email +"','"+imie+"','"+nazwisko+"','"+ hexString +"',0,0,1)");
             dane.setIdZalogowanegoUzytkownika(String.valueOf(id));
+
+            connection.wprowadzDaneBezAlert("INSERT INTO uzytkownik_rabat values("+1+", "+id+",0)");
+            connection.wprowadzDaneBezAlert("INSERT INTO uzytkownik_rabat values("+2+", "+id+",0)");
+            connection.wprowadzDaneBezAlert("INSERT INTO uzytkownik_rabat values("+3+", "+id+",0)");
+            connection.wprowadzDaneBezAlert("INSERT INTO uzytkownik_rabat values("+4+", "+id+",0)");
+
             root = FXMLLoader.load(getClass().getResource("wyszukiwarka" + ".fxml"));
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             scene = new Scene(root);
