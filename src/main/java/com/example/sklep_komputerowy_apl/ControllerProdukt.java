@@ -463,6 +463,7 @@ public class ControllerProdukt implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Błąd");
             alert.setContentText("Wprowadzona wartość nie jest liczbą");
+            alert.getDialogPane().setMinHeight(200);
             alert.showAndWait();
             return;
         }
@@ -476,6 +477,7 @@ public class ControllerProdukt implements Initializable {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Sukces");
                     alert.setContentText("Dodano do koszyka!");
+                    alert.getDialogPane().setMinHeight(200);
                     alert.showAndWait();
                     return;
                 }
@@ -487,6 +489,7 @@ public class ControllerProdukt implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Sukces");
             alert.setContentText("Dodano do koszyka!");
+            alert.getDialogPane().setMinHeight(200);
             alert.showAndWait();
         }
     }
@@ -674,6 +677,7 @@ public class ControllerProdukt implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Błąd");
             alert.setContentText("Wprowadzona wartość nie jest liczbą");
+            alert.getDialogPane().setMinHeight(200);
             alert.showAndWait();
             return;
         }
@@ -713,6 +717,7 @@ public class ControllerProdukt implements Initializable {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Błąd");
                     alert.setContentText("Komentarz przekroczył limit długości wynoszący 300 znaków!");
+                    alert.getDialogPane().setMinHeight(200);
                     alert.showAndWait();
                 }
             }
@@ -721,12 +726,14 @@ public class ControllerProdukt implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Błąd");
                 alert.setContentText("Proszę wprowadzić komentarz!");
+                alert.getDialogPane().setMinHeight(200);
                 alert.showAndWait();
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Błąd");
             alert.setContentText("Wprowadzona liczba nie mieści się w zakresie <0,5>");
+            alert.getDialogPane().setMinHeight(200);
             alert.showAndWait();
         }
     }

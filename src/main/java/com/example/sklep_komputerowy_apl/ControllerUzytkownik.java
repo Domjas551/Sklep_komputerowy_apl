@@ -461,6 +461,7 @@ public class ControllerUzytkownik implements Initializable {
         Alert alert=new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Informacja");
         alert.setContentText(m);
+        alert.getDialogPane().setMinHeight(200);
         alert.showAndWait();
     }
 
@@ -969,6 +970,7 @@ public class ControllerUzytkownik implements Initializable {
                     Alert alert=new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Błąd");
                     alert.setContentText("Nowe hasło nie spełnia wymagań!");
+                    alert.getDialogPane().setMinHeight(200);
                     alert.showAndWait();
                 } catch (NoSuchAlgorithmException e) {
                     throw new RuntimeException(e);
@@ -981,6 +983,7 @@ public class ControllerUzytkownik implements Initializable {
                 Alert alert=new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Błąd");
                 alert.setContentText("Nowe hasło i hasło powtórzone są różne!");
+                alert.getDialogPane().setMinHeight(200);
                 alert.showAndWait();
             }
         }
@@ -989,6 +992,7 @@ public class ControllerUzytkownik implements Initializable {
             Alert alert=new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Błąd");
             alert.setContentText("Wprowadzono niepoprawne stare hasło!");
+            alert.getDialogPane().setMinHeight(200);
             alert.showAndWait();
         }
     }
