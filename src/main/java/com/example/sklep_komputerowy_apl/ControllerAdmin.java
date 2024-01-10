@@ -1068,20 +1068,22 @@ public class ControllerAdmin implements Initializable {
                         fp_opis.getText()+"',"+fp_cena.getText()+")";
 
                 //próba wprowadzenia danych do DB z oczekiwaniem na odpowiedź ze statusem zapytania błąd/sukces
-                String wynik=connection.wprowadzDane(zapytanie);
-
-                //dodanie 5 sztuk nowego produktu do magazynu
-                for(int i=0;i<5;i++){
-
-                    wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
-                            "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
-                            " null, null, null, " +
-                            "(select id_plyty_glownej from plyta_glowna where nazwa_produktu='"+fp_nazwa.getText()+"'), " +
-                            "null,null,null,null,null)");
-                }
+                String wynik=connection.wprowadzDaneBezAlert(zapytanie);
 
                 if(wynik.equals("1")){
                     nazwy_plyty=connection.uzyskajDane("Select nazwa_produktu from PLYTA_GLOWNA");
+
+                    //dodanie 5 sztuk nowego produktu do magazynu
+                    for(int i=0;i<5;i++){
+
+                        wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
+                                "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
+                                " null, null, null, " +
+                                "(select id_plyty_glownej from plyta_glowna where nazwa_produktu='"+fp_nazwa.getText()+"'), " +
+                                "null,null,null,null,null)");
+                    }
+
+                    informationAlert("Wprowadzenie/modyfikacja danych zakończona pomyślnie");
                 }
 
                 //aktualizacja wartości w checkboxach
@@ -1177,22 +1179,24 @@ public class ControllerAdmin implements Initializable {
                         fpr_opis.getText()+"',"+fpr_cena.getText()+")";
 
                 //próba wprowadzenia danych do DB z oczekiwaniem na odpowiedź ze statusem zapytania błąd/sukces
-                String wynik=connection.wprowadzDane(zapytanie);
-
-                //dodanie 5 sztuk nowego produktu do magazynu
-                for(int i=0;i<5;i++){
-
-                    wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
-                            "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
-                            " null, null, null, " +
-                            "null, " +
-                            "null," +
-                            "(select id_procesora from procesor where nazwa_produktu='"+fpr_nazwa.getText()+"')," +
-                            "null,null,null)");
-                }
+                String wynik=connection.wprowadzDaneBezAlert(zapytanie);
 
                 if(wynik.equals("1")){
                     nazwy_procesory=connection.uzyskajDane("Select nazwa_produktu from PROCESOR");
+
+                    //dodanie 5 sztuk nowego produktu do magazynu
+                    for(int i=0;i<5;i++){
+
+                        wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
+                                "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
+                                " null, null, null, " +
+                                "null, " +
+                                "null," +
+                                "(select id_procesora from procesor where nazwa_produktu='"+fpr_nazwa.getText()+"')," +
+                                "null,null,null)");
+                    }
+
+                    informationAlert("Wprowadzenie/modyfikacja danych zakończona pomyślnie");
                 }
 
                 //aktualizacja wartości w checkboxach
@@ -1317,23 +1321,25 @@ public class ControllerAdmin implements Initializable {
                         fk_opis.getText()+"',"+fk_cena.getText()+")";
 
                 //próba wprowadzenia danych do DB z oczekiwaniem na odpowiedź ze statusem zapytania błąd/sukces
-                String wynik=connection.wprowadzDane(zapytanie);
-
-                //dodanie 5 sztuk nowego produktu do magazynu
-                for(int i=0;i<5;i++){
-
-                    wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
-                            "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
-                            " null, null," +
-                            " null, " +
-                            "null, " +
-                            "(select id_karty_graficznej from karta_graficzna where nazwa_produktu='"+fk_nazwa.getText()+"')," +
-                            "null," +
-                            "null,null,null)");
-                }
+                String wynik=connection.wprowadzDaneBezAlert(zapytanie);
 
                 if(wynik.equals("1")){
                     nazwy_karty=connection.uzyskajDane("Select nazwa_produktu from KARTA_GRAFICZNA");
+
+                    //dodanie 5 sztuk nowego produktu do magazynu
+                    for(int i=0;i<5;i++){
+
+                        wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
+                                "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
+                                " null, null," +
+                                " null, " +
+                                "null, " +
+                                "(select id_karty_graficznej from karta_graficzna where nazwa_produktu='"+fk_nazwa.getText()+"')," +
+                                "null," +
+                                "null,null,null)");
+                    }
+
+                    informationAlert("Wprowadzenie/modyfikacja danych zakończona pomyślnie");
                 }
 
                 //aktualizacja wartości w checkboxach
@@ -1426,23 +1432,25 @@ public class ControllerAdmin implements Initializable {
                         fr_opis.getText()+"',"+fr_cena.getText()+")";
 
                 //próba wprowadzenia danych do DB z oczekiwaniem na odpowiedź ze statusem zapytania błąd/sukces
-                String wynik=connection.wprowadzDane(zapytanie);
-
-                //dodanie 5 sztuk nowego produktu do magazynu
-                for(int i=0;i<5;i++){
-
-                    wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
-                            "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
-                            " null, null," +
-                            " (select id_pamieci_ram from pamiec_ram where nazwa_produktu='"+fr_nazwa.getText()+"'), " +
-                            "null, " +
-                            "null," +
-                            "null," +
-                            "null,null,null)");
-                }
+                String wynik=connection.wprowadzDaneBezAlert(zapytanie);
 
                 if(wynik.equals("1")){
                     nazwy_pamiec=connection.uzyskajDane("Select nazwa_produktu from PAMIEC_RAM");
+
+                    //dodanie 5 sztuk nowego produktu do magazynu
+                    for(int i=0;i<5;i++){
+
+                        wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
+                                "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
+                                " null, null," +
+                                " (select id_pamieci_ram from pamiec_ram where nazwa_produktu='"+fr_nazwa.getText()+"'), " +
+                                "null, " +
+                                "null," +
+                                "null," +
+                                "null,null,null)");
+                    }
+
+                    informationAlert("Wprowadzenie/modyfikacja danych zakończona pomyślnie");
                 }
 
                 //aktualizacja wartości w checkboxach
@@ -1536,25 +1544,25 @@ public class ControllerAdmin implements Initializable {
                         fd_opis.getText()+"',"+fd_cena.getText()+")";
 
                 //próba wprowadzenia danych do DB z oczekiwaniem na odpowiedź ze statusem zapytania błąd/sukces
-                String wynik=connection.wprowadzDane(zapytanie);
-
-                //dodanie 5 sztuk nowego produktu do magazynu
-                for(int i=0;i<5;i++){
-
-                    wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
-                            "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
-                            " null, null," +
-                            " null, " +
-                            "null, " +
-                            "null," +
-                            "null," +
-                            "(select id_dysku from dysk where nazwa_produktu='"+fd_nazwa.getText()+"'),null,null)");
-                }
+                String wynik=connection.wprowadzDaneBezAlert(zapytanie);
 
                 if(wynik.equals("1")){
-                    System.out.println(nazwy_dyski.length);
                     nazwy_dyski=connection.uzyskajDane("Select nazwa_produktu from DYSK");
-                    System.out.println(nazwy_dyski.length);
+
+                    //dodanie 5 sztuk nowego produktu do magazynu
+                    for(int i=0;i<5;i++){
+
+                        wynik=connection.wprowadzDaneBezAlert("Insert into produkt " +
+                                "values((select case when max(id_produktu)>0 then max(id_produktu)+1 else 1 end from produkt)," +
+                                " null, null," +
+                                " null, " +
+                                "null, " +
+                                "null," +
+                                "null," +
+                                "(select id_dysku from dysk where nazwa_produktu='"+fd_nazwa.getText()+"'),null,null)");
+                    }
+
+                    informationAlert("Wprowadzenie/modyfikacja danych zakończona pomyślnie");
                 }
 
                 //aktualizacja wartości w checkboxach
