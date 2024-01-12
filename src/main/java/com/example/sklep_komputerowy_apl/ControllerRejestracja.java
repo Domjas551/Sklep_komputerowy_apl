@@ -159,7 +159,7 @@ public class ControllerRejestracja {
         catch (BadDataException e){
             err = 1;
             rejestracja_email_label.setFill(Paint.valueOf("RED"));
-            rejestracja_text_error.setText("Na ten email zostało już załorzone konto!");
+            rejestracja_text_error.setText("Na ten email zostało już założone konto!");
         }
         //Nie jest zarejestrowany (parseInt wywala error bo String jest pusty więc nie ma konta z takim mailem, ignorujemy go)
         catch (Exception ignored){
