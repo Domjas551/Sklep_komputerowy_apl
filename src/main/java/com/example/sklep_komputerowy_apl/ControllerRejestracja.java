@@ -166,10 +166,6 @@ public class ControllerRejestracja {
 
         }
 
-        //Nadawanie nowego id użytkownikowi na zasadzie następnego dostępnego id
-        String[] maxId = connection.uzyskajDane("Select max(id_uzytkownika) from Uzytkownik");
-        Integer id = Integer.parseInt(maxId[0])+1;
-
         //Email + imie + nazwisko + powtórz hasło wyrzucają ten sam typ błedu (BadDataException), łapany tylko 1 na raz
         try {
 
@@ -240,6 +236,14 @@ public class ControllerRejestracja {
 
 
         if (err == 0) {
+
+            //Blokowanie aby zapobiec duplikacji id
+            connection.lock();
+
+            //Nadawanie nowego id użytkownikowi na zasadzie następnego dostępnego id
+            String[] maxId = connection.uzyskajDane("Select max(id_uzytkownika) from Uzytkownik");
+            Integer id = Integer.parseInt(maxId[0])+1;
+
             //Szyfrowanie używając MessageDigest
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(haslo.toString().getBytes());
@@ -259,6 +263,9 @@ public class ControllerRejestracja {
             connection.wprowadzDaneBezAlert("INSERT INTO uzytkownik_rabat values("+2+", "+id+",0)");
             connection.wprowadzDaneBezAlert("INSERT INTO uzytkownik_rabat values("+3+", "+id+",0)");
             connection.wprowadzDaneBezAlert("INSERT INTO uzytkownik_rabat values("+4+", "+id+",0)");
+
+            //Odblokowanie
+            connection.unlock();
 
             root = FXMLLoader.load(getClass().getResource("wyszukiwarka" + ".fxml"));
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
