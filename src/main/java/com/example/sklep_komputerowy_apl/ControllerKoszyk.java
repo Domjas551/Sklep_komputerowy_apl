@@ -537,7 +537,7 @@ public class ControllerKoszyk implements Initializable {
         LocalDateTime date = LocalDateTime.now();
         DateTimeFormatter formatowanie = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
         String formattedDate = date.format(formatowanie);
-
+        connection.lock();
         //Dodanie zamowienia do bazy danych
         connection.wprowadzDaneBezAlert("INSERT INTO zamowienie (id_zamowienia, id_uzytkownika, data_zlozenia, status_odbioru, cena_calkowita, znizka) " +
                 "VALUES ((SELECT MAX(id_zamowienia) + 1 FROM zamowienie)," +
@@ -638,6 +638,7 @@ public class ControllerKoszyk implements Initializable {
                 }
             }
         }
+        connection.unlock();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Zamówienie zostało złożone!");
         alert.setContentText("Dziękujemy za zakupy. ");
