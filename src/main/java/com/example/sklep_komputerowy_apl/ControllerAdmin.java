@@ -1846,25 +1846,6 @@ public class ControllerAdmin implements Initializable {
             "where id_transakcji is null and id_zamowienia is null group by nazwa_zestawu)) group by nazwa_zestawu "+
             ") order by ilosc asc"+
             ") where nazwa_produktu like('%"+nazwa+"%') order by ilosc asc";
-/*"Select nazwa_produktu, typ, ilosc from (Select plyta_glowna.nazwa_produktu, 'Płyta główna' as typ, count(*) as ilosc from produkt " +
-                    "join plyta_glowna on produkt.id_plyty_glownej=plyta_glowna.id_plyty_glownej " +
-                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu" +
-                    " union " +
-                    "select procesor.nazwa_produktu, 'Procesor' as typ, count(*) as ilosc from produkt " +
-                    "join procesor on produkt.id_procesora=procesor.id_procesora " +
-                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu " +
-                    "union " +
-                    "select karta_graficzna.nazwa_produktu, 'Karta graficzna' as typ, count(*) as ilosc from produkt " +
-                    "join karta_graficzna on produkt.id_karty_graficznej=karta_graficzna.id_karty_graficznej " +
-                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu " +
-                    "union " +
-                    "select pamiec_ram.nazwa_produktu, 'Pamieć RAM' as typ, count(*) as ilosc from produkt " +
-                    "join pamiec_ram on produkt.id_pamieci_ram=pamiec_ram.id_pamieci_ram " +
-                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu " +
-                    "union " +
-                    "select dysk.nazwa_produktu, 'Dysk' as typ, count(*) as ilosc from produkt " +
-                    "join dysk on produkt.id_dysku=dysk.id_dysku " +
-                    "where id_transakcji is null and id_zamowienia is null group by nazwa_produktu) where nazwa_produktu like('%"+nazwa+"%') order by ilosc asc";*/
             String wynik[]= connection.uzyskajDane(zapytanie);
 
             if(wynik.length<=1){

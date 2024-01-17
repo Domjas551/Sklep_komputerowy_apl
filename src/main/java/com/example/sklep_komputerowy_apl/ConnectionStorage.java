@@ -87,8 +87,10 @@ public class ConnectionStorage {
     //funkcja do wprowadzenia/zmiany danych w BD
     public String wprowadzDane(String zapytanie){
 
+        //wysłanie zapytania do serwera
         pw.println(zapytanie);
         try{
+            //odczytanie odpowiedzi od serwera
             String s=br.readLine();
             if(s.equals("Wprowadzenie/modyfikacja danych nieudana")){
 
