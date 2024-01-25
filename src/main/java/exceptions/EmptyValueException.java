@@ -1,13 +1,13 @@
-package com.example.sklep_komputerowy_apl;
+package exceptions;
 
 import javafx.scene.control.Alert;
 
-public class NameTakenException extends Exception{
+public class EmptyValueException extends Exception{
 
-    private String message;
+    String message;
 
-    public NameTakenException() {
-        this.message = "Produkt o danej nazwie już istnieje";
+    public EmptyValueException() {
+        this.message ="Żadna z wartości nie może być pusta";
     }
 
     public void alert(){

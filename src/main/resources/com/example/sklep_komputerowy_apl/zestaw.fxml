@@ -131,7 +131,7 @@
          </graphic>
       </Button>
       <TextField fx:id="textField_liczba_egzemplarzy" layoutX="740.0" layoutY="561.0" prefHeight="25.0" prefWidth="30.0" text="1" />
-      <Text layoutX="255.0" layoutY="578.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Created by: Piotr Jakubas, Kasper Kodura and Dominik Jasiński" />
+      <Text layoutX="277.0" layoutY="578.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Created by: Piotr Jakubas and Dominik Jasiński" />
       <Button fx:id="button_wroc" layoutX="16.0" layoutY="561.0" mnemonicParsing="false" onMouseClicked="#goHome" text="Wróć" />
    </children>
 </AnchorPane>

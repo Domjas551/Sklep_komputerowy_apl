@@ -1,4 +1,4 @@
-package com.example.sklep_komputerowy_apl;
+package tables;
 public class TableTransakcjeUzytkownika {
     private String id_transakcji;
     private String data;

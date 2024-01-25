@@ -315,6 +315,6 @@
          </graphic>
       </Button>
       <Button fx:id="button_reklamacje" layoutX="350.0" layoutY="78.0" mnemonicParsing="false" onMouseClicked="#showReklamacje" text="Reklamacje" />
-      <Text layoutX="255.0" layoutY="590.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Created by: Piotr Jakubas, Kasper Kodura and Dominik Jasiński" />
+      <Text layoutX="277.0" layoutY="590.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Created by: Piotr Jakubas and Dominik Jasiński" />
    </children>
 </AnchorPane>

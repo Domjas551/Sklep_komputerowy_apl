@@ -1,16 +1,22 @@
-package com.example.sklep_komputerowy_apl;
+package tables;
 
-public class TableZestawy {
+public class TableKarty {
     private String nazwa;
+    private String uklad;
     private double cena;
 
-    public TableZestawy(String nazwa, double cena) {
+    public TableKarty(String nazwa, String uklad, double cena) {
         this.nazwa = nazwa;
+        this.uklad = uklad;
         this.cena = cena;
     }
 
     public String getNazwa() {
         return nazwa;
+    }
+
+    public String getUklad() {
+        return uklad;
     }
 
     public double getCena() {

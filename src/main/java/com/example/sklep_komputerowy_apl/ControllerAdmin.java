@@ -1,5 +1,9 @@
 package com.example.sklep_komputerowy_apl;
 
+import exceptions.CenaTypeException;
+import exceptions.EmptyValueException;
+import exceptions.NameTakenException;
+import exceptions.TypeException;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,7 +14,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
@@ -18,6 +21,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import tables.TableTrazam;
+import tables.TableUzupelnianie;
+import tables.TableUzytkownicy;
 
 import java.io.IOException;
 import java.net.URL;

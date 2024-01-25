@@ -1,12 +1,13 @@
-package com.example.sklep_komputerowy_apl;
+package exceptions;
 
 import javafx.scene.control.Alert;
 
-public class CenaTypeException extends RuntimeException{
+public class NameTakenException extends Exception{
+
     private String message;
 
-    public CenaTypeException() {
-        this.message="Cena może zawierać tylko cyfry, w tym dwie liczby po przecinku oraz ',' lub '.'";
+    public NameTakenException() {
+        this.message = "Produkt o danej nazwie już istnieje";
     }
 
     public void alert(){

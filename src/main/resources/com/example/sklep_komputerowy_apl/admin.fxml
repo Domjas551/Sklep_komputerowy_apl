@@ -145,7 +145,7 @@
                            </children></AnchorPane>
                      </content>
                   </ScrollPane>
-                  <Text layoutX="255.0" layoutY="490.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Created by: Piotr Jakubas, Kasper Kodura and Dominik Jasiński" />
+                  <Text layoutX="277.0" layoutY="490.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Created by: Piotr Jakubas and Dominik Jasiński" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="magazyn" prefHeight="563.0" prefWidth="774.0" visible="false">

@@ -1,5 +1,7 @@
 package com.example.sklep_komputerowy_apl;
 
+import exceptions.CenaTypeException;
+import exceptions.MaxCenaException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import tables.*;
 
 import java.io.IOException;
 import java.net.URL;

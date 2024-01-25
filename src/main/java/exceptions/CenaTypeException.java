@@ -1,13 +1,12 @@
-package com.example.sklep_komputerowy_apl;
+package exceptions;
 
 import javafx.scene.control.Alert;
 
-public class EmptyValueException extends Exception{
+public class CenaTypeException extends RuntimeException{
+    private String message;
 
-    String message;
-
-    public EmptyValueException() {
-        this.message ="Żadna z wartości nie może być pusta";
+    public CenaTypeException() {
+        this.message="Cena może zawierać tylko cyfry, w tym dwie liczby po przecinku oraz ',' lub '.'";
     }
 
     public void alert(){

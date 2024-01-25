@@ -1,5 +1,7 @@
 package com.example.sklep_komputerowy_apl;
 
+import exceptions.BadDataException;
+import exceptions.BadPasswordException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,17 +14,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.util.Arrays;
 import java.util.regex.*;
 import java.security.MessageDigest;
 

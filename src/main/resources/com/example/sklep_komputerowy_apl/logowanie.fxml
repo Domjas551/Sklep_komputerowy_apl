@@ -19,7 +19,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Text>
-      <Text layoutX="235.0" layoutY="582.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Created by: Piotr Jakubas, Kasper Kodura and Dominik Jasiński" />
+      <Text layoutX="277.0" layoutY="582.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Created by: Piotr Jakubas and Dominik Jasiński" />
       <StackPane layoutX="14.0" layoutY="106.0" prefHeight="450.0" prefWidth="754.0" style="-fx-background-color: gainsboro;">
          <children>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">

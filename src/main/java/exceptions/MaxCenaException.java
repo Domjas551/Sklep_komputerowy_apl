@@ -1,13 +1,12 @@
-package com.example.sklep_komputerowy_apl;
+package exceptions;
 
 import javafx.scene.control.Alert;
 
-public class TypeException extends Exception{
-
+public class MaxCenaException extends RuntimeException{
     private String message;
 
-    public TypeException(String message) {
-        this.message = message;
+    public MaxCenaException() {
+        this.message ="Max cena nie może być mniejsza od ceny minimalnej";
     }
 
     public void alert(){

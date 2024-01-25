@@ -1,4 +1,4 @@
-package com.example.sklep_komputerowy_apl;
+package tables;
 
 public class TableOpinie {
     private String nazwa;
