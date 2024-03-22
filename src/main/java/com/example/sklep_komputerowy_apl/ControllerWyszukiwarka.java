@@ -810,10 +810,10 @@ public class ControllerWyszukiwarka  implements Initializable{
 
                     if (wynik.length <= 1) {
                         //gdy zapytanie nie zwróciło żądnych wyników
-
-                        //wyświetlenie alertu informacyjnego
-                        informationAlert("Brak danych do wyświetlenia");
-
+                        if(dane.getCzyOffline()==0) {
+                            //wyświetlenie alertu informacyjnego
+                            informationAlert("Brak danych do wyświetlenia");
+                        }
                         tp_list.clear();
                     } else {
                         for (int i = 0; i < wynik.length; i += 3) {
@@ -863,11 +863,12 @@ public class ControllerWyszukiwarka  implements Initializable{
                     dane.zapiszZapytanie(zapytanie);
 
                     if (wynik.length <= 1) {
-                        //gdy zapytanie nie zwróciło żądnych wyników
+                        if(dane.getCzyOffline()==0) {
+                            //gdy zapytanie nie zwróciło żądnych wyników
 
-                        //wyświetlenie alertu informacyjnego
-                        informationAlert("Brak danych do wyświetlenia");
-
+                            //wyświetlenie alertu informacyjnego
+                            informationAlert("Brak danych do wyświetlenia");
+                        }
                         tpr_list.clear();
                     } else {
                         for (int i = 0; i < wynik.length; i += 3) {
@@ -917,11 +918,12 @@ public class ControllerWyszukiwarka  implements Initializable{
                     dane.zapiszZapytanie(zapytanie);
 
                     if (wynik.length <= 1) {
-                        //gdy zapytanie nie zwróciło żądnych wyników
+                        if(dane.getCzyOffline()==0) {
+                            //gdy zapytanie nie zwróciło żądnych wyników
 
-                        //wyświetlenie alertu informacyjnego
-                        informationAlert("Brak danych do wyświetlenia");
-
+                            //wyświetlenie alertu informacyjnego
+                            informationAlert("Brak danych do wyświetlenia");
+                        }
                         tk_list.clear();
                     } else {
                         for (int i = 0; i < wynik.length; i += 3) {
@@ -971,11 +973,12 @@ public class ControllerWyszukiwarka  implements Initializable{
                     dane.zapiszZapytanie(zapytanie);
 
                     if (wynik.length <= 1) {
-                        //gdy zapytanie nie zwróciło żądnych wyników
+                        if(dane.getCzyOffline()==0) {
+                            //gdy zapytanie nie zwróciło żądnych wyników
 
-                        //wyświetlenie alertu informacyjnego
-                        informationAlert("Brak danych do wyświetlenia");
-
+                            //wyświetlenie alertu informacyjnego
+                            informationAlert("Brak danych do wyświetlenia");
+                        }
                         tr_list.clear();
                     } else {
                         for (int i = 0; i < wynik.length; i += 3) {
@@ -1025,11 +1028,12 @@ public class ControllerWyszukiwarka  implements Initializable{
                     dane.zapiszZapytanie(zapytanie);
 
                     if (wynik.length <= 1) {
-                        //gdy zapytanie nie zwróciło żądnych wyników
+                        if(dane.getCzyOffline()==0) {
+                            //gdy zapytanie nie zwróciło żądnych wyników
 
-                        //wyświetlenie alertu informacyjnego
-                        informationAlert("Brak danych do wyświetlenia");
-
+                            //wyświetlenie alertu informacyjnego
+                            informationAlert("Brak danych do wyświetlenia");
+                        }
                         td_list.clear();
                     } else {
                         for (int i = 0; i < wynik.length; i += 3) {
@@ -1078,11 +1082,12 @@ public class ControllerWyszukiwarka  implements Initializable{
                     dane.zapiszZapytanie(zapytanie);
 
                     if (wynik.length <= 1) {
-                        //gdy zapytanie nie zwróciło żądnych wyników
+                        if(dane.getCzyOffline()==0) {
+                            //gdy zapytanie nie zwróciło żądnych wyników
 
-                        //wyświetlenie alertu informacyjnego
-                        informationAlert("Brak danych do wyświetlenia");
-
+                            //wyświetlenie alertu informacyjnego
+                            informationAlert("Brak danych do wyświetlenia");
+                        }
                         tz_list.clear();
                     } else {
                         for (int i = 0; i < wynik.length; i += 2) {
