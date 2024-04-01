@@ -523,128 +523,158 @@ public class ControllerKoszyk implements Initializable {
     void finalizujZamowienie(){
         String id_zamowienia[];
         String id_zestawu[];
+        boolean blad= false;
 
-        //Dodanie automatycznej znizki
-        if(znizka==0&&cenaFinalna>=10000)
-        {
-            znizka=0.04;
-            cenaFinalna=cenaFinalna*0.96;
-        } else if (znizka==0&&cenaFinalna>=1000) {
-            znizka=0.02;
-            cenaFinalna=cenaFinalna*0.98;
-        }
-
-        //pobranie i zedytowanie aktualnej daty
-        LocalDateTime date = LocalDateTime.now();
-        DateTimeFormatter formatowanie = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
-        String formattedDate = date.format(formatowanie);
-        connection.lock();
-        //Dodanie zamowienia do bazy danych
-        connection.wprowadzDaneBezAlert("INSERT INTO zamowienie (id_zamowienia, id_uzytkownika, data_zlozenia, status_odbioru, cena_calkowita, znizka) " +
-                "VALUES ((SELECT MAX(id_zamowienia) + 1 FROM zamowienie)," +
-                idZalogowanegoUzytkownika+", '" +
-                formattedDate+"', " +
-                "'oczekujace', " +
-                cenaFinalna+", " +
-                +znizka+")");
-        id_zamowienia=connection.uzyskajDane("Select max(id_zamowienia) from zamowienie");
-
-
-        //Dodanie zamowionych produktow do bazy danych
         if(!id_produktow_w_koszyku.isEmpty()) {
             for (int i = 0; i < id_produktow_w_koszyku.size(); i = i + 3) {
-                switch (id_produktow_w_koszyku.get(i)) {
-                    case "1":
-                        for (int j = 0; j < Double.parseDouble(id_produktow_w_koszyku.get(i + 2)); j++) {
-                            connection.wprowadzDaneBezAlert("INSERT INTO produkt (id_produktu, id_zamowienia, id_pamieci_ram) " +
-                                    "VALUES ((SELECT MAX(id_produktu) + 1 FROM produkt), " +
-                                    id_zamowienia[0] + ", " +
-                                    id_produktow_w_koszyku.get(i + 1) + ")");
-                        }
-                        break;
-                    case "2":
-                        for (int j = 0; j < Double.parseDouble(id_produktow_w_koszyku.get(i + 2)); j++) {
-                            connection.wprowadzDaneBezAlert("INSERT INTO produkt (id_produktu, id_zamowienia, id_plyty_glownej) " +
-                                    "VALUES ((SELECT MAX(id_produktu) + 1 FROM produkt), " +
-                                    id_zamowienia[0] + ", " +
-                                    id_produktow_w_koszyku.get(i + 1) + ")");
-                        }
-                        break;
-                    case "3":
-                        for (int j = 0; j < Double.parseDouble(id_produktow_w_koszyku.get(i + 2)); j++) {
-                            connection.wprowadzDaneBezAlert("INSERT INTO produkt (id_produktu, id_zamowienia, id_karty_graficznej) " +
-                                    "VALUES ((SELECT MAX(id_produktu) + 1 FROM produkt), " +
-                                    id_zamowienia[0] + ", " +
-                                    id_produktow_w_koszyku.get(i + 1) + ")");
-                        }
-                        break;
-                    case "4":
-                        for (int j = 0; j < Double.parseDouble(id_produktow_w_koszyku.get(i + 2)); j++) {
-                            connection.wprowadzDaneBezAlert("INSERT INTO produkt (id_produktu, id_zamowienia, id_procesora) " +
-                                    "VALUES ((SELECT MAX(id_produktu) + 1 FROM produkt), " +
-                                    id_zamowienia[0] + ", " +
-                                    id_produktow_w_koszyku.get(i + 1) + ")");
-                        }
-                        break;
-                    case "5":
-                        for (int j = 0; j < Double.parseDouble(id_produktow_w_koszyku.get(i + 2)); j++) {
-                            connection.wprowadzDaneBezAlert("INSERT INTO produkt (id_produktu, id_zamowienia, id_dysku) " +
-                                    "VALUES ((SELECT MAX(id_produktu) + 1 FROM produkt), " +
-                                    id_zamowienia[0] + ", " +
-                                    id_produktow_w_koszyku.get(i + 1) + ")");
-                        }
-                        break;
+                if (Double.parseDouble(id_produktow_w_koszyku.get(i + 2)) > 100) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Uwaga!");
+                    alert.setContentText("Wybrana liczba produktów w zamowieniu jest zbyt duża!\nMaksymalna liczba egzemplarzy danego produktu wynosi  100! ");
+                    alert.getDialogPane().setMinHeight(200);
+                    alert.showAndWait();
+                    blad=true;
+                    return;
                 }
             }
         }
 
-        //Dodanie zamowionych produktow wchodzących w sklad zestawow do bazy danych
-        if(!id_zestawow_w_koszyku.isEmpty()) {
+        if(!id_zestawow_w_koszyku.isEmpty()&&blad==false) {
             for (int i = 0; i < id_zestawow_w_koszyku.size(); i = i + 2) {
-                String wynik2[] = connection.uzyskajDane("Select id_pamiec_ram, id_plyta_glowna, id_karta_graficzna, id_procesor, id_dysk from zestaw where id_zestawu = " + id_zestawow_w_koszyku.get(i));
-
-                for (int j = 0; j < Integer.parseInt(dane.getIdZestawowWKoszyku().get(i + 1)); j++) {
-                    id_zestawu = connection.uzyskajDane("Select max(id_zestawu)+1 from produkt");
-
-                    connection.wprowadzDaneBezAlert("INSERT INTO produkt (id_produktu, id_zamowienia, id_pamieci_ram, id_zestawu, id_typu_zestawu) " +
-                            "VALUES ((SELECT MAX(id_produktu) + 1 FROM produkt), " +
-                            id_zamowienia[0] + ", " +
-                            wynik2[0] + ", " +
-                            id_zestawu[0] + ", " +
-                            dane.getIdZestawowWKoszyku().get(i) + ")");
-                    connection.wprowadzDaneBezAlert("INSERT INTO produkt (id_produktu, id_zamowienia, id_plyty_glownej, id_zestawu, id_typu_zestawu) " +
-                            "VALUES ((SELECT MAX(id_produktu) + 1 FROM produkt), " +
-                            id_zamowienia[0] + ", " +
-                            wynik2[1] + ", " +
-                            id_zestawu[0] + ", " +
-                            dane.getIdZestawowWKoszyku().get(i) + ")");
-                    connection.wprowadzDaneBezAlert("INSERT INTO produkt (id_produktu, id_zamowienia, id_karty_graficznej, id_zestawu, id_typu_zestawu) " +
-                            "VALUES ((SELECT MAX(id_produktu) + 1 FROM produkt), " +
-                            id_zamowienia[0] + ", " +
-                            wynik2[2] + ", " +
-                            id_zestawu[0] + ", " +
-                            dane.getIdZestawowWKoszyku().get(i) + ")");
-                    connection.wprowadzDaneBezAlert("INSERT INTO produkt (id_produktu, id_zamowienia, id_procesora, id_zestawu, id_typu_zestawu) " +
-                            "VALUES ((SELECT MAX(id_produktu) + 1 FROM produkt), " +
-                            id_zamowienia[0] + ", " +
-                            wynik2[3] + ", " +
-                            id_zestawu[0] + ", " +
-                            dane.getIdZestawowWKoszyku().get(i) + ")");
-                    connection.wprowadzDaneBezAlert("INSERT INTO produkt (id_produktu, id_zamowienia, id_dysku, id_zestawu, id_typu_zestawu) " +
-                            "VALUES ((SELECT MAX(id_produktu) + 1 FROM produkt), " +
-                            id_zamowienia[0] + ", " +
-                            wynik2[4] + ", " +
-                            id_zestawu[0] + ", " +
-                            dane.getIdZestawowWKoszyku().get(i) + ")");
+                if (Double.parseDouble(id_zestawow_w_koszyku.get(i + 1)) > 20) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Uwaga!");
+                    alert.setContentText("Wybrana liczba zestawów w zamowieniu jest zbyt duża!\nMaksymalna liczba instancji danego zestawu wynosi  20! ");
+                    alert.getDialogPane().setMinHeight(200);
+                    alert.showAndWait();
+                    blad=true;
+                    return;
                 }
             }
         }
-        connection.unlock();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Zamówienie zostało złożone!");
-        alert.setContentText("Dziękujemy za zakupy. ");
-        alert.getDialogPane().setMinHeight(200);
-        alert.showAndWait();
+
+        if(!blad) {
+            //Dodanie automatycznej znizki
+            if (znizka == 0 && cenaFinalna >= 10000) {
+                znizka = 0.04;
+                cenaFinalna = cenaFinalna * 0.96;
+            } else if (znizka == 0 && cenaFinalna >= 1000) {
+                znizka = 0.02;
+                cenaFinalna = cenaFinalna * 0.98;
+            }
+
+            //pobranie i zedytowanie aktualnej daty
+            LocalDateTime date = LocalDateTime.now();
+            DateTimeFormatter formatowanie = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
+            String formattedDate = date.format(formatowanie);
+            connection.lock();
+            //Dodanie zamowienia do bazy danych
+            connection.wprowadzDaneBezAlert("INSERT INTO zamowienie (id_zamowienia, id_uzytkownika, data_zlozenia, status_odbioru, cena_calkowita, znizka) " +
+                    "VALUES ((SELECT MAX(id_zamowienia) + 1 FROM zamowienie)," +
+                    idZalogowanegoUzytkownika + ", '" +
+                    formattedDate + "', " +
+                    "'oczekujace', " +
+                    cenaFinalna + ", " +
+                    +znizka + ")");
+            id_zamowienia = connection.uzyskajDane("Select max(id_zamowienia) from zamowienie");
+
+
+            //Dodanie zamowionych produktow do bazy danych
+            if (!id_produktow_w_koszyku.isEmpty()) {
+                for (int i = 0; i < id_produktow_w_koszyku.size(); i = i + 3) {
+                    switch (id_produktow_w_koszyku.get(i)) {
+                        case "1":
+                            for (int j = 0; j < Double.parseDouble(id_produktow_w_koszyku.get(i + 2)); j++) {
+                                connection.wprowadzDaneBezAlert("INSERT INTO produkt (id_produktu, id_zamowienia, id_pamieci_ram) " +
+                                        "VALUES ((SELECT MAX(id_produktu) + 1 FROM produkt), " +
+                                        id_zamowienia[0] + ", " +
+                                        id_produktow_w_koszyku.get(i + 1) + ")");
+                            }
+                            break;
+                        case "2":
+                            for (int j = 0; j < Double.parseDouble(id_produktow_w_koszyku.get(i + 2)); j++) {
+                                connection.wprowadzDaneBezAlert("INSERT INTO produkt (id_produktu, id_zamowienia, id_plyty_glownej) " +
+                                        "VALUES ((SELECT MAX(id_produktu) + 1 FROM produkt), " +
+                                        id_zamowienia[0] + ", " +
+                                        id_produktow_w_koszyku.get(i + 1) + ")");
+                            }
+                            break;
+                        case "3":
+                            for (int j = 0; j < Double.parseDouble(id_produktow_w_koszyku.get(i + 2)); j++) {
+                                connection.wprowadzDaneBezAlert("INSERT INTO produkt (id_produktu, id_zamowienia, id_karty_graficznej) " +
+                                        "VALUES ((SELECT MAX(id_produktu) + 1 FROM produkt), " +
+                                        id_zamowienia[0] + ", " +
+                                        id_produktow_w_koszyku.get(i + 1) + ")");
+                            }
+                            break;
+                        case "4":
+                            for (int j = 0; j < Double.parseDouble(id_produktow_w_koszyku.get(i + 2)); j++) {
+                                connection.wprowadzDaneBezAlert("INSERT INTO produkt (id_produktu, id_zamowienia, id_procesora) " +
+                                        "VALUES ((SELECT MAX(id_produktu) + 1 FROM produkt), " +
+                                        id_zamowienia[0] + ", " +
+                                        id_produktow_w_koszyku.get(i + 1) + ")");
+                            }
+                            break;
+                        case "5":
+                            for (int j = 0; j < Double.parseDouble(id_produktow_w_koszyku.get(i + 2)); j++) {
+                                connection.wprowadzDaneBezAlert("INSERT INTO produkt (id_produktu, id_zamowienia, id_dysku) " +
+                                        "VALUES ((SELECT MAX(id_produktu) + 1 FROM produkt), " +
+                                        id_zamowienia[0] + ", " +
+                                        id_produktow_w_koszyku.get(i + 1) + ")");
+                            }
+                            break;
+                    }
+                }
+            }
+
+            //Dodanie zamowionych produktow wchodzących w sklad zestawow do bazy danych
+            if (!id_zestawow_w_koszyku.isEmpty()) {
+                for (int i = 0; i < id_zestawow_w_koszyku.size(); i = i + 2) {
+                    String wynik2[] = connection.uzyskajDane("Select id_pamiec_ram, id_plyta_glowna, id_karta_graficzna, id_procesor, id_dysk from zestaw where id_zestawu = " + id_zestawow_w_koszyku.get(i));
+
+                    for (int j = 0; j < Integer.parseInt(dane.getIdZestawowWKoszyku().get(i + 1)); j++) {
+                        id_zestawu = connection.uzyskajDane("Select max(id_zestawu)+1 from produkt");
+
+                        connection.wprowadzDaneBezAlert("INSERT INTO produkt (id_produktu, id_zamowienia, id_pamieci_ram, id_zestawu, id_typu_zestawu) " +
+                                "VALUES ((SELECT MAX(id_produktu) + 1 FROM produkt), " +
+                                id_zamowienia[0] + ", " +
+                                wynik2[0] + ", " +
+                                id_zestawu[0] + ", " +
+                                dane.getIdZestawowWKoszyku().get(i) + ")");
+                        connection.wprowadzDaneBezAlert("INSERT INTO produkt (id_produktu, id_zamowienia, id_plyty_glownej, id_zestawu, id_typu_zestawu) " +
+                                "VALUES ((SELECT MAX(id_produktu) + 1 FROM produkt), " +
+                                id_zamowienia[0] + ", " +
+                                wynik2[1] + ", " +
+                                id_zestawu[0] + ", " +
+                                dane.getIdZestawowWKoszyku().get(i) + ")");
+                        connection.wprowadzDaneBezAlert("INSERT INTO produkt (id_produktu, id_zamowienia, id_karty_graficznej, id_zestawu, id_typu_zestawu) " +
+                                "VALUES ((SELECT MAX(id_produktu) + 1 FROM produkt), " +
+                                id_zamowienia[0] + ", " +
+                                wynik2[2] + ", " +
+                                id_zestawu[0] + ", " +
+                                dane.getIdZestawowWKoszyku().get(i) + ")");
+                        connection.wprowadzDaneBezAlert("INSERT INTO produkt (id_produktu, id_zamowienia, id_procesora, id_zestawu, id_typu_zestawu) " +
+                                "VALUES ((SELECT MAX(id_produktu) + 1 FROM produkt), " +
+                                id_zamowienia[0] + ", " +
+                                wynik2[3] + ", " +
+                                id_zestawu[0] + ", " +
+                                dane.getIdZestawowWKoszyku().get(i) + ")");
+                        connection.wprowadzDaneBezAlert("INSERT INTO produkt (id_produktu, id_zamowienia, id_dysku, id_zestawu, id_typu_zestawu) " +
+                                "VALUES ((SELECT MAX(id_produktu) + 1 FROM produkt), " +
+                                id_zamowienia[0] + ", " +
+                                wynik2[4] + ", " +
+                                id_zestawu[0] + ", " +
+                                dane.getIdZestawowWKoszyku().get(i) + ")");
+                    }
+                }
+            }
+            connection.unlock();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Zamówienie zostało złożone!");
+            alert.setContentText("Dziękujemy za zakupy. ");
+            alert.getDialogPane().setMinHeight(200);
+            alert.showAndWait();
+        }
     }
 
     //Funkcja przenosi do zakladki rabatu jesli uzytkownikowi przysluguja jakiekolwiek rabaty,
